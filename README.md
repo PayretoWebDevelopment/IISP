@@ -11,7 +11,8 @@ This is the repository for the Intern Information System and Payroll Application
 - Mirai Reyes Yoshizaki
 - Johann Benjamin P. Vivas (Project Lead)
 
-# For future reference, how was this project developed?
+# Things to note
+### For future reference, how was this project developed?
 This project was started on Codeanywhere, and was pushed to Github using Codeanywhere's terminal, which has git already installed (correct me if I'm wrong).
 
 ### Anything important new developers should be aware of?
