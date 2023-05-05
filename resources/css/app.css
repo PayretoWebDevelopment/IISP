@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-blue {
+    background-color: rgb(81, 191, 255);
+  }
+  .bg-green {
+    background-color: rgb(81, 255, 90);
+  }
+  .text-underline {
+    text-decoration: underline;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .font-weight-400 {
+    font-weight: 400;
+  }
