@@ -39,8 +39,11 @@ In case you started your Git repository and project files separately on Github, 
   <link rel="stylesheet" href="/css/app.css" >
 
 ### Pushing to GitHub:  
-username: miguel.pajarillo@payreto.com
-password (personal access token): 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
+username: 
+miguel.pajarillo@payreto.com
+
+password (personal access token): 
+view personalaccesstoken.txt
 
 #### Add project link to origin
 git remote add origin <project_link>
