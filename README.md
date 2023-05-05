@@ -42,9 +42,8 @@ In case you started your Git repository and project files separately on Github, 
 username: miguel.pajarillo@payreto.com
 
 password (personal access token): 
-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nXpxXy2UUWng
+refer to personal access token text file
 
-#### Add project link to origin
 git remote add origin <project_link>
 
 #### Main Workflow
