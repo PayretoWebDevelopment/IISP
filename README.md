@@ -42,7 +42,7 @@ In case you started your Git repository and project files separately on Github, 
 username: miguel.pajarillo@payreto.com
 
 password (personal access token): 
-refer to personal access token text file
+refer to personal access token in discord channel
 
 git remote add origin <project_link>
 
