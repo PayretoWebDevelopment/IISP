@@ -2,12 +2,12 @@
 
 Intern Information System and Payroll Repository.
 
-#Developers
-##Frontend Developers
+# Developers
+## Frontend Developers
 - Michael James Goyon
 - Miguel Bryan Pajarillo
 
-##Backend Developers
+## Backend Developers
 - Mirai Reyes Yoshizaki
 - Johann Benjamin P. Vivas (Project Lead)
 
