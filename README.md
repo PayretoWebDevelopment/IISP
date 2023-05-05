@@ -5,7 +5,7 @@ This is the repository for the Intern Information System and Payroll Application
 # Developers
 ### Frontend Developers
 - Michael James Goyon
-- Miguel Bryan Pajarillo
+- Migue l Bryan Pajarillo
 
 ### Backend Developers
 - Mirai Reyes Yoshizaki
@@ -35,21 +35,24 @@ In case you started your Git repository and project files separately on Github, 
 
 
 
-### to add to html:
+### to add tailwind to html:
   <link rel="stylesheet" href="/css/app.css" >
 
 ### Pushing to GitHub:  
-username: 
-miguel.pajarillo@payreto.com
+username: miguel.pajarillo@payreto.com
 
 password (personal access token): 
-view personalaccesstoken.txt
+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nXpxXy2UUWng
 
 #### Add project link to origin
 git remote add origin <project_link>
 
 #### Main Workflow
 git add *
+git status 
+git commit -m "commit message"
+git push origin main/master (check the branches)
+
 git status 
 git commit -m "commit message"
 git push origin main/master (check the branches)
