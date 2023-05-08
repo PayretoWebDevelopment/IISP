@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout module_name="Dashboard">
     <title>Payreto | User Dashboard</title>
     @auth
     <li>

@@ -21,6 +21,18 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'role',
+        'contact_number',
+        'position',
+        'start_date',
+        'active',
+        'hourly_rate',
+        'required_hours',
+        'bank',
+        'hourly_rate_last_updated',
+        'supervisor',
+        'bank_account_no'
     ];
 
     /**

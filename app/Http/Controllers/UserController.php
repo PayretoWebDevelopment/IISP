@@ -76,4 +76,32 @@ class UserController extends Controller
 
         return back()->withErrors(['username' => 'Invalid credentials'])->onlyInput('username');
     }
+
+    public function profile(Request $request)
+    {
+        if($request->user()){if(in_array($request->user()->role, ['superadmin', 'admin'])){
+                return view('admin.profile', ['user'=>$request->user()]);
+            }
+            else{
+                return view('intern.profile', ['user'=>$request->user()]);
+            }
+        }
+        return redirect('/users/login');
+    }
+
+    public function dashboard (Request $request)
+    {
+        if($request->user()){
+            return view('shared.dashboard', ['user'=>$request->user()]);
+        }
+
+        return redirect('/users/login');
+    }
+
+    public function employeelist(Request $request)
+    {
+        if(in_array(auth()->user()->role, ['admin', 'superadmin'])){
+            return view('admin.employeelist');
+        }
+    }
 }

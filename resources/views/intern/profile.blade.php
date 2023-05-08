@@ -1,4 +1,4 @@
-<x-layout>
+<x-layout module_name="Reports">
     <title>Payreto | My Profile</title>
     <x-card class="p-10">
     INTERN SIDE

@@ -1,8 +1,11 @@
 <?php
 
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\ApprovalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\TimesheetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,30 +37,31 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
 #region Dashboard
-Route::get('/', function (Request $request)
-{
-    if($request->user()){
-        return view('shared.dashboard', ['user'=>$request->user()]);
-    }
-
-    return redirect('/users/login');
-});
+Route::get('/', [UserController::class, 'dashboard']);
 #endregion
 
 #region My Profile
-Route::get('/users/profile', function (Request $request)
-{
-    if($request->user()){if(in_array($request->user()->role, ['superadmin', 'admin'])){
-            return view('admin.profile', ['user'=>$request->user()]);
-        }
-        else{
-            return view('intern.profile', ['user'=>$request->user()]);
-        }
-    }
-    return redirect('/users/login');
-});
+Route::get('/users/profile', [UserController::class, 'profile']);
 #endregion
 
 #region Other Profile
 //to-do
 #endregion
+
+#region Intern Timesheets
+Route::get('intern/timesheets', [TimesheetController::class, 'index']);
+#endregion
+
+#region Intern/Admin Reports Redirector and Routes
+Route::get('/reports/redirect', [ReportController::class, 'index']);
+
+Route::get('/admin/reports', [ReportController::class, 'admin_index']);
+
+Route::get('/intern/reports', [ReportController::class, 'intern_index']);
+#endregion
+
+#region Approvals
+Route::get('/admin/approvals', [ApprovalController::class, 'index']);
+#endregion
+
+Route::get('/admin/employeelist', [UserController::class, 'employeelist']);
