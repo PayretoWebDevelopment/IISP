@@ -15,12 +15,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-#region Default Laravel routes
-Route::get('/welcome', function () {
-    return view('welcome');
-});
-#endregion
-
 #region Users Routes
 //Show Register Form
 Route::get('/users/create', [UserController::class, 'create']);
@@ -36,14 +30,34 @@ Route::get('/users/login', [UserController::class, 'login']);
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 #endregion
 
+//Log user out
+Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
+
 #region Dashboard
 Route::get('/', function (Request $request)
 {
     if($request->user()){
-        return view('dashboard', ['user'=>$request->user()]);
+        return view('shared.dashboard', ['user'=>$request->user()]);
     }
 
     return redirect('/users/login');
 });
 #endregion
 
+#region My Profile
+Route::get('/users/profile', function (Request $request)
+{
+    if($request->user()){if(in_array($request->user()->role, ['superadmin', 'admin'])){
+            return view('admin.profile', ['user'=>$request->user()]);
+        }
+        else{
+            return view('intern.profile', ['user'=>$request->user()]);
+        }
+    }
+    return redirect('/users/login');
+});
+#endregion
+
+#region Other Profile
+//to-do
+#endregion

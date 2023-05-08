@@ -24,4 +24,4 @@
 <?php endif; ?>
 
 
-<?php /**PATH /home/cabox/workspace/iisp/resources/views/dashboard.blade.php ENDPATH**/ ?>
+<?php /**PATH /home/cabox/workspace/iisp/resources/views/shared/dashboard.blade.php ENDPATH**/ ?>

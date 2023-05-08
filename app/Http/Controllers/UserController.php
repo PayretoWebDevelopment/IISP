@@ -18,11 +18,13 @@ class UserController extends Controller
     public function store(Request $request){
         //filter functions (may not be necessary)
         $request['name'] = filter_var($request['name'], FILTER_SANITIZE_SPECIAL_CHARS);
+        $request['username'] = filter_var($request['username'], FILTER_SANITIZE_SPECIAL_CHARS);
         $request['email'] = filter_var($request['email'], FILTER_SANITIZE_EMAIL);
         $request['password'] = filter_var($request['password'], FILTER_SANITIZE_SPECIAL_CHARS);
 
         $formFields = $request->validate([
             'name' => ['required', 'min:3'],
+            'username' => ['required', 'username', Rule::unique('users', 'username')],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
             'password' => 'required|confirmed|min:6'
         ]);
@@ -58,11 +60,11 @@ class UserController extends Controller
     //autheticate user
     public function authenticate(Request $request){
         //Filter functions (may not be necessary)
-        $request['email'] = filter_var($request['email'], FILTER_SANITIZE_EMAIL);
+        $request['username'] = filter_var($request['username'], FILTER_SANITIZE_EMAIL);
         $request['password'] = filter_var($request['password'], FILTER_SANITIZE_SPECIAL_CHARS);
 
         $formFields = $request->validate([
-            'email' => ['required', 'email'],
+            'username' => ['required', 'username'],
             'password' => 'required'
         ]);
 
@@ -72,6 +74,6 @@ class UserController extends Controller
             return redirect('/')->with('message', 'User logged in');
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials'])->onlyInput('email');
+        return back()->withErrors(['username' => 'Invalid credentials'])->onlyInput('username');
     }
 }

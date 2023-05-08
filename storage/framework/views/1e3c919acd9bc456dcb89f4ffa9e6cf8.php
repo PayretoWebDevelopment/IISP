@@ -1,3 +1,5 @@
+<title>Payreto | Login</title>
+
 <header class="text-center">
     <h2 class="text-2xl font-bold uppercase mb-1">Login</h2>
     <p class="mb-4">Log into your account</p>
@@ -7,10 +9,10 @@
     <?php echo csrf_field(); ?>
 
     <div class="mb-6">
-        <label for="email" class="inline-block text-lg mb-2">Email</label>
-        <input type="email" class="border border-gray-200 rounded p-2 w-full" name="email" value="<?php echo e(old('email')); ?>" />
+        <label for="username" class="inline-block text-lg mb-2">Username</label>
+        <input type="username" class="border border-gray-200 rounded p-2 w-full" name="username" value="<?php echo e(old('username')); ?>" />
 
-        <?php $__errorArgs = ['email'];
+        <?php $__errorArgs = ['username'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
 if ($__bag->has($__errorArgs[0])) :
 if (isset($message)) { $__messageOriginal = $message; }
@@ -48,8 +50,8 @@ unset($__errorArgs, $__bag); ?>
 
     <div class="mt-8">
         <p>
-            Don't have an account?
-            <a href="/create">Register</a>
+            Forgot your password?
+            <a href="/">Notify Us</a>
         </p>
     </div>
 </form>
