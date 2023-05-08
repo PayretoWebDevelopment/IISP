@@ -33,8 +33,6 @@ In case you started your Git repository and project files separately on Github, 
 
 ./tailwindcss -i ./resources/css/app.css -o ./public/css/app.css --watch
 
-
-
 ### to add tailwind to html:
   <link rel="stylesheet" href="/css/app.css" >
 
@@ -44,15 +42,16 @@ username: miguel.pajarillo@payreto.com
 password (personal access token): 
 refer to personal access token in discord channel
 
-git remote add origin <project_link>
+### To set "origin"
+- git remote add origin <project_link>
 
 #### Main Workflow
-git add *
-git status 
-git commit -m "commit message"
-git push origin main/master (check the branches)
+- git add *
+- git status 
+- git commit -m "commit message"
+- git push origin main/master (check the branches)
 
-git status 
-git commit -m "commit message"
-git push origin main/master (check the branches)
+- git status 
+- git commit -m "commit message"
+- git push origin main/master (check the branches)
 
