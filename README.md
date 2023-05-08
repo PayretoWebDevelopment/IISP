@@ -5,7 +5,7 @@ This is the repository for the Intern Information System and Payroll Application
 # Developers
 ### Frontend Developers
 - Michael James Goyon
-- Migue l Bryan Pajarillo
+- Miguel Bryan Pajarillo
 
 ### Backend Developers
 - Mirai Reyes Yoshizaki
