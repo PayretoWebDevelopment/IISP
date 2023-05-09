@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Timesheet;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 
@@ -69,5 +70,7 @@ class DatabaseSeeder extends Seeder
             'hourly_rate_last_updated' => '2023/6/3',
             'supervisor' => 'Juan de la Cruz'
         ]);
+
+        Timesheet::factory(10)->create();
     }
 }

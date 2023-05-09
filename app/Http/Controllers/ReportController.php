@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use Exception;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if (in_array(auth()->user()->role, ['admin', 'superadmin'])){
+        if ($request->user()->isAdmin()){
             return redirect('/admin/reports');
         }else{
             return redirect('/intern/reports');
@@ -18,12 +19,22 @@ class ReportController extends Controller
 
     public function admin_index(Request $request)
     {
-        return view('admin.reports');
+        try {
+            if(!$request->user()->isAdmin()){throw new Exception('User is not an Admin.');}
+            return view('admin.reports');
+        } catch (\Throwable $th) {
+            return 'Caught exception: '.  $th->getMessage() .  "\n";
+        }
     }
 
     public function intern_index(Request $request)
     {
-        return view('intern.reports');
+        try {
+            if($request->user()->isAdmin()){throw new Exception('User is not an Intern.');}
+            return view('intern.reports');
+        } catch (\Throwable $th) {
+            return 'Caught exception: '.  $th->getMessage() .  "\n";
+        }
     }
 
     public function show(Report $report)

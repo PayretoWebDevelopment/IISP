@@ -11,8 +11,7 @@
     <?php if(auth()->guard()->check()): ?>
     <li>
         <span class="font-bold uppercase">
-            Welcome <?php echo e(auth()->user()->name); ?>
-
+            Welcome, <?php echo e(auth()->user()->name); ?>! This is the dashboard.
         </span>
     </li>
     <?php endif; ?>

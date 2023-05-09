@@ -1,4 +1,4 @@
-<title>Payreto IISP | Login</title>
+<title>Payreto | Login</title>
 
 <head>
     <script src="//unpkg.com/alpinejs" defer></script>

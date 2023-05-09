@@ -49,7 +49,7 @@ Route::get('/users/profile', [UserController::class, 'profile']);
 #endregion
 
 #region Intern Timesheets
-Route::get('intern/timesheets', [TimesheetController::class, 'index']);
+Route::get('/intern/timesheets', [TimesheetController::class, 'index']);
 #endregion
 
 #region Intern/Admin Reports Redirector and Routes

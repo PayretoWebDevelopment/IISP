@@ -1,8 +1,8 @@
-<title>Payreto | Register</title>
+<title>Payreto IISP | Create new User</title>
 
 <header class="text-center">
-    <h2 class="text-2xl font-bold uppercase mb-1">Register</h2>
-    <p class="mb-4">Register an account</p>
+    <h2 class="text-2xl font-bold uppercase mb-1">Create</h2>
+    <p class="mb-4">Create a new user</p>
 </header>
 
 <form method="POST" action="/users">

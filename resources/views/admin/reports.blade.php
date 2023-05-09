@@ -1,3 +1,3 @@
 <x-layout module_name="Reports">
-admin/superadmin reports
+Admin/Superadmin reports
 </x-layout>

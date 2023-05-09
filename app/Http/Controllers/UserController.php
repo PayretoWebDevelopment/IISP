@@ -79,13 +79,12 @@ class UserController extends Controller
 
     public function profile(Request $request)
     {
-        if($request->user()){if(in_array($request->user()->role, ['superadmin', 'admin'])){
+        if($request->user()->isAdmin()){
                 return view('admin.profile', ['user'=>$request->user()]);
             }
             else{
                 return view('intern.profile', ['user'=>$request->user()]);
             }
-        }
         return redirect('/users/login');
     }
 
@@ -100,8 +99,11 @@ class UserController extends Controller
 
     public function employeelist(Request $request)
     {
-        if(in_array(auth()->user()->role, ['admin', 'superadmin'])){
+        if($request->user()->isAdmin()){
             return view('admin.employeelist');
         }
     }
+
+
+
 }

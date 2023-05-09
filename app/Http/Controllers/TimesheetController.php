@@ -7,10 +7,13 @@ use Illuminate\Http\Request;
 
 class TimesheetController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        if(auth()->user()->role == 'intern'){
-            return view('intern.timesheets');
+        if(!$request->user()->isAdmin()){
+            $user_id = auth()->user()->id;
+            $timesheets = Timesheet::where('user_id', $user_id)->get();
+
+            return view('intern.timesheets', compact('timesheets'));
         }
     }
 

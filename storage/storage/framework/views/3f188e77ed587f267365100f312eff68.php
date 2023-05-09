@@ -1,4 +1,16 @@
-@props(['module_name'])
+<?php $attributes ??= new \Illuminate\View\ComponentAttributeBag; ?>
+<?php foreach($attributes->onlyProps(['module_name']) as $__key => $__value) {
+    $$__key = $$__key ?? $__value;
+} ?>
+<?php $attributes = $attributes->exceptProps(['module_name']); ?>
+<?php foreach (array_filter((['module_name']), 'is_string', ARRAY_FILTER_USE_KEY) as $__key => $__value) {
+    $$__key = $$__key ?? $__value;
+} ?>
+<?php $__defined_vars = get_defined_vars(); ?>
+<?php foreach ($attributes as $__key => $__value) {
+    if (array_key_exists($__key, $__defined_vars)) unset($$__key);
+} ?>
+<?php unset($__defined_vars); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -25,15 +37,6 @@
 
     </script>
 
-    <style>
-        table, th, td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: center;
-            padding: 10px;
-        }
-    </style>
-
 </head>
 <body>
 
@@ -41,8 +44,8 @@
     <aside class="ml-[-100%] fixed z-10 top-0 pb-3 px-6 w-full flex flex-col justify-between h-screen border-r bg-white transition duration-300 md:w-4/12 lg:ml-0 lg:w-[25%] xl:w-[20%] 2xl:w-[15%]">
         <div>
             <div class="flex items-center py-4">
-                <a href="/" title="Dashboard">
-                    <img src="{{ asset('images/logo.png') }}" class="w-10" alt="PayretoLogo">
+                <a href="/" title="home">
+                    <img src="<?php echo e(asset('images/logo.png')); ?>" class="w-10" alt="PayretoLogo">
                 </a>
                 <p class="ms-4 text-base font-bold">IISP</p>
             </div>
@@ -59,7 +62,7 @@
                     </a>
                 </li>
                 <li>
-                    @if (!auth()->user()->isAdmin())
+                    <?php if(!auth()->user()->isAdmin()): ?>
                     <a href="/intern/timesheets" aria-label="timesheet" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
                         <svg class="-ml-1 h-6 w-6" viewBox="0 0 24 24" fill="none">
                             <path d="M6 8a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8ZM6 15a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-1Z" class="fill-current text-cyan-400 dark:fill-slate-600"></path>
@@ -68,7 +71,7 @@
                         </svg>
                         <span class="-mr-1 font-medium">Timesheets</span>
                     </a>
-                    @endif
+                    <?php endif; ?>
                 </li>
                 <li>
                     <a href="/reports/redirect" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
@@ -88,7 +91,7 @@
                         <span class="group-hover:text-gray-700">Profiles</span>
                     </a>
                 </li>
-                @if(auth()->user()->isAdmin())
+                <?php if(auth()->user()->isAdmin()): ?>
                 <li>
                     <a href="/admin/employeelist" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -107,13 +110,13 @@
                         <span class="group-hover:text-gray-700">Approvals</span>
                     </a>
                 </li>
-                @endif
+                <?php endif; ?>
             </ul>
         </div>
 
         <div class="px-6 -mx-6 pt-4 flex justify-between items-center border-t">
             <form class="inline" method="POST" action="/logout">
-                @csrf
+                <?php echo csrf_field(); ?>
                 <button class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group" type="submit">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
@@ -126,7 +129,7 @@
     <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
         <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
             <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
-                <h5 hidden class="text-2xl text-gray-600 font-medium lg:block">{{$module_name}}</h5>
+                <h5 hidden class="text-2xl text-gray-600 font-medium lg:block"><?php echo e($module_name); ?></h5>
                 <button class="w-12 h-16 -mr-2 border-r lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 my-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -137,9 +140,11 @@
 
         <div class="px-6 pt-6 2xl:container">
             <main>
-                {{ $slot }}
+                <?php echo e($slot); ?>
+
             </main>
         </div>
     </div>
 </body>
 </html>
+<?php /**PATH /home/cabox/workspace/iisp/resources/views/components/layout.blade.php ENDPATH**/ ?>
