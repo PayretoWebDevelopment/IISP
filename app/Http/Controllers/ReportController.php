@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Report;
 use Exception;
+use App\Models\Report;
+use App\Models\Timesheet;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -13,28 +14,30 @@ class ReportController extends Controller
         if ($request->user()->isAdmin()){
             return redirect('/admin/reports');
         }else{
-            return redirect('/intern/reports');
+            $user_id = auth()->user()->id;
+            $timesheets = Timesheet::where('user_id', $user_id)->get();
+
+            return view('intern.reports',  compact('timesheets'));
         }
     }
 
-    public function admin_index(Request $request)
+    //Filter by date
+    public function filter(Request $request)
     {
-        try {
-            if(!$request->user()->isAdmin()){throw new Exception('User is not an Admin.');}
-            return view('admin.reports');
-        } catch (\Throwable $th) {
-            return 'Caught exception: '.  $th->getMessage() .  "\n";
-        }
-    }
+        $user_id = auth()->user()->id;
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
 
-    public function intern_index(Request $request)
-    {
-        try {
-            if($request->user()->isAdmin()){throw new Exception('User is not an Intern.');}
-            return view('intern.reports');
-        } catch (\Throwable $th) {
-            return 'Caught exception: '.  $th->getMessage() .  "\n";
-        }
+        $timesheets = Timesheet::where('user_id', $user_id)
+                                ->when($start_date, function ($query, $start_date) {
+                                    return $query->whereDate('created_at', '>=', $start_date);
+                                })
+                                ->when($end_date, function ($query, $end_date) {
+                                    return $query->whereDate('created_at', '<=', $end_date);
+                                })
+                                ->get();
+
+        return view('intern.reports', compact('timesheets', 'start_date', 'end_date'));
     }
 
     public function show(Report $report)

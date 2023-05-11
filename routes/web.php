@@ -36,6 +36,17 @@ Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 //Log user out
 Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 
+#region Change password
+
+//show change password form
+Route::get('/users/change-password', [UserController::class, 'changePassword']);
+
+// Route::post('/users/process-change-password', [UserController::class, 'changePasswordSubmit']);
+
+
+#endregion
+
+
 #region Dashboard
 Route::get('/', [UserController::class, 'dashboard']);
 #endregion
@@ -50,14 +61,18 @@ Route::get('/users/profile', [UserController::class, 'profile']);
 
 #region Intern Timesheets
 Route::get('/intern/timesheets', [TimesheetController::class, 'index']);
+
+Route::post('/intern/timesheets/stop', [TimesheetController::class, 'stopTracking'])->name('timesheets.stop');
 #endregion
 
 #region Intern/Admin Reports Redirector and Routes
 Route::get('/reports/redirect', [ReportController::class, 'index']);
 
-Route::get('/admin/reports', [ReportController::class, 'admin_index']);
+Route::get('/admin/reports', [ReportController::class, 'index']);
 
-Route::get('/intern/reports', [ReportController::class, 'intern_index']);
+Route::get('/intern/reports', [ReportController::class, 'index']);
+
+Route::get('/intern/reports/filter', [ReportController::class, 'filter']);
 #endregion
 
 #region Approvals

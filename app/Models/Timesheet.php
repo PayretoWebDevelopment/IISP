@@ -10,6 +10,17 @@ class Timesheet extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'user_id',
+        'task_name',
+        'task_type',
+        'project_type',
+        'start_time',
+        'end_time',
+    ];
+
+    protected $appends = ['duration'];
+
     protected $casts = [
         //casts these to Carbon datatype (which extends php DateTime)
         'start_time' => 'datetime:Carbon',
@@ -27,4 +38,6 @@ class Timesheet extends Model
 
         return $duration->format('%h:%I:%S');
     }
+
+    protected $table = 'timesheets';
 }

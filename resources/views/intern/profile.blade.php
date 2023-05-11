@@ -3,7 +3,7 @@
     <x-card class="p-10">
     INTERN SIDE
         <x-profile>
-            <li>button for create edit request</li>
+             <button type="button" class="btn btn-primary" id="startTimerButton">Create Edit Request</button>
         </x-profile>
     </x-card>
 </x-layout>

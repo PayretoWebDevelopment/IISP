@@ -17,6 +17,27 @@ class TimesheetController extends Controller
         }
     }
 
+    public function stopTracking(Request $request)
+    {
+        $start_time = date('Y-m-d H:i:s', strtotime($request->input('start_time')));
+        $end_time = date('Y-m-d H:i:s', strtotime($request->input('end_time')));
+        $user_id = auth()->id();
+
+        $formFields = [
+            'user_id' => $user_id,
+            'task_name' => $request->input('task_name'),
+            'task_type' => $request->input('task_type'),
+            'project_type' => $request->input('project_type'),
+            'start_time' => $start_time,
+            'end_time' => $end_time,
+        ];
+
+        $timesheet = Timesheet::create($formFields);
+        $timesheet->save();
+        return response()->json(['message' => 'Timesheet submitted successfully.']);
+    }
+
+
     public function show(Timesheet $timesheet)
     {
         //to-do
@@ -27,7 +48,7 @@ class TimesheetController extends Controller
         //to-do
     }
 
-    public function store(Timesheet $timesheet)
+    public function store(Request $request)
     {
         //to-do
     }

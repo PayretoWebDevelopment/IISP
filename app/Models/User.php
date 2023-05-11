@@ -62,4 +62,10 @@ class User extends Authenticatable
         $result = in_array($this->role, $admin_roles);
         return $result;
     }
+
+    //timesheets
+    public function timesheets()
+    {
+        return $this->hasMany(Timesheet::class);
+    }
 }
