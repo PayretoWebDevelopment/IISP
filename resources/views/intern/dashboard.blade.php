@@ -12,7 +12,6 @@
     <div class="container">
         <h1>Dashboard</h1>
         <h2>Summary of Activities for Today</h2>
-
         @if($timesheets->isEmpty())
         <p>No timesheets found for today.</p>
         @else
@@ -29,29 +28,22 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($timesheets->where('created_at', '>=', now()->today())->groupBy(function($entry) {
-                if(isset($entry->created_at)){
-                return $entry->created_at->format('Y-m-d');
-                }else{
-                return '';
-                }
-                }) as $date => $entries)
-                @foreach ($timesheets as $entry)
-                <tr>
-                    <td>{{$entry->created_at}}</td>
-                    <td>{{$entry->task_name}}</td>
-                    <td>{{$entry->project_type}}</td>
-                    <td>{{$entry->task_type}}</td>
-                    <td>{{$entry->start_time->format('h:i A')}}</td>
-                    <td>{{$entry->end_time ? $entry->end_time->format('h:i A') : ''}}</td>
-                    <td>{{$entry->getDurationAttribute()}}</td>
+                @foreach ($timesheets as $timesheet)<tr>
+
+                    <td>{{$timesheet->created_at}}</td>
+                    <td>{{$timesheet->task_name}}</td>
+                    <td>{{$timesheet->project_type}}</td>
+                    <td>{{$timesheet->task_type}}</td>
+                    <td>{{$timesheet->start_time->format('h:i A')}}</td>
+                    <td>{{$timesheet->end_time ? $timesheet->end_time->format('h:i A') : ''}}</td>
+                    <td>{{$timesheet->getDurationAttribute()}}</td>
                 </tr>
-                @endforeach
                 @endforeach
             </tbody>
         </table>
         @endif
     </div>
+
 
     <div style="width:40%;">
         <h3>Attendance Tracker</h3>

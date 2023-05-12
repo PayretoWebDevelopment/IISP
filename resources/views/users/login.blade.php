@@ -83,6 +83,7 @@
                                     Sign in
                                 </button>
                             </div>
+                            <p class="mt-3 text-gray-500 dark:text-gray-300">Forgot your password? <a href="/users/forgot" class="underline">Reset your password.</a>
                         </form>
                     </div>
                 </div>

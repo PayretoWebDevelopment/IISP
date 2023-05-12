@@ -79,7 +79,10 @@
         <h1>Recorded Entries</h1>
         <?php $__currentLoopData = $timesheets->groupBy(function($entry){
         return $entry->created_at->format('Y-m-d');
+        })->sortByDesc(function ($entries, $date) {
+        return $date;
         }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+
         <h2><b><?php echo e($date); ?></b></h2>
         <table>
             <tr>

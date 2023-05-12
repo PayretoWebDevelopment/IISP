@@ -71,7 +71,10 @@
         <h1>Recorded Entries</h1>
         @foreach($timesheets->groupBy(function($entry){
         return $entry->created_at->format('Y-m-d');
+        })->sortByDesc(function ($entries, $date) {
+        return $date;
         }) as $date => $entries)
+
         <h2><b>{{$date}}</b></h2>
         <table>
             <tr>

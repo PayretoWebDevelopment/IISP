@@ -1,9 +1,8 @@
 <x-layout module_name="My Profile">
     <title>Payreto | My Profile</title>
     <x-card class="p-10">
-    INTERN SIDE
         <x-profile>
-             <button type="button" class="btn btn-primary" id="startTimerButton">Create Edit Request</button>
+             <a href="{{ url('/users/profile/create-edit-request') }}" class="btn btn-primary" id="startTimerButton">Create Edit Request</a>
         </x-profile>
     </x-card>
 </x-layout>

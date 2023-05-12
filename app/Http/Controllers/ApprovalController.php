@@ -30,4 +30,11 @@ class ApprovalController extends Controller
     {
         //to-do
     }
+
+    //create edit request (interns  )
+    public function create_edit_request(Request $request)
+    {
+
+        return view('intern.create-edit-request', ['user' => $request->user()]);
+    }
 }

@@ -29,6 +29,11 @@ Route::post('/users', [UserController::class, 'store']);
 //Show Login form
 Route::get('/users/login', [UserController::class, 'login']);
 
+//Show Forgot Password Form
+Route::get('/users/forgot', [UserController::class, 'forgotPassword']);
+
+Route::post('/users/forgot/send_mail', [UserController::class, 'sendPasswordReset']);
+
 //From Login form, Authenticate User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
 #endregion
@@ -41,10 +46,12 @@ Route::post('/logout', [UserController::class, 'logout'])->middleware('auth');
 //show change password form
 Route::get('/users/change-password', [UserController::class, 'changePassword']);
 
-// Route::post('/users/process-change-password', [UserController::class, 'changePasswordSubmit']);
-
-
+//change user's password
+Route::post('/users/process-change-password', [UserController::class, 'changePasswordSubmit']);
 #endregion
+
+#upload profile picture
+Route::post('/users/profile/upload-profile-picture', [UserController::class, 'uploadProfilePicture']);
 
 
 #region Dashboard
@@ -73,6 +80,10 @@ Route::get('/admin/reports', [ReportController::class, 'index']);
 Route::get('/intern/reports', [ReportController::class, 'index']);
 
 Route::get('/intern/reports/filter', [ReportController::class, 'filter']);
+#endregion
+
+#region Intern Create Edit Request
+Route::get('users/profile/create-edit-request', [ApprovalController::class, 'create_edit_request']);
 #endregion
 
 #region Approvals

@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 
 class UserController extends Controller
 {
@@ -85,46 +88,95 @@ class UserController extends Controller
         return back()->withErrors(['username' => 'Invalid credentials'])->onlyInput('username');
     }
 
-    //show change password form
+    //show forgot password form
+    public function forgotPassword(Request $request)
+    {
+        return view('users.forgot_password');
+    }
+
+    public function sendPasswordReset(Request $request)
+    {
+        $formFields = $request->validate([
+            'email' => ['required', 'email']
+        ]);
+
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+
+        //Initialize PHPMailer
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+
+        //set details
+        $mail->Host = 'smtp.gmail.com';  //gmail SMTP server
+        $mail->Username = 'dtinternjvivas.payreto@gmail.com';   //email
+        $mail->Password = 'rmsztaufafmsmxoh';   //16 character obtained from app password created
+        $mail->Port = 465;                    //SMTP port
+        $mail->SMTPSecure = "ssl";
+
+        //sender information
+        $mail->setFrom('dtinternjvivas.payreto@gmail.com', 'Johann Vivas');
+
+        //receiver address and name
+        $mail->addAddress($email, 'Recipient');
+
+        $mail->isHTML(true);
+
+        $mail->Subject = 'PHPMailer SMTP test';
+        $mail->Body    = "<h4> PHPMailer the awesome Package </h4>
+        <b>PHPMailer is working fine for sending mail</b>
+        <p> This is a tutorial to guide you on PHPMailer integration</p>";
+
+        dd($mail); //DEBUGGING LINE.
+
+        // Send mail
+        if (!$mail->send()) {
+            echo 'Email not sent an error was encountered: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent.';
+            return redirect("/")->with('message', "Email sent successfully.");
+        }
+
+        $mail->smtpClose();
+    }
+
+    // show change password form
     public function changePassword()
     {
         return view('users.change_password');
     }
 
     //change user's password
-    // public function changePasswordSubmit(Request $request)
-    // {
-    //     $user = Auth::user();
+    public function changePasswordSubmit(Request $request)
+    {
+        $user = Auth::user();
 
-    //     $validator = Validator::make($request->all(), [
-    //         'current_password' => 'required',
-    //         'password' => 'required|confirmed|min:8',
-    //     ]);
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'password' => 'required|confirmed|min:8',
+        ]);
 
-    //     if ($validator->fails()) {
-    //         return redirect()->back()->withErrors($validator);
-    //     }
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator);
+        }
 
-    //     $credentials = [
-    //         'email' => $user->email,
-    //         'password' => $request->input('current_password')
-    //     ];
+        $credentials = [
+            'email' => $user->email,
+            'password' => $request->input('current_password')
+        ];
 
-    //     if (Auth::attempt($credentials)) {
-    //         $user->update([
-    //             'password' => Hash::make($request->input('password'))
-    //         ]);
+        if (Auth::attempt($credentials)) {
+            $user->update([
+                'password' => Hash::make($request->input('password'))
+            ]);
 
-    //         Auth::logout();
+            Auth::logout();
 
-    //         return redirect('/users/login')->with('success', 'Your password has been changed successfully. Please log in again.');
-    //     }
+            return redirect('/users/login')->with('success', 'Your password has been changed successfully. Please log in again.');
+        }
 
-    //     return redirect()->back()->withErrors(['current_password' => 'Your current password is incorrect.']);
-    // }
-
-
-
+        return redirect()->back()->withErrors(['current_password' => 'Your current password is incorrect.']);
+    }
 
     //show profile
     public function profile(Request $request)
@@ -147,10 +199,14 @@ class UserController extends Controller
             if ($request->user()->isAdmin()) {
                 return view('admin.dashboard', ['user' => $request->user()]);
             } else {
-                $timesheets = Timesheet::where('user_id', $user_id)->get();
+                $timesheets = Timesheet::where('user_id', auth()->id())
+                    ->whereDate('created_at', now()->toDateString())
+                    ->get();
                 $attendance = $this->attendancetracker($request);
-                return view('intern.dashboard', ['user' => $request->user(), 'timesheets' => $timesheets, 'timedInPercentage' => $attendance['timedInPercentage'],
-                'notTimedInPercentage' => $attendance['notTimedInPercentage']]);
+                return view('intern.dashboard', [
+                    'user' => $request->user(), 'timesheets' => $timesheets, 'timedInPercentage' => $attendance['timedInPercentage'],
+                    'notTimedInPercentage' => $attendance['notTimedInPercentage']
+                ]);
             }
         }
         return redirect('/users/login');
@@ -184,10 +240,45 @@ class UserController extends Controller
         return ['timedInPercentage' => $timedInPercentage, 'notTimedInPercentage' => $notTimedInPercentage];
     }
 
+    //upload profile picture
+    public function uploadProfilePicture(Request $request)
+    {
+        $user_id = auth()->user()->id;
+        $user = User::find($user_id);
+        // dd($user);
+        if (!$user) {
+            return back()->with('error', 'User not found.');
+        }
+
+        if ($request->hasFile('profile_picture')) {
+            $image = $request->file('profile_picture');
+            // Validate the uploaded file
+            $validatedData = $request->validate([
+                'profile_picture' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+
+            // Store the uploaded file
+            $filename = $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
+            $image->storeAs('public/profile_pictures', $filename);
+
+            // Update the user's profile picture
+            $user->profile_picture = $filename;
+            $user->save();
+            // dd($user->profile_picture);
+            return back()->with('success', 'Profile picture uploaded successfully.');
+        }
+
+        return back()->with('success', 'No file uploaded.');
+    }
+
+
+    //show employee list
     public function employeelist(Request $request)
     {
+        $employees = User::where('role', 'intern')->get();
+
         if ($request->user()->isAdmin()) {
-            return view('admin.employeelist');
+            return view('admin.employeelist', compact('employees'));
         }
     }
 }

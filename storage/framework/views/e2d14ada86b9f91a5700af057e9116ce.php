@@ -20,7 +20,6 @@
     <div class="container">
         <h1>Dashboard</h1>
         <h2>Summary of Activities for Today</h2>
-
         <?php if($timesheets->isEmpty()): ?>
         <p>No timesheets found for today.</p>
         <?php else: ?>
@@ -37,29 +36,22 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $__currentLoopData = $timesheets->where('created_at', '>=', now()->today())->groupBy(function($entry) {
-                if(isset($entry->created_at)){
-                return $entry->created_at->format('Y-m-d');
-                }else{
-                return '';
-                }
-                }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php $__currentLoopData = $timesheets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $entry): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <tr>
-                    <td><?php echo e($entry->created_at); ?></td>
-                    <td><?php echo e($entry->task_name); ?></td>
-                    <td><?php echo e($entry->project_type); ?></td>
-                    <td><?php echo e($entry->task_type); ?></td>
-                    <td><?php echo e($entry->start_time->format('h:i A')); ?></td>
-                    <td><?php echo e($entry->end_time ? $entry->end_time->format('h:i A') : ''); ?></td>
-                    <td><?php echo e($entry->getDurationAttribute()); ?></td>
+                <?php $__currentLoopData = $timesheets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><tr>
+
+                    <td><?php echo e($timesheet->created_at); ?></td>
+                    <td><?php echo e($timesheet->task_name); ?></td>
+                    <td><?php echo e($timesheet->project_type); ?></td>
+                    <td><?php echo e($timesheet->task_type); ?></td>
+                    <td><?php echo e($timesheet->start_time->format('h:i A')); ?></td>
+                    <td><?php echo e($timesheet->end_time ? $timesheet->end_time->format('h:i A') : ''); ?></td>
+                    <td><?php echo e($timesheet->getDurationAttribute()); ?></td>
                 </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
         <?php endif; ?>
     </div>
+
 
     <div style="width:40%;">
         <h3>Attendance Tracker</h3>
