@@ -16,6 +16,9 @@
         <p>No timesheets found for today.</p>
         @else
         <table>
+            @foreach($timesheets->sortByDesc('created_at')->groupBy(function($entry) {
+                return $entry->created_at->format('Y-m-d');
+            }) as $date => $entries)
             <thead>
                 <tr>
                     <th>Date</th>
@@ -28,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($timesheets as $timesheet)<tr>
+                @foreach ($entries as $timesheet)<tr>
 
                     <td>{{$timesheet->created_at}}</td>
                     <td>{{$timesheet->task_name}}</td>
@@ -41,6 +44,7 @@
                 @endforeach
             </tbody>
         </table>
+        @endforeach
         @endif
     </div>
 

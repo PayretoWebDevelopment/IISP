@@ -1,13 +1,13 @@
 <form action="/users/profile/upload-profile-picture" method="POST" enctype="multipart/form-data">
-    @csrf
+    <?php echo csrf_field(); ?>
     <div class="flex flex-col items-center">
         <label for="profile_picture" class="cursor-pointer">
             <img id="profile_picture_preview" class="w-32 rounded-full object-cover"
-                src="{{ auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png') }}"
+                src="<?php echo e(auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png')); ?>"
                 alt="Profile Picture">
         </label>
         <input type="file" name="profile_picture" id="profile_picture" hidden>
-        <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
+        <input type="hidden" name="user_id" value="<?php echo e(isset($user) ? $user->id : ''); ?>">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
             Save Profile Picture
         </button>
@@ -16,15 +16,16 @@
 
 </form>
 <main class="mt-8">
-    {{ $slot }}
-    {{-- button to change password --}}
-    <a href="{{ url('/users/change-password') }}"
+    <?php echo e($slot); ?>
+
+    
+    <a href="<?php echo e(url('/users/change-password')); ?>"
         class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200">Change
         password</a>
 </main>
 
 
-{{-- upload profile picture script --}}
+
 <script>
     // Get the input element
     const inputElement = document.getElementById("profile_picture");
@@ -44,3 +45,4 @@
         previewElement.src = url;
     });
 </script>
+<?php /**PATH C:\Users\user\Downloads\IISP\resources\views/components/profile.blade.php ENDPATH**/ ?>

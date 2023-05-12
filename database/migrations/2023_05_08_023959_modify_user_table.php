@@ -16,8 +16,8 @@ return new class extends Migration
             $table->enum('role', ['admin', 'superadmin', 'intern']);
             $table->string('contact_number');
             $table->string('position');
-            $table->date('start_date');
-            $table->boolean('active');
+            $table->date('start_date')->nullable();
+            $table->boolean('active')->nullable();
             $table->integer('hourly_rate')->nullable();
             $table->integer('required_hours')->nullable();
             $table->string('bank')->nullable();

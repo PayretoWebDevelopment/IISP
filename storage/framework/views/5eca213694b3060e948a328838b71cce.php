@@ -1,9 +1,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
-<meta name="csrf-token" content="{{ csrf_token() }}">
+<meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 
-<x-layout module_name="Timesheets">
+<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout','data' => ['moduleName' => 'Timesheets']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes(['module_name' => 'Timesheets']); ?>
     <!-- Modal for starting time tracking -->
     <div class="modal fade bg-gray-200 p-5" id="startTimerModal" tabindex="-1" aria-labelledby="startTimerModalLabel"
         aria-hidden="true">
@@ -15,7 +23,7 @@
                 </div>
                 <div class="modal-body">
                     <form id="startTimerForm" method="POST" action="/intern/timesheets/start">
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <div class="mb-3">
                             <label for="task_name" class="block text-gray-700 font-bold mb-2">Task name</label>
                             <input name="task_name" id="task_name"
@@ -76,10 +84,10 @@
 
     <div class="m-10 w-10/12">
         <h1 class="text-3xl font-bold">Recorded Entries</h1>
-        @foreach ($timesheets->sortByDesc('created_at')->groupBy(function ($entry) {
+        <?php $__currentLoopData = $timesheets->sortByDesc('created_at')->groupBy(function ($entry) {
         return $entry->created_at->format('Y-m-d');
-    }) as $date => $entries)
-            <h2 class="text-2xl font-bold mt-6"><b>{{ $date }}</b></h2>
+    }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <h2 class="text-2xl font-bold mt-6"><b><?php echo e($date); ?></b></h2>
             <div class="overflow-x-auto">
                 <table class="table-auto border-collapse w-full">
                     <thead>
@@ -94,27 +102,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($entries as $timesheet)
+                        <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td class="border px-4 py-2">{{ $timesheet->created_at->format('Y-m-d') }}</td>
-                                <td class="border px-4 py-2">{{ $timesheet->task_name }}</td>
-                                <td class="border px-4 py-2">{{ $timesheet->project_type }}</td>
-                                <td class="border px-4 py-2">{{ $timesheet->task_type }}</td>
-                                <td class="border px-4 py-2">{{ $timesheet->start_time->format('H:i:s') }}</td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->created_at->format('Y-m-d')); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->task_name); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->project_type); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->task_type); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('H:i:s')); ?></td>
                                 <td class="border px-4 py-2">
-                                    {{ $timesheet->end_time ? $timesheet->end_time->format('H:i:s') : '' }}</td>
-                                <td class="border px-4 py-2">{{ $timesheet->getDurationAttribute() }}</td>
+                                    <?php echo e($timesheet->end_time ? $timesheet->end_time->format('H:i:s') : ''); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->getDurationAttribute()); ?></td>
                             </tr>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
                 </table>
             </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
     </div>
 
 
-    {{-- script for the creating tasks --}}
+    
     <script>
         // Define startTime, endTime, timer and duration outside of event listeners
         var startTime;
@@ -229,4 +237,10 @@
             });
         });
     </script>
-</x-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+<?php /**PATH C:\Users\user\Downloads\IISP\resources\views/intern/timesheets.blade.php ENDPATH**/ ?>

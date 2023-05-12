@@ -15,10 +15,10 @@ use PHPMailer\PHPMailer\Exception;
 
 class UserController extends Controller
 {
-    // Show Register/Create Form
+    // Show Create Form (admin)
     public function create()
     {
-        return view('users.register');
+        return view('admin.create_new_employee');
     }
 
     //Create a user
@@ -34,7 +34,19 @@ class UserController extends Controller
             'name' => ['required', 'min:3'],
             'username' => ['required', 'username', Rule::unique('users', 'username')],
             'email' => ['required', 'email', Rule::unique('users', 'email')],
-            'password' => 'required|confirmed|min:6'
+            'password' => 'required|confirmed|min:6',
+            'role' => ['required'],
+            'contact_number' => ['required', 'numeric'],
+            'position' => ['required'],
+            'department' => ['required'],
+            'start_date' => ['nullable', 'date'],
+            'active' => ['nullable', 'boolean'],
+            'hourly_rate' => ['nullable', 'numeric'],
+            'required_hours' => ['nullable', 'numeric'],
+            'bank' => ['nullable'],
+            'hourly_rate_last_updated' => ['nullable', 'date', 'default' => now()],
+            'supervisor' => ['nullable'],
+            'bank_account_no' => ['nullable'],
         ]);
 
         //hash password
@@ -44,9 +56,9 @@ class UserController extends Controller
         $user = User::create($formFields);
 
         //login
-        auth()->login($user);
+        // auth()->login($user);
 
-        return redirect('/')->with('message', 'User created and logged in');
+        return redirect('/admin/employeelist')->with('message', 'Employee successfully created');
     }
 
     //Logout User
@@ -96,11 +108,17 @@ class UserController extends Controller
 
     public function sendPasswordReset(Request $request)
     {
+        
+        date_default_timezone_set('Asia/Manila');
+        $date = date('m/d/Y h:i:s a', time());
+        
         $formFields = $request->validate([
-            'email' => ['required', 'email']
+            'email' => ['required', 'email'],
+            'name' => ['required'],
         ]);
 
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 
         //Initialize PHPMailer
         $mail = new PHPMailer(true);
@@ -123,11 +141,9 @@ class UserController extends Controller
         $mail->isHTML(true);
 
         $mail->Subject = 'PHPMailer SMTP test';
-        $mail->Body    = "<h4> PHPMailer the awesome Package </h4>
-        <b>PHPMailer is working fine for sending mail</b>
-        <p> This is a tutorial to guide you on PHPMailer integration</p>";
-
-        dd($mail); //DEBUGGING LINE.
+        $mail->Body    = view('users.forgot_password_email', compact('name', 'email', 'date'))->render();
+        
+        //dd($mail); //DEBUGGING LINE.
 
         // Send mail
         if (!$mail->send()) {
@@ -138,6 +154,11 @@ class UserController extends Controller
         }
 
         $mail->smtpClose();
+    }
+
+    public function showPasswordResetMail(Request $request)
+    {
+        return view('users.forgot_password_email');
     }
 
     // show change password form

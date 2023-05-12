@@ -1,7 +1,15 @@
-<x-layout>
+<?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
+<?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
+<?php $component->withName('layout'); ?>
+<?php if ($component->shouldRender()): ?>
+<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
+<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag && $constructor = (new ReflectionClass(Illuminate\View\AnonymousComponent::class))->getConstructor()): ?>
+<?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
+<?php endif; ?>
+<?php $component->withAttributes([]); ?>
     <form action="/users/profile/create-edit-request/send" method="POST" onsubmit="return validateForm()">
-        @csrf
-        <input type="hidden" name="user_id" value="{{ $user->id }}">
+        <?php echo csrf_field(); ?>
+        <input type="hidden" name="user_id" value="<?php echo e($user->id); ?>">
         <input type="hidden" name="modified_fields" value="[]">
         <div class="space-y-4">
             <div class="flex items-center">
@@ -9,7 +17,7 @@
                     id="edit_name">
                 <label class="ml-2 block text-sm text-gray-900" for="edit_name">Name</label>
                 <input type="text" name="name" id="name" class="form-input ml-4 hidden"
-                    value="{{ $user->name }}">
+                    value="<?php echo e($user->name); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_email" value="1"
@@ -18,7 +26,7 @@
                     Email
                 </label>
                 <input type="email" name="email" id="email" class="form-input ml-4 hidden"
-                    value="{{ $user->email }}">
+                    value="<?php echo e($user->email); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_contact_number"
@@ -27,7 +35,7 @@
                     Contact Number
                 </label>
                 <input type="text" name="contact_number" id="contact_number" class="form-input ml-4 hidden"
-                    value="{{ $user->contact_number }}">
+                    value="<?php echo e($user->contact_number); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_position" value="1"
@@ -36,7 +44,7 @@
                     Position
                 </label>
                 <input type="text" name="position" id="position" class="form-input ml-4 hidden"
-                    value="{{ $user->position }}">
+                    value="<?php echo e($user->position); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
@@ -45,7 +53,7 @@
                     Department
                 </label>
                 <input type="text" name="department" id="department" class="form-input ml-4 hidden"
-                    value="{{ $user->department }}">
+                    value="<?php echo e($user->department); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_start_date"
@@ -54,7 +62,7 @@
                     Start Date
                 </label>
                 <input type="date" name="start_date" id="start_date" class="form-input ml-4 hidden"
-                    value="{{ $user->start_date }}">
+                    value="<?php echo e($user->start_date); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_hourly_rate"
@@ -63,7 +71,7 @@
                     Hourly Rate
                 </label>
                 <input type="number" name="hourly_rate" id="hourly_rate" class="form-input ml-4 hidden"
-                    value="{{ $user->hourly_rate }}">
+                    value="<?php echo e($user->hourly_rate); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
@@ -72,7 +80,7 @@
                     Required Hours
                 </label>
                 <input type="number" name="required_hours" id="required_hours" class="form-input ml-4 hidden"
-                    value="{{ $user->required_hours }}">
+                    value="<?php echo e($user->required_hours); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
@@ -81,7 +89,7 @@
                     Bank
                 </label>
                 <input type="text" name="bank" id="bank" class="form-input ml-4 hidden"
-                    value="{{ $user->bank }}">
+                    value="<?php echo e($user->bank); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
@@ -90,7 +98,7 @@
                     Supervisor
                 </label>
                 <input type="text" name="supervisor" id="supervisor" class="form-input ml-4 hidden"
-                    value="{{ $user->supervisor }}">
+                    value="<?php echo e($user->supervisor); ?>">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
@@ -99,7 +107,7 @@
                     Bank Account Number
                 </label>
                 <input type="number" name="bank_account_no" id="bank_account_no" class="form-input ml-4 hidden"
-                    value="{{ $user->bank_account_no }}">
+                    value="<?php echo e($user->bank_account_no); ?>">
             </div>
         </div>
 
@@ -109,7 +117,7 @@
             </label>
             <div class="mt-1 rounded-md shadow-sm">
                 <textarea id="reason" name="reason" rows="5"
-                    class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5">{{ old('reason') }}</textarea>
+                    class="form-textarea block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5"><?php echo e(old('reason')); ?></textarea>
             </div>
         </div>
 
@@ -161,4 +169,10 @@
                 return true;
             }
         </script>
-</x-layout>
+ <?php echo $__env->renderComponent(); ?>
+<?php endif; ?>
+<?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
+<?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
+<?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
+<?php endif; ?>
+<?php /**PATH C:\Users\user\Downloads\IISP\resources\views/intern/create-edit-request.blade.php ENDPATH**/ ?>

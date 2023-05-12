@@ -19,12 +19,12 @@ use App\Http\Controllers\TimesheetController;
 */
 
 #region Users Routes
-//Show Register Form
-Route::get('/users/create', [UserController::class, 'create']);
+//Show Create employee Form (admin)
+Route::get('/admin/create-new-employee', [UserController::class, 'create']);
 
 //From Register form, store new user
 
-Route::post('/users', [UserController::class, 'store']);
+Route::post('/admin/create-new-employee/submit', [UserController::class, 'store']);
 
 //Show Login form
 Route::get('/users/login', [UserController::class, 'login']);
@@ -33,6 +33,8 @@ Route::get('/users/login', [UserController::class, 'login']);
 Route::get('/users/forgot', [UserController::class, 'forgotPassword']);
 
 Route::post('/users/forgot/send_mail', [UserController::class, 'sendPasswordReset']);
+
+Route::get('/users/forgot/password_reset_mail', [UserController::class, 'showPasswordResetMail']);
 
 //From Login form, Authenticate User
 Route::post('/users/authenticate', [UserController::class, 'authenticate']);
@@ -84,6 +86,7 @@ Route::get('/intern/reports/filter', [ReportController::class, 'filter']);
 
 #region Intern Create Edit Request
 Route::get('users/profile/create-edit-request', [ApprovalController::class, 'create_edit_request']);
+Route::post('users/profile/create-edit-request/send', [ApprovalController::class, 'create_edit_request_send']);
 #endregion
 
 #region Approvals

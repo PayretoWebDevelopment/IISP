@@ -46,28 +46,42 @@
 
                     <div class="mt-8">
                         <form method="POST" action="/users/forgot/send_mail">
-                            @csrf
+                            <?php echo csrf_field(); ?>
                             <div class="m-5">
                                 <label for="email"
                                     class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Email</label>
                                 <input type="email" name="email" id="email" placeholder="Your email"
                                     class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                                    value="{{ old('email') }}" />
+                                    value="<?php echo e(old('email')); ?>" />
 
-                                @error('email')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                                <?php $__errorArgs = ['email'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             </div>
                             <div class="m-5">
                                 <label for="name"
                                     class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Your Name</label>
                                 <input type="text" name="name" id="name" placeholder="Your name"
                                     class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
-                                    value="{{ old('name') }}" />
+                                    value="<?php echo e(old('name')); ?>" />
 
-                                @error('name')
-                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                                @enderror
+                                <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                    <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
+                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                             </div>
                             <br>
 
@@ -79,3 +93,4 @@
         </div>
     </div>
 </body>
+<?php /**PATH C:\Users\user\Downloads\IISP\resources\views/users/forgot_password.blade.php ENDPATH**/ ?>
