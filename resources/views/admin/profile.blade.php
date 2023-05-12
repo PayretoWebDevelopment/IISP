@@ -1,5 +1,19 @@
-<x-layout module_name="Profiles">
-<title>Payreto | My Profile</title>
-ADMIN-SIDE <!-- make some conditionals for if the id is the same as the id of the admin (check if profile is other or if the profile is the admin's) -->
-<x-profile/>
+<x-layout module_name="My Profile">
+    <title>Payreto | My Profile</title>
+    <x-card class="p-10">
+        <x-profile>
+            
+@auth
+<ul list-style-type: none;>
+    <li>Full name: {{auth()->user()->name}}</li>
+    <li>Contact number: {{auth()->user()->contact_number}}</li>
+    <li>Department: {{auth()->user()->department}}</li>
+    <li>Email address: {{auth()->user()->email}}</li>
+    <li>Position: {{auth()->user()->position}}</li>
+    <li>Role: {{auth()->user()->role}}</li>
+</ul>
+@endauth
+             <a href="{{ url('/users/profile/create-edit-request') }}" class="btn btn-primary" id="startTimerButton">Create Edit Request</a>
+        </x-profile>
+    </x-card>
 </x-layout>

@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-
+use Faker\Factory;
 use App\Models\Timesheet;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -16,7 +16,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // \App\Models\User::factory(10)->create();
-
+        $faker = Factory::create();
+        $departments = ['Technology', 'People', 'Business Development'];
         User::factory()->create([
             'name' => 'Test Superadmin',
             'username' => 'testsuperadmin',
@@ -32,7 +33,8 @@ class DatabaseSeeder extends Seeder
             'bank' => 'GCASH',
             'bank_account_no' => '1244356',
             'hourly_rate_last_updated' => '2023/6/3',
-            'supervisor' => 'Juan de la Cruz'
+            'supervisor' => 'Juan de la Cruz',
+            'department' => $faker->randomElement($departments),
         ]);
 
         User::factory()->create([
@@ -50,7 +52,8 @@ class DatabaseSeeder extends Seeder
             'bank' => 'GCASH',
             'bank_account_no' => '1244356',
             'hourly_rate_last_updated' => '2023/6/3',
-            'supervisor' => 'Juan de la Cruz'
+            'supervisor' => 'Juan de la Cruz',
+            'department' => $faker->randomElement($departments),
         ]);
 
         User::factory()->create([
@@ -68,9 +71,10 @@ class DatabaseSeeder extends Seeder
             'bank' => 'GCASH',
             'bank_account_no' => '1244356',
             'hourly_rate_last_updated' => '2023/6/3',
-            'supervisor' => 'Juan de la Cruz'
+            'supervisor' => 'Juan de la Cruz',
+            'department' => $faker->randomElement($departments),
         ]);
-
+        User::factory(5)->create();
         Timesheet::factory(10)->create();
     }
 }
