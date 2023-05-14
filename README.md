@@ -29,14 +29,6 @@ In case you started your Git repository and project files separately on Github, 
 
 
 # Personal Notes
-### to build/watch tailwind html
-
-./tailwindcss -i ./resources/css/app.css -o ./public/css/app.css --watch
-
-
-
-### to add tailwind to html:
-  <link rel="stylesheet" href="/css/app.css" >
 
 ### Pushing to GitHub:  
 username: miguel.pajarillo@payreto.com
@@ -56,3 +48,8 @@ git status
 git commit -m "commit message"
 git push origin main/master (check the branches)
 
+### To use cloudflare
+download "cloudflared" for Windows
+do "php artisan serve"
+do "cloudflared tunnel --url http://localhost:port"
+    *note: change port to the same port you're using
