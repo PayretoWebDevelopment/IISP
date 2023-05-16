@@ -330,10 +330,11 @@ class UserController extends Controller
     //show employee list
     public function employee_list(Request $request)
     {
-        $employees = User::where('role', 'intern')->get();
-
+        $interns = User::where('role', 'intern')->get();
+        $admins = User::where('role', 'admin')->get();
+        $user_role = auth()->user()->role;
         if ($request->user()->isAdmin()) {
-            return view('admin.employee-list', compact('employees'));
+            return view('admin.employee-list', compact('interns', 'admins', 'user_role'));
         }
     }
 

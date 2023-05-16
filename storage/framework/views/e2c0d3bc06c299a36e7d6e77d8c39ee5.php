@@ -10,6 +10,7 @@
     <h1 class="text-2xl font-bold mb-4">Employee List</h1>
     <a href="/admin/create-new-employee"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block mb-4">Add Employee</a>
+    <h2 class="font-bold mb-4">Interns</h2>
     <table class="table-auto border-collapse w-full">
         <thead>
             <tr class="bg-gray-200">
@@ -24,29 +25,69 @@
         </thead>
         <tbody>
             <!-- Iterate over employees and populate table rows -->
-            <?php $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php $__currentLoopData = $interns; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $intern): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <tr>
-                    <td class="py-2 px-4 border"><?php echo e($employee->id); ?></td>
-                    <td class="py-2 px-4 border hover:bg-blue-700"><a href="/users/profile/<?php echo e($employee->id); ?>"><?php echo e($employee->name); ?></a></td>
-                    <td class="py-2 px-4 border"><?php echo e($employee->role); ?></td>
-                    <td class="py-2 px-4 border"><?php echo e($employee->hourly_rate); ?></td>
-                    <td class="py-2 px-4 border"><?php echo e($employee->required_hours); ?></td>
-                    <td class="py-2 px-4 border"><?php echo e($employee->department); ?></td>
+                    <td class="py-2 px-4 border"><?php echo e($intern->id); ?></td>
+                    <td class="py-2 px-4 border hover:bg-blue-700"><a
+                            href="/users/profile/<?php echo e($intern->id); ?>"><?php echo e($intern->name); ?></a></td>
+                    <td class="py-2 px-4 border"><?php echo e($intern->role); ?></td>
+                    <td class="py-2 px-4 border"><?php echo e($intern->hourly_rate); ?></td>
+                    <td class="py-2 px-4 border"><?php echo e($intern->required_hours); ?></td>
+                    <td class="py-2 px-4 border"><?php echo e($intern->department); ?></td>
                     <td class="py-2 px-4 border">
-                        <a href="/admin/employee-edit/<?php echo e($employee->id); ?>"
+                        <a href="/admin/employee-edit/<?php echo e($intern->id); ?>"
                             class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded inline-block">Edit</a>
-                        <a href="/admin/employee-delete/<?php echo e($employee->id); ?>"
+                        <a href="/admin/employee-delete/<?php echo e($intern->id); ?>"
                             class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
                             onclick="event.preventDefault();
                                     if(confirm('Are you sure you want to delete this employee?')) {
-                                        document.getElementById('delete-form-<?php echo e($employee->id); ?>').submit();
+                                        document.getElementById('delete-form-<?php echo e($intern->id); ?>').submit();
                                     }">Delete</a>
-                        <form id="delete-form-<?php echo e($employee->id); ?>"
-                            action="/admin/employee-delete/<?php echo e($employee->id); ?>" method="POST"
-                            style="display: none;">
+                        <form id="delete-form-<?php echo e($intern->id); ?>" action="/admin/employee-delete/<?php echo e($intern->id); ?>"
+                            method="POST" style="display: none;">
                             <?php echo csrf_field(); ?>
                             <?php echo method_field('DELETE'); ?>
                         </form>
+                    </td>
+                </tr>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </tbody>
+    </table>
+    <h2 class="font-bold mb-4">Admins</h2>
+    <table class="table-auto border-collapse w-full">
+        <thead>
+            <tr class="bg-gray-200">
+                <th class="py-2 px-4 border">ID</th>
+                <th class="py-2 px-4 border">Name</th>
+                <th class="py-2 px-4 border">Role</th>
+                <th class="py-2 px-4 border">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Iterate over employees and populate table rows -->
+            <?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <tr>
+                    <td class="py-2 px-4 border"><?php echo e($admin->id); ?></td>
+                    <td class="py-2 px-4 border hover:bg-blue-700"><a
+                            href="/users/profile/<?php echo e($admin->id); ?>"><?php echo e($admin->name); ?></a></td>
+                    <td class="py-2 px-4 border"><?php echo e($admin->role); ?></td>
+                    <td class="py-2 px-4 border">
+                        <a href="/admin/employee-edit/<?php echo e($admin->id); ?>"
+                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded inline-block">Edit</a>
+                        <?php if($user_role === 'superadmin'): ?>
+                            <a href="/admin/employee-delete/<?php echo e($admin->id); ?>"
+                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
+                                onclick="event.preventDefault();
+                                    if(confirm('Are you sure you want to delete this employee?')) {
+                                        document.getElementById('delete-form-<?php echo e($admin->id); ?>').submit();
+                                    }">Delete</a>
+                            <form id="delete-form-<?php echo e($admin->id); ?>"
+                                action="/admin/employee-delete/<?php echo e($admin->id); ?>" method="POST"
+                                style="display: none;">
+                                <?php echo csrf_field(); ?>
+                                <?php echo method_field('DELETE'); ?>
+                            </form>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

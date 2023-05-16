@@ -6,12 +6,12 @@
                 <div class="flex-1">
                     <label for="start_date" class="block text-gray-700 font-bold mb-2">From Date:</label>
                     <input type="date" class="form-input rounded-md shadow-sm w-full" id="start_date"
-                        name="start_date" value="{{ old('start_date') }}" required>
+                        name="start_date" value="{{ app('request')->input('start_date') ?? old('start_date') ?? date('Y-m-d') }}" required>
                 </div>
                 <div class="flex-1">
                     <label for="end_date" class="block text-gray-700 font-bold mb-2">To Date:</label>
                     <input type="date" class="form-input rounded-md shadow-sm w-full" id="end_date" name="end_date"
-                        value="{{ old('end_date') }}" required>
+                        value="{{ app('request')->input('end_date') ?? old('start_date') ?? date('Y-m-d') }}" required>
                 </div>
                 <div>
                     <button type="submit"
@@ -23,8 +23,8 @@
         <div class="flex mt-8">
             <form method="post" action="/intern/reports/export">
                 @csrf
-                <input type="hidden" name="start_date" value="{{ $start_date ?? date('Y-m-d') }}">
-                <input type="hidden" name="end_date" value="{{ $end_date ?? date('Y-m-d') }}">
+                <input type="hidden" name="start_date" value="{{ app('request')->input('start_date') ?? old('start_date') ?? date('Y-m-d') }}">
+                <input type="hidden" name="end_date" value="{{ app('request')->input('end_date') ?? old('start_date') ?? date('Y-m-d') }}">
                 <input type="hidden" name="export_csv" value="true">
                 <button type="submit" class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-green-500
                 hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4">Export to CSV</button>

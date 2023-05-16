@@ -97,6 +97,9 @@ Route::post('/admin/employee-edit-hourly-rate/{id}', [UserController::class, 'em
 #region Intern/Admin Reports Redirector and Routes
 Route::get('/reports', [ReportController::class, 'index']);
 
+//reports (other profile)
+Route::post('/reports/{id}', [ReportController::class, 'others_index']);
+
 Route::get('/intern/reports/filter', [ReportController::class, 'filter']);
 
 Route::post('/intern/reports/export', [ReportController::class, 'export']);
@@ -108,4 +111,7 @@ Route::post('/admin/reports/export_selection', [ReportController::class, 'export
 Route::get('/admin/reports', [ReportController::class, 'index']);
 
 Route::get('/admin/reports/filter', [ReportController::class, 'filter']);
+
+Route::get('/admin/reports/inspect/{id}', [ReportController::class, 'inspect']);
+
 #endregion

@@ -11,42 +11,41 @@
 <?php $component->withAttributes(['module_name' => 'Dashboard']); ?>
     <title>Payreto | User Dashboard</title>
     <?php if(auth()->guard()->check()): ?>
-    <li>
         <span class="font-bold uppercase">
             Welcome, <?php echo e(auth()->user()->name); ?>!
         </span>
-    </li>
     <?php endif; ?>
-    <div class="container">
-        <h1>Dashboard</h1>
-        <div style="width:40%;">
+    <h1>Dashboard</h1>
+    <div class="container flex justify-center">
+        <div class="text-center" style="width:40%;">
             <h3>Daily Intern Attendance Tracker</h3>
             <canvas id="attendanceTracker"></canvas>
         </div>
     </div>
+    
 
     
     <script>
         var ctx = document.getElementById('attendanceTracker').getContext('2d');
         var myPieChart = new Chart(ctx, {
-                    type: 'pie'
-                    , data: {
-            labels: ['Timed In', 'Not Timed In'],
-            datasets: [{
-                backgroundColor: ['#36a2eb', '#ff6384'],
-                data: [<?php echo e($timedInPercentage); ?>, <?php echo e($notTimedInPercentage); ?>]
-            }]
-        },
-        options: {
-            responsive: true,
-            legend: {
-                position: 'top',
+            type: 'pie',
+            data: {
+                labels: ['Timed In', 'Not Timed In'],
+                datasets: [{
+                    backgroundColor: ['#36a2eb', '#ff6384'],
+                    data: [<?php echo e($timedInPercentage); ?>, <?php echo e($notTimedInPercentage); ?>]
+                }]
             },
-            title: {
-                display: true,
-                text: 'Attendance Tracker'
+            options: {
+                responsive: true,
+                legend: {
+                    position: 'top',
+                },
+                title: {
+                    display: true,
+                    text: 'Attendance Tracker'
+                }
             }
-        }
         });
     </script>
  <?php echo $__env->renderComponent(); ?>

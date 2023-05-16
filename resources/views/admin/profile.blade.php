@@ -13,6 +13,7 @@
                     <li>Role: {{ auth()->user()->role }}</li>
                 </ul>
             @endauth
+            <br>
         </x-profile>
     </x-card>
 </x-layout>

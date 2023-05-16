@@ -29,14 +29,11 @@ In case you started your Git repository and project files separately on Github, 
 
 
 # Personal Notes
-<<<<<<< HEAD
 ### Cloudflare tunnel setup:
 download "cloudflared" for Windows 
-do "php artisan serve" 
+do "php artisan serve"   
 do "cloudflared tunnel --url http://localhost:port" 
 *note: change port to the same port you're using
-=======
->>>>>>> 5c6911c1835e9f49679a485ba58911828273259d
 
 ### Pushing to GitHub:  
 username: miguel.pajarillo@payreto.com

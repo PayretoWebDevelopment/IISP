@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use PDF;
+use PDF; //alias for dompdf (refer to config/app.php)
+use Excel; //alias for maatwebsite excel package
+use DateTime;
+use Exception;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
 use App\Exports\TimesheetsExport;
 use Illuminate\Support\Facades\DB;
-use Maatwebsite\Excel\Facades\Excel;
-use DateTime;
+use Illuminate\Support\Facades\Storage;
+use ZipArchive;
+
+//use Maatwebsite\Excel\Facades\Excel;
 
 class ReportController extends Controller
 {
@@ -27,10 +32,11 @@ class ReportController extends Controller
     public function index(Request $request)
     {
         if ($request->user()->isAdmin()) {
-            $users = User::all();
+            $users = User::where('role', '=', 'intern')->get();
             $timesheets = Timesheet::whereHas('user', function ($query) {
                 $query->where('role', '=', 'intern');
-            })->with('user')->get();
+            })->get();
+            // dd($users, $timesheets);
 
             // Group the timesheets by user
             $timesheetsByUser = $timesheets->groupBy('user_id');
@@ -40,21 +46,54 @@ class ReportController extends Controller
                 $totalHoursRendered = $timesheets->sum(function ($timesheet) {
                     return $this->getHours($timesheet);
                 });
+                $userReference = User::find($user);
 
                 // Add the sum of rendered hours to the table blade file
                 $timesheetsByUser[$user]['total_hours_rendered'] = $totalHoursRendered;
+                $timesheetsByUser[$user]['userReference'] = $userReference;
             }
+
+            // dd($timesheetsByUser);
 
             return view('admin.reports', compact('timesheetsByUser', 'timesheets', 'users'));
         } else {
             $user_id = auth()->user()->id;
-            $timesheets = Timesheet::where('user_id', $user_id)->get();
+            $timesheets = Timesheet::where('user_id', $user_id)
+                ->orderBy('start_time', 'desc')
+                ->orderBy('end_time', 'desc')
+                ->get();
 
             foreach ($timesheets as $index => $timesheet) {
                 $timesheets[$index]->rate = $this->computeRate($user_id, $timesheet);
             }
             return view('intern.reports',  compact('timesheets'));
         }
+    }
+
+    public function inspect($id, Request $request)
+    {
+        $user = User::find($id);
+        $start_date = $request->query('start_date');
+        $end_date = $request->query('end_date');
+        // dd($id, $user);
+        // dd($request->all());
+        $timesheets = Timesheet::whereHas('user', function ($query) {
+            $query->where('role', '=', 'intern');
+        })
+        ->where(function ($query) use ($start_date) {
+            if ($start_date) {
+                $query->whereDate('start_time', '>=', $start_date);
+            }
+        })
+        ->where(function ($query) use ($end_date) {
+            if ($end_date) {
+                $query->whereDate('start_time', '<=', $end_date);
+            }
+        })
+        ->where('user_id', '=', $id)
+        ->get();
+        // dd($timesheets);
+        return view('admin.inspect', compact('timesheets', 'start_date', 'end_date', 'user'));
     }
 
     //Filter by date
@@ -67,29 +106,39 @@ class ReportController extends Controller
 
             $end_date = $request->input('end_date');
 
+            // dd($request->all());
+
             $timesheets = Timesheet::whereHas('user', function ($query) {
                 $query->where('role', '=', 'intern');    
-            })->with('user')->when($start_date, function ($query, $start_date) {
-                return $query->whereDate('start_time', '>=', $start_date);
-            })->when($end_date, function ($query, $end_date) {
-                    return $query->whereDate('start_time', '<=', $end_date);
-                })->get();
+                })->with('user')->when($start_date, function ($query, $start_date) {
+                    return $query->whereDate('start_time', '>=', $start_date);
+                })->when($end_date, function ($query, $end_date) {
+                        return $query->whereDate('start_time', '<=', $end_date);
+                })
+                ->orderBy('start_time', 'desc')
+                ->orderBy('end_time', 'desc')
+                ->get();
 
             // Group the timesheets by user
             $timesheetsByUser = $timesheets->groupBy('user_id');
-
+            
             // For each timesheet, call the function to convert the string returned by getDurationAttribute() to hours
             foreach ($timesheetsByUser as $user => $timesheets) {
                 $totalHoursRendered = $timesheets->sum(function ($timesheet) {
                     return $this->getHours($timesheet);
+                    
                 });
+                $userReference = User::find($user);
 
                 // Add the sum of rendered hours to the table blade file
                 $timesheetsByUser[$user]['total_hours_rendered'] = $totalHoursRendered;
+                $timesheetsByUser[$user]['userReference'] = $userReference;
+            }
+                return view('admin.reports', compact('timesheetsByUser', 'timesheets', 'users'));
             }
 
-            return view('admin.reports', compact('timesheetsByUser', 'timesheets', 'users'));
-        } else {
+            
+        else {
             $user_id = auth()->user()->id;
             $start_date = $request->input('start_date');
             $end_date = $request->input('end_date');
@@ -97,9 +146,17 @@ class ReportController extends Controller
             $timesheets = Timesheet::where('user_id', $user_id)
                 ->when($start_date, function ($query, $start_date) {
                     return $query->whereDate('start_time', '>=', $start_date);
-                })->when($end_date, function ($query, $end_date) {
-                    return $query->whereDate('start_time', '<=', $end_date);
-                })->get();
+                })
+                ->when($end_date, function ($query, $end_date) {
+                    return $query->whereDate('end_time', '<=', $end_date);
+                })
+                ->orderBy('start_time', 'desc')
+                ->orderBy('end_time', 'desc')
+                ->get();
+
+            foreach ($timesheets as $index => $timesheet) {
+                $timesheets[$index]->rate = $this->computeRate($user_id, $timesheet);
+            }
             return view('intern.reports', compact('timesheets', 'start_date', 'end_date'));
         }
     }
@@ -107,8 +164,10 @@ class ReportController extends Controller
     public function export(Request $request, $id = null)
     {
         $user_id = (empty($id)) ? auth()->user()->id : $id;
-        $start_date = $request->input('start_date');
-        $end_date = $request->input('end_date');
+        
+        $start_date = $request->input('start_date') ?? $request->route('start_date');
+        $end_date = $request->input('end_date') ?? $request->route('end_date');
+        
         $timesheets = Timesheet::where('user_id', $user_id)
             ->when($start_date, function ($query, $start_date) {
                 return $query->whereDate('start_time', '>=', $start_date);
@@ -116,38 +175,61 @@ class ReportController extends Controller
             ->when($end_date, function ($query, $end_date) {
                 return $query->whereDate('start_time', '<=', $end_date);
             })
+            ->orderBy('start_time', 'desc')
+            ->orderBy('end_time', 'desc')
             ->get();
-
-        //dd([$user_id, $start_date, $end_date, $timesheets, $request->submit, $request->submit == "export_pdf"]);
 
         foreach ($timesheets as $index => $timesheet) {
             $timesheets[$index]->rate = $this->computeRate($user_id, $timesheet);
         }
 
-        if ($request->has('export_csv') or $request->submit == "export_csv") {
+        if ($request->has('export_csv') || $request->submit == "export_csv") {
             $filename = "{$start_date}_to_{$end_date}.csv";
-            return Excel::download(new TimesheetsExport($timesheets), $filename, \Maatwebsite\Excel\Excel::CSV);
-        } elseif ($request->has('export_xlsx') or $request->submit == "export_xlsx") {
+            return Excel::download(new TimesheetsExport($timesheets), $filename, Excel::CSV);
+        } elseif ($request->has('export_xlsx') || $request->submit == "export_xlsx") {
             $filename = "{$start_date}_to_{$end_date}.xlsx";
             return Excel::download(new TimesheetsExport($timesheets), $filename);
-        } elseif ($request->has('export_pdf') or $request->submit == "export_pdf") {
-            $filename = "{$start_date}_to_{$end_date}.pdf";
+        } elseif ($request->has('export_pdf') || $request->submit == "export_pdf") {
+            $filename = "user_id_{$user_id}_from_{$start_date}_to_{$end_date}.pdf";
             $pdf = PDF::loadView('intern.timesheets_pdf', compact('timesheets'));
-            return $pdf->download($filename);
+            return $pdf->download($filename); //returns a response to a pdf
         }
     }
 
 
     public function exportSelection(Request $request)
     {
-        //dd($request->timesheets);
+        //create zip file and add pdf's one-by-one
+        // $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}";
+        // $zip = new ZipArchive();
+        // $zip->open($zip_filename, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
-        foreach($request->timesheets as $key=>$user_id){
-            //dd($request->timesheets[0], $user_id);
-            $this->export($request, $user_id);
+        try {
+            $start_date = $request->input('start_date');
+            $end_date = $request->input('end_date');
+            $total_content = "";
+            if(isset($request->timesheets)){
+    
+                //$this->export($request, $request->timesheets[0]);
+                foreach($request->timesheets as $key=>$user_id){
+                    $filename = "user_id_{$user_id}_from_{$start_date}_to_{$end_date}.pdf";
+                    $content = $this->export($request, $user_id)->getOriginalContent();
+                    //$total_content = $total_content . $content;
+                    Storage::put('storage/pdfs/' . $filename, $content);
+                    $headers = array(
+                        'Content-Type: application/pdf',
+                    );
+                    return response()->download('storage/pdfs/'. $filename, $filename, $headers);
+                }
+    
+                return redirect()->back()->with('message', "PDF's saved successfully."); 
+            }else{
+                throw new Exception("No timesheets were selected", 1);
+            }
+
+        } catch (Exception $e) {
+            echo $e->getMessage();
         }
-
-        return redirect()->back()->with('message', "PDF's successfully exported.");  
     }
 
     public function computeRate(int $user_id, Timesheet $timesheet, int $decimal_places = 2)
