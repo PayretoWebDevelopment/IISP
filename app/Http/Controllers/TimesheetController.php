@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
+use PDF;
 
 class TimesheetController extends Controller
 {
@@ -36,7 +37,6 @@ class TimesheetController extends Controller
         $timesheet->save();
         return response()->json(['message' => 'Timesheet submitted successfully.']);
     }
-
 
     public function show(Timesheet $timesheet)
     {

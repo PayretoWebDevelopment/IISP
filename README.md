@@ -29,14 +29,11 @@ In case you started your Git repository and project files separately on Github, 
 
 
 # Personal Notes
-### to build/watch tailwind html
-
-./tailwindcss -i ./resources/css/app.css -o ./public/css/app.css --watch
-
-
-
-### to add tailwind to html:
-  <link rel="stylesheet" href="/css/app.css" >
+### Cloudflare tunnel setup:
+download "cloudflared" for Windows 
+do "php artisan serve" 
+do "cloudflared tunnel --url http://localhost:port" 
+*note: change port to the same port you're using
 
 ### Pushing to GitHub:  
 username: miguel.pajarillo@payreto.com

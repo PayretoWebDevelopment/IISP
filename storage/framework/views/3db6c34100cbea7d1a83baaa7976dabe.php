@@ -51,6 +51,7 @@
                     <li>Bank account no: <?php echo e(auth()->user()->bank_account_no); ?></li>
                 </ul>
             <?php endif; ?>
+            <br>
             <a href="<?php echo e(url('/users/profile/create-edit-request')); ?>"
                 class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200"
                 id="startTimerButton">Create Edit Request</a>

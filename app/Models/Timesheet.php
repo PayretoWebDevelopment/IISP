@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Timesheet extends Model
 {
@@ -27,17 +28,36 @@ class Timesheet extends Model
         'end_time' => 'datetime:Carbon',
     ];
 
-    public function getDurationAttribute(){
-        if(!$this->end_time){
+    public function getDurationAttribute()
+    {
+        if (!$this->end_time) {
             return '';
         }
 
         $start = $this->start_time;
         $end = $this->end_time;
         $duration = $end->diff($start);
-
+        
         return $duration->format('%h:%I:%S');
     }
 
+    public function getDurationValue()
+    {
+        if (!$this->end_time) {
+            return '';
+        }
+
+        $start = $this->start_time;
+        $end = $this->end_time;
+        $duration_seconds = $end->format('U') - $start->format('U');
+
+        return $duration_seconds / 3600.00;
+    }
+
     protected $table = 'timesheets';
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

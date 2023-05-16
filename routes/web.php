@@ -32,7 +32,7 @@ Route::get('/users/login', [UserController::class, 'login']);
 //Show Forgot Password Form
 Route::get('/users/forgot', [UserController::class, 'forgotPassword']);
 
-Route::post('/users/forgot/send_mail', [UserController::class, 'sendPasswordReset']);
+Route::post('/users/forgot/send_mail', [UserController::class, 'sendPasswordResetMails']);
 
 Route::get('/users/forgot/password_reset_mail', [UserController::class, 'showPasswordResetMail']);
 
@@ -62,10 +62,7 @@ Route::get('/', [UserController::class, 'dashboard']);
 
 #region My Profile
 Route::get('/users/profile', [UserController::class, 'profile']);
-#endregion
-
-#region Other Profile
-//to-do
+Route::get('/users/profile/{id}', [UserController::class, 'other_profile']);
 #endregion
 
 #region Intern Timesheets
@@ -74,15 +71,7 @@ Route::get('/intern/timesheets', [TimesheetController::class, 'index']);
 Route::post('/intern/timesheets/stop', [TimesheetController::class, 'stopTracking'])->name('timesheets.stop');
 #endregion
 
-#region Intern/Admin Reports Redirector and Routes
-Route::get('/reports/redirect', [ReportController::class, 'index']);
 
-Route::get('/admin/reports', [ReportController::class, 'index']);
-
-Route::get('/intern/reports', [ReportController::class, 'index']);
-
-Route::get('/intern/reports/filter', [ReportController::class, 'filter']);
-#endregion
 
 #region Intern Create Edit Request
 Route::get('users/profile/create-edit-request', [ApprovalController::class, 'create_edit_request']);
@@ -91,6 +80,32 @@ Route::post('users/profile/create-edit-request/send', [ApprovalController::class
 
 #region Approvals
 Route::get('/admin/approvals', [ApprovalController::class, 'index']);
+Route::post('/admin/approve-requests', [ApprovalController::class, 'approve_requests']);
 #endregion
 
-Route::get('/admin/employeelist', [UserController::class, 'employeelist']);
+#region Employee List
+//admin side
+Route::get('/admin/employee-list', [UserController::class, 'employee_list']);
+Route::get('/admin/employee-edit/{id}', [UserController::class, 'employee_edit']);
+Route::post('/admin/employee-update/{id}', [UserController::class, 'employee_update']);
+Route::delete('/admin/employee-delete/{id}', [UserController::class, 'employee_delete']);
+Route::post('/admin/employee-edit-hourly-rate/{id}', [UserController::class, 'employee_request_edit']);
+
+//superadmin side
+#endregion
+
+#region Intern/Admin Reports Redirector and Routes
+Route::get('/reports', [ReportController::class, 'index']);
+
+Route::get('/intern/reports/filter', [ReportController::class, 'filter']);
+
+Route::post('/intern/reports/export', [ReportController::class, 'export']);
+
+Route::post('/admin/reports/export/{id?}', [ReportController::class, 'export']);
+
+Route::post('/admin/reports/export_selection', [ReportController::class, 'exportSelection']);
+
+Route::get('/admin/reports', [ReportController::class, 'index']);
+
+Route::get('/admin/reports/filter', [ReportController::class, 'filter']);
+#endregion

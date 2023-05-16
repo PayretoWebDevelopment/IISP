@@ -16,7 +16,7 @@
         <p>No timesheets found for today.</p>
         @else
         <table>
-            @foreach($timesheets->sortByDesc('created_at')->groupBy(function($entry) {
+            @foreach($timesheets->sortByDesc('start_time')->groupBy(function($entry) {
                 return $entry->created_at->format('Y-m-d');
             }) as $date => $entries)
             <thead>
@@ -50,7 +50,7 @@
 
 
     <div style="width:40%;">
-        <h3>Attendance Tracker</h3>
+        <h3>Daily Intern Attendance Tracker</h3>
         <canvas id="attendanceTracker"></canvas>
     </div>
 

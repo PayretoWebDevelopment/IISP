@@ -27,6 +27,7 @@
                     <li>Bank account no: {{ auth()->user()->bank_account_no }}</li>
                 </ul>
             @endauth
+            <br>
             <a href="{{ url('/users/profile/create-edit-request') }}"
                 class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200"
                 id="startTimerButton">Create Edit Request</a>

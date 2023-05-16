@@ -61,8 +61,8 @@
                 <label class="ml-2 block text-sm text-gray-900" for="edit_start_date">
                     Start Date
                 </label>
-                <input type="date" name="start_date" id="start_date" class="form-input ml-4 hidden"
-                    value="<?php echo e($user->start_date); ?>">
+                    <input type="date" class="form-input ml-4 hidden" id="start_date" name="start_date"
+                        value="<?php echo e($user->start_date); ?>" required>
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_hourly_rate"
@@ -71,7 +71,7 @@
                     Hourly Rate
                 </label>
                 <input type="number" name="hourly_rate" id="hourly_rate" class="form-input ml-4 hidden"
-                    value="<?php echo e($user->hourly_rate); ?>">
+                    value="<?php echo e($user->hourly_rate); ?>" step="any">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
@@ -80,7 +80,7 @@
                     Required Hours
                 </label>
                 <input type="number" name="required_hours" id="required_hours" class="form-input ml-4 hidden"
-                    value="<?php echo e($user->required_hours); ?>">
+                    value="<?php echo e($user->required_hours); ?>" step="any">
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"

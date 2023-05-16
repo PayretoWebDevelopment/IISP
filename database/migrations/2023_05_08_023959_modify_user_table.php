@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('position');
             $table->date('start_date')->nullable();
             $table->boolean('active')->nullable();
-            $table->integer('hourly_rate')->nullable();
+            $table->float('hourly_rate')->nullable();
             $table->integer('required_hours')->nullable();
             $table->string('bank')->nullable();
             $table->date('hourly_rate_last_updated')->nullable();

@@ -84,8 +84,8 @@
 
     <div class="m-10 w-10/12">
         <h1 class="text-3xl font-bold">Recorded Entries</h1>
-        <?php $__currentLoopData = $timesheets->sortByDesc('created_at')->groupBy(function ($entry) {
-        return $entry->created_at->format('Y-m-d');
+        <?php $__currentLoopData = $timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
+        return $entry->start_time->format('Y-m-d');
     }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <h2 class="text-2xl font-bold mt-6"><b><?php echo e($date); ?></b></h2>
             <div class="overflow-x-auto">
@@ -104,7 +104,7 @@
                     <tbody>
                         <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->created_at->format('Y-m-d')); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('Y-m-d')); ?></td>
                                 <td class="border px-4 py-2"><?php echo e($timesheet->task_name); ?></td>
                                 <td class="border px-4 py-2"><?php echo e($timesheet->project_type); ?></td>
                                 <td class="border px-4 py-2"><?php echo e($timesheet->task_type); ?></td>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Approval;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 //possibly useful link for editing the user models using this model's form:
@@ -11,8 +12,41 @@ use Illuminate\Http\Request;
 class ApprovalController extends Controller
 {
     public function index(Request $request)
+    {   
+    $approvals = Approval::where('approve', '=', null)->get();
+    $approvedRequests = Approval::where('approve', '=', true)->get();
+    $unapprovedRequests = Approval::where('approve', '=', false)->get();
+
+    $user_id = auth()->user()->id;
+    $user = User::find($user_id);
+
+
+    if(auth()->user()->role != 'superadmin') {
+        $approvals = $approvals->where('field_to_edit', '<>', 'hourly_rate');
+    }
+
+    return view('admin.approvals', compact('approvals', 'approvedRequests', 'unapprovedRequests', 'user'));
+    }
+
+    public function approve_requests(Request $request)
     {
-        return view('admin.approvals');
+        $approvals = Approval::find(array_keys($request->input('approval', [])));
+        foreach ($approvals as $approval) {
+            $approval->approve = filter_var($request->input('approval.' . $approval->id), FILTER_VALIDATE_BOOLEAN);
+            $approval->save();
+
+            if ($approval->approve) {
+                // Retrieve user profile based on approval request
+                $user = User::find($approval->profile_id);
+    
+                // Update modified field value in user profile
+                $user->{$approval->field_to_edit} = $approval->modified_value;
+                $user->save();
+            }
+        }
+
+
+        return redirect('/admin/approvals');
     }
 
     public function show()
@@ -45,6 +79,7 @@ class ApprovalController extends Controller
     //create edit request (interns)
     public function create_edit_request_send(Request $request)
     {
+
         // retrieve form data
         $formData = $request->only([
             'name',
@@ -63,7 +98,8 @@ class ApprovalController extends Controller
     
         $modifiedFields = explode(',', str_replace(['[', ']', '"'], '', $request->input('modified_fields')));
 
-        
+        // dd($request->input('modified_fields'));
+
         foreach ($modifiedFields as $modifiedField) {
             if (array_key_exists($modifiedField, $formData)) {
                 $formData[$modifiedField] = $request->input($modifiedField);
@@ -77,7 +113,10 @@ class ApprovalController extends Controller
                 $approvalRequest->requestor_id = $request->user()->id;
                 $approvalRequest->profile_id = $request->user()->id;
                 $approvalRequest->field_to_edit = $modifiedField;
-                $approvalRequest->original_value = $request->input($modifiedField);
+
+                $user = User::find($approvalRequest->profile_id);
+                $approvalRequest->original_value = $user->{$modifiedField}; //$request->input($modifiedField)
+
                 $approvalRequest->modified_value = $formData[$modifiedField];
                 $approvalRequest->reason = $request->input('reason');
                 $approvalRequest->save();

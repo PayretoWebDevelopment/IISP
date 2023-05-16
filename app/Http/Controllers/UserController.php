@@ -2,23 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Approval;
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Hash;
-use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
+use Illuminate\Validation\Rule;
 use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\PHPMailer;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
     // Show Create Form (admin)
     public function create()
     {
-        return view('admin.create_new_employee');
+        return view('admin.create-new-employee');
     }
 
     //Create a user
@@ -55,10 +56,7 @@ class UserController extends Controller
         //create user
         $user = User::create($formFields);
 
-        //login
-        // auth()->login($user);
-
-        return redirect('/admin/employeelist')->with('message', 'Employee successfully created');
+        return redirect('/admin/employee-list')->with('message', 'Employee successfully created');
     }
 
     //Logout User
@@ -106,12 +104,51 @@ class UserController extends Controller
         return view('users.forgot_password');
     }
 
-    public function sendPasswordReset(Request $request)
+    public function sendResetMail($to_mail, $to_name, $is_copy = false, $from = 'dtinternjvivas.payreto@gmail.com', $password = 'rmsztaufafmsmxoh')
     {
-        
         date_default_timezone_set('Asia/Manila');
         $date = date('m/d/Y h:i:s a', time());
         
+        //Initialize PHPMailer
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+
+        //set details
+        $mail->Host = 'smtp.gmail.com';  //gmail SMTP server
+        $mail->Username = $from;   //email
+        $mail->Password = $password;   //16 character obtained from app password created
+        $mail->Port = 465;                    //SMTP port
+        $mail->SMTPSecure = "ssl";
+
+        //sender information
+        $mail->setFrom($from, 'Payreto Intern Information System and Payroll Application');
+
+        //receiver address and name
+        $resolved_addr = ($is_copy) ? $from : $to_mail;
+        $mail->addAddress($resolved_addr, '');
+
+        $mail->isHTML(true);
+
+        $mail->Subject = 'Payreto IISP Password Reset';
+        $mail->Body    = view('users.forgot_password_email', compact('to_mail', 'to_name', 'date', 'is_copy'))->render();
+
+        //dd($mail); //DEBUGGING LINE.
+
+        // Send mail
+        if (!$mail->send()) {
+            echo 'Email not sent an error was encountered: ' . $mail->ErrorInfo;
+            return $mail->ErrorInfo;
+        } else {
+            return "true";
+        }
+        
+        $mail->smtpClose();
+    }
+
+    public function sendPasswordResetMails(Request $request)
+    {
+
         $formFields = $request->validate([
             'email' => ['required', 'email'],
             'name' => ['required'],
@@ -120,40 +157,17 @@ class UserController extends Controller
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        //Initialize PHPMailer
-        $mail = new PHPMailer(true);
-        $mail->isSMTP();
-        $mail->SMTPAuth = true;
-
-        //set details
-        $mail->Host = 'smtp.gmail.com';  //gmail SMTP server
-        $mail->Username = 'dtinternjvivas.payreto@gmail.com';   //email
-        $mail->Password = 'rmsztaufafmsmxoh';   //16 character obtained from app password created
-        $mail->Port = 465;                    //SMTP port
-        $mail->SMTPSecure = "ssl";
-
-        //sender information
-        $mail->setFrom('dtinternjvivas.payreto@gmail.com', 'Johann Vivas');
-
-        //receiver address and name
-        $mail->addAddress($email, 'Recipient');
-
-        $mail->isHTML(true);
-
-        $mail->Subject = 'PHPMailer SMTP test';
-        $mail->Body    = view('users.forgot_password_email', compact('name', 'email', 'date'))->render();
-        
-        //dd($mail); //DEBUGGING LINE.
+        $feedback = $this->sendResetMail(to_mail : $email, to_name : $name, is_copy : false);
+        $feedback = $this->sendResetMail(to_mail : $email, to_name : $name, is_copy : true);
 
         // Send mail
-        if (!$mail->send()) {
-            echo 'Email not sent an error was encountered: ' . $mail->ErrorInfo;
+        if ($feedback != "true") {
+            echo 'Email not sent an error was encountered: ' . $feedback;
         } else {
-            echo 'Message has been sent.';
             return redirect("/")->with('message', "Email sent successfully.");
         }
+        
 
-        $mail->smtpClose();
     }
 
     public function showPasswordResetMail(Request $request)
@@ -210,6 +224,18 @@ class UserController extends Controller
         return redirect('/users/login');
     }
 
+    //show profile
+    public function other_profile(Request $request, int $id)
+    {
+        if ($request->user()->isAdmin()) {
+            $other_user = User::find($id);
+            //$view = $other_user->isAdmin()? 'admin.otherprofile';
+            return view('admin.otherprofile', ['user' => $other_user]);
+        } else {
+            return redirect('/users/login');
+        }
+        return redirect('/users/login');
+    }
 
     //show dashboard
     public function dashboard(Request $request)
@@ -218,11 +244,19 @@ class UserController extends Controller
         if ($user) {
             $user_id = auth()->user()->id;
             if ($request->user()->isAdmin()) {
-                return view('admin.dashboard', ['user' => $request->user()]);
+                
+                $attendance = $this->attendancetracker($request);
+                return view('admin.dashboard', [
+                    'user' => $request->user(), 'timedInPercentage' => $attendance['timedInPercentage'],
+                    'notTimedInPercentage' => $attendance['notTimedInPercentage']
+                ]);
             } else {
-                $timesheets = Timesheet::where('user_id', auth()->id())
-                    ->whereDate('created_at', now()->toDateString())
+                $timesheets = Timesheet::whereBetween('start_time', [now()->startOfDay(), now()->endOfDay()])
+                    ->where('user_id', auth()->id())
                     ->get();
+
+                // dd($timesheets);
+
                 $attendance = $this->attendancetracker($request);
                 return view('intern.dashboard', [
                     'user' => $request->user(), 'timesheets' => $timesheets, 'timedInPercentage' => $attendance['timedInPercentage'],
@@ -294,12 +328,71 @@ class UserController extends Controller
 
 
     //show employee list
-    public function employeelist(Request $request)
+    public function employee_list(Request $request)
     {
         $employees = User::where('role', 'intern')->get();
 
         if ($request->user()->isAdmin()) {
-            return view('admin.employeelist', compact('employees'));
+            return view('admin.employee-list', compact('employees'));
         }
+    }
+
+    //show edit employee form
+    public function employee_edit($id)
+    {
+        $employee = User::findOrFail($id);
+
+        return view('admin.employee-edit', compact('employee'));
+    }
+
+    //request edit hourly rate
+    public function employee_request_edit($id, Request $request)
+    {
+        $employee = User::findOrFail($id);
+        $employees = User::where('role', 'intern')->get();
+
+    $approvalRequest = new Approval();
+                $approvalRequest->requestor_id = $request->user()->id;
+                $approvalRequest->profile_id = $employee->id;
+                $approvalRequest->field_to_edit = 'hourly_rate';
+                $approvalRequest->original_value = $employee->hourly_rate; 
+                $approvalRequest->modified_value = $request->input('hourly_rate');
+                $approvalRequest->reason = $request->input('reason');
+                // dd($approvalRequest);
+                $approvalRequest->save();
+
+    return view('admin.employee-list', compact('employees'));
+    }
+
+    //Edit Employee
+    public function employee_update(Request $request, $id)
+    {
+        $employee = User::findOrFail($id);
+
+        // Validate the form data
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'role' => 'required|max:255',
+            'hourly_rate' => 'required|numeric',
+            'required_hours' => 'required|numeric',
+            'department' => 'required|max:255',
+        ]);
+
+        // Update the employee record with the new data
+        $employee->update($validatedData);
+
+        // Redirect back to the employee list
+        return redirect('/admin/employee-list')->with('success', 'Employee updated successfully!');
+    }
+
+    // Delete emplotee
+    public function employee_delete($id)
+    {
+        // Find the employee by ID and delete it
+        $employee = User::findOrFail($id);
+        $employee->delete();
+
+        // Redirect back to the employee list page with a success message
+        return redirect('/admin/employee-list')->with('success', 'Employee deleted successfully');
     }
 }

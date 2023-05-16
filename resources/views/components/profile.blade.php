@@ -2,9 +2,14 @@
     @csrf
     <div class="flex flex-col items-center">
         <label for="profile_picture" class="cursor-pointer">
-            <img id="profile_picture_preview" class="w-32 rounded-full object-cover"
-                src="{{ auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png') }}"
-                alt="Profile Picture">
+            <div class="relative">
+                <img id="profile_picture_preview" class="w-32 rounded-full object-cover"
+                    src="{{ auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png') }}"
+                    alt="Profile Picture">
+                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100">
+                    <span class="text-white text-lg font-bold">Upload Profile Picture</span>
+                </div>
+            </div>
         </label>
         <input type="file" name="profile_picture" id="profile_picture" hidden>
         <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">

@@ -20,4 +20,13 @@ class Approval extends Model
 
     protected $table = 'approvals';
 
+    public function requestor()
+    {
+        return $this->belongsTo(User::class, 'requestor_id');
+    }
+
+    public function profile()
+    {
+        return $this->belongsTo(User::class, 'profile_id');
+    }
 }

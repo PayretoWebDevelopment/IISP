@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('original_value');
             $table->string('modified_value');
             $table->string('reason');
+            $table->boolean('approve')->nullable();
             $table->timestamps();
         });
     }
