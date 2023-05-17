@@ -50,7 +50,6 @@ class Timesheet extends Model
         $start = $this->start_time;
         $end = $this->end_time;
         $duration_seconds = $end->format('U') - $start->format('U');
-
         return $duration_seconds / 3600.00;
     }
 

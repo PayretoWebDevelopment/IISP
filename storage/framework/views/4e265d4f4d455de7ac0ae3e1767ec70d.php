@@ -26,17 +26,18 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-            
-<?php if(auth()->guard()->check()): ?>
-<ul list-style-type: none;>
-    <li>Full name: <?php echo e(auth()->user()->name); ?></li>
-    <li>Contact number: <?php echo e(auth()->user()->contact_number); ?></li>
-    <li>Email address: <?php echo e(auth()->user()->email); ?></li>
-    <li>Position: <?php echo e(auth()->user()->position); ?></li>
-    <li>Role: <?php echo e(auth()->user()->role); ?></li>
-</ul>
-<?php endif; ?>
-             <a href="<?php echo e(url('/users/profile/create-edit-request')); ?>" class="btn btn-primary" id="startTimerButton">Create Edit Request</a>
+
+            <?php if(auth()->guard()->check()): ?>
+                <ul list-style-type: none;>
+                    <li>Full name: <?php echo e(auth()->user()->name); ?></li>
+                    <li>Contact number: <?php echo e(auth()->user()->contact_number); ?></li>
+                    <li>Department: <?php echo e(auth()->user()->department); ?></li>
+                    <li>Email address: <?php echo e(auth()->user()->email); ?></li>
+                    <li>Position: <?php echo e(auth()->user()->position); ?></li>
+                    <li>Role: <?php echo e(auth()->user()->role); ?></li>
+                </ul>
+            <?php endif; ?>
+            <br>
          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

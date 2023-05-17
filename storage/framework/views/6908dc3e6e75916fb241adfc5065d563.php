@@ -26,30 +26,35 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-            
-<?php if(auth()->guard()->check()): ?>
-<ul list-style-type: none;>
-    <li>Full name: <?php echo e(auth()->user()->name); ?></li>
-    <li>Contact number: <?php echo e(auth()->user()->contact_number); ?></li>
-    <li>Department: <?php echo e(auth()->user()->department); ?></li>
-    <li>Email address: <?php echo e(auth()->user()->email); ?></li>
-    <li>Position: <?php echo e(auth()->user()->position); ?></li>
-    <li>Role: <?php echo e(auth()->user()->role); ?></li>
-    <li>Start date: <?php echo e(auth()->user()->start_date); ?></li>
-    <li>Active: <?php if(auth()->user()->active == true): ?>
-        Yes
-        <?php else: ?>
-        No
-        <?php endif; ?></li>
-    <li>Hourly rate: <?php echo e(auth()->user()->hourly_rate); ?></li>
-    <li>Required hours: <?php echo e(auth()->user()->required_hours); ?></li>
-    <li>Payment method: <?php echo e(auth()->user()->payment_method); ?></li>
-    <li>Hourly rate last updated:: <?php echo e(auth()->user()->hourly_rate_last_updated); ?></li>
-    <li>Supervisor: <?php echo e(auth()->user()->supervisor); ?></li>
-    <li>Bank account no: <?php echo e(auth()->user()->bank_account_no); ?></li>
-</ul>
-<?php endif; ?>
-             <a href="<?php echo e(url('/users/profile/create-edit-request')); ?>" class="btn btn-primary" id="startTimerButton">Create Edit Request</a>
+            <?php if(auth()->guard()->check()): ?>
+                <ul class="list-none">
+                    <li>Full name: <?php echo e(auth()->user()->name); ?></li>
+                    <li>Contact number: <?php echo e(auth()->user()->contact_number); ?></li>
+                    <li>Department: <?php echo e(auth()->user()->department); ?></li>
+                    <li>Email address: <?php echo e(auth()->user()->email); ?></li>
+                    <li>Position: <?php echo e(auth()->user()->position); ?></li>
+                    <li>Role: <?php echo e(auth()->user()->role); ?></li>
+                    <li>Start date: <?php echo e(auth()->user()->start_date); ?></li>
+                    <li>Active: <span class="<?php if(auth()->user()->active == true): ?> text-green-500 <?php else: ?> text-red-500 <?php endif; ?>">
+                            <?php if(auth()->user()->active == true): ?>
+                                Yes
+                            <?php else: ?>
+                                No
+                            <?php endif; ?>
+                        </span>
+                    </li>
+                    <li>Hourly rate: <?php echo e(auth()->user()->hourly_rate); ?></li>
+                    <li>Required hours: <?php echo e(auth()->user()->required_hours); ?></li>
+                    <li>Bank: <?php echo e(auth()->user()->bank); ?></li>
+                    <li>Hourly rate last updated: <?php echo e(auth()->user()->hourly_rate_last_updated); ?></li>
+                    <li>Supervisor: <?php echo e(auth()->user()->supervisor); ?></li>
+                    <li>Bank account no: <?php echo e(auth()->user()->bank_account_no); ?></li>
+                </ul>
+            <?php endif; ?>
+            <br>
+            <a href="<?php echo e(url('/users/profile/create-edit-request')); ?>"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200"
+                id="startTimerButton">Create Edit Request</a>
          <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

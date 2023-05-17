@@ -38,7 +38,7 @@
                 <div class="flex-1">
                     <div class="text-center">
                         <div class="flex justify-center mx-auto">
-                            <img class="w-auto h-7 sm:h-8" src="" alt="">
+                            <img class="w-auto h-7 sm:h-8" src="<?php echo e(asset('images/logo.png')); ?>" alt="PayretoLogo">
                         </div>
 
                         <p class="mt-3 text-gray-500 dark:text-gray-300">Sign in to access your account</p>

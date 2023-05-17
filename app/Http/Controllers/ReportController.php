@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use PDF; //alias for dompdf (refer to config/app.php)
-use Excel; //alias for maatwebsite excel package
 use DateTime;
 use Exception;
+use ZipArchive;
+use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Report;
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
 use App\Exports\TimesheetsExport;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
-use ZipArchive;
+use Excel; //alias for maatwebsite excel package
+use PDF; //alias for dompdf (refer to config/app.php)
 
 //use Maatwebsite\Excel\Facades\Excel;
 
@@ -94,6 +95,10 @@ class ReportController extends Controller
         })
         ->where('user_id', '=', $id)
         ->get();
+
+        foreach ($timesheets as $index => $timesheet) {
+            $timesheets[$index]->rate = $this->computeRate($id, $timesheet);
+        }
         // dd($timesheets);
         return view('admin.inspect', compact('timesheets', 'start_date', 'end_date', 'user'));
     }
@@ -167,7 +172,8 @@ class ReportController extends Controller
     public function export(Request $request, $id = null)
     {
         $user_id = (empty($id)) ? auth()->user()->id : $id;
-        
+        $user_name = auth()->user()->name;
+        $hourly_rate = auth()->user()->hourly_rate;
         $start_date = $request->input('start_date') ?? $request->route('start_date');
         $end_date = $request->input('end_date') ?? $request->route('end_date');
         
@@ -184,17 +190,24 @@ class ReportController extends Controller
 
         foreach ($timesheets as $index => $timesheet) {
             $timesheets[$index]->rate = $this->computeRate($user_id, $timesheet);
+            $timesheets[$index]->hourly_rate = $hourly_rate;
         }
 
+        $totalAllowance = 0;
+
+        foreach ($timesheets as $timesheet) {
+            $totalAllowance += $timesheet->rate;
+        }
+        
         if ($request->has('export_csv') || $request->submit == "export_csv") {
-            $filename = "{$start_date}_to_{$end_date}.csv";
-            return Excel::download(new TimesheetsExport($timesheets), $filename, Excel::CSV);
+            $filename = "{$user_name}_from_{$start_date}_to_{$end_date}.csv";
+            return Excel::download(new TimesheetsExport($timesheets), $filename);
         } elseif ($request->has('export_xlsx') || $request->submit == "export_xlsx") {
-            $filename = "{$start_date}_to_{$end_date}.xlsx";
+            $filename = "{$user_name}_from_{$start_date}_to_{$end_date}.xlsx";
             return Excel::download(new TimesheetsExport($timesheets), $filename);
         } elseif ($request->has('export_pdf') || $request->submit == "export_pdf") {
-            $filename = "user_id_{$user_id}_from_{$start_date}_to_{$end_date}.pdf";
-            $pdf = PDF::loadView('intern.timesheets_pdf', compact('timesheets'));
+            $filename = "{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
+            $pdf = PDF::loadView('intern.timesheets_pdf', compact('timesheets', 'totalAllowance'));
             return $pdf->download($filename); //returns a response to a pdf
         }
     }
@@ -251,6 +264,13 @@ class ReportController extends Controller
 
     public function computeRate(int $user_id, Timesheet $timesheet, int $decimal_places = 2)
     {
-        return number_format(User::find($user_id)->hourly_rate * $timesheet->getDurationValue(), $decimal_places);
+        $hours = (int)explode(":", $timesheet->getDurationAttribute())[0];
+        $minutes = (int)explode(":", $timesheet->getDurationAttribute())[1];
+        $seconds = (int)explode(":", $timesheet->getDurationAttribute())[2];
+    
+        $total_hours = $hours + ($minutes / 60) + ($seconds / 3600);
+        // dd($total_hours);
+        // return number_format(User::find($user_id)->hourly_rate * $timesheet->getDurationValue(), $decimal_places);
+        return number_format(User::find($user_id)->hourly_rate * $total_hours, $decimal_places);
     }
 }

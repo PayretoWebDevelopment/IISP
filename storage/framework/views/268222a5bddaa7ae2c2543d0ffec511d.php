@@ -1,4 +1,3 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.1.0/js/bootstrap.min.js"></script>
 <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -14,7 +13,8 @@
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Timesheets']); ?>
     <!-- Modal for starting time tracking -->
-    <div class="modal fade bg-gray-200 p-5" id="startTimerModal" tabindex="-1" aria-labelledby="startTimerModalLabel" aria-hidden="true">
+    <div class="modal fade bg-gray-200 p-5" id="startTimerModal" tabindex="-1" aria-labelledby="startTimerModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -25,13 +25,15 @@
                     <form id="startTimerForm" method="POST" action="/intern/timesheets/start">
                         <?php echo csrf_field(); ?>
                         <div class="mb-3">
-                            <label for="task_name" class="form-label">Task name</label>
-                            <input name="task_name" id="task_name">
+                            <label for="task_name" class="block text-gray-700 font-bold mb-2">Task name</label>
+                            <input name="task_name" id="task_name"
+                                class="border border-gray-400 rounded w-full py-2 px-3" />
                         </div>
 
                         <div class="mb-3">
-                            <label for="task_type" class="form-label">Task Type</label>
-                            <select class="form-select" id="task_type" name="task_type" required>
+                            <label for="task_type" class="block text-gray-700 font-bold mb-2">Task Type</label>
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3" id="task_type"
+                                name="task_type" required>
                                 <option value="">Select Task Type</option>
                                 <option value="TASK">Task</option>
                                 <option value="BREAK">Break</option>
@@ -44,8 +46,9 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="project_type" class="form-label">Project Type</label>
-                            <select class="form-select" id="project_type" name="project_type" required>
+                            <label for="project_type" class="block text-gray-700 font-bold mb-2">Project Type</label>
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3"
+                                id="project_type" name="project_type" required>
                                 <option value="">Select Project Type</option>
                                 <option value="Deep Dive Session">Deep Dive Session</option>
                                 <option value="Meeting">Meeting</option>
@@ -53,63 +56,69 @@
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label for="start_time" class="form-label">Start Time</label>
-                            <input type="text" class="form-control" id="start_time" name="start_time" readonly required>
+                            <label for="start_time" class="block text-gray-700 font-bold mb-2">Start Time</label>
+                            <input type="text" class="form-control border border-gray-400 rounded w-full py-2 px-3"
+                                id="start_time" name="start_time" readonly required>
                         </div>
                         <div class="mb-3">
-                            <label for="end_time" class="form-label">End Time</label>
-                            <input type="text" class="form-control" id="end_time" name="end_time" readonly required>
+                            <label for="end_time" class="block text-gray-700 font-bold mb-2">End Time</label>
+                            <input type="text" class="form-control border border-gray-400 rounded w-full py-2 px-3"
+                                id="end_time" name="end_time" readonly required>
                         </div>
                         <div class="mb-3">
-                            <label for="duration" class="form-label">Duration</label>
-                            <input type="text" class="form-control" id="duration" name="duration" readonly>
+                            <label for="duration" class="block text-gray-700 font-bold mb-2">Duration</label>
+                            <input type="text" class="form-control border border-gray-400 rounded w-full py-2 px-3"
+                                id="duration" name="duration" readonly required>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="startTimerButton">Start Timer</button>
-                    <button type="button" class="btn btn-secondary" id="endTimerButton" style="display: none;">End Timer</button>
+                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        id="startTimerButton">Start Timer</button>
+                    <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                        id="endTimerButton" style="display: none;">End Timer</button>
                 </div>
             </div>
         </div>
     </div>
 
-
     <div class="m-10 w-10/12">
-        <h1>Recorded Entries</h1>
-        <?php $__currentLoopData = $timesheets->groupBy(function($entry){
-        return $entry->created_at->format('Y-m-d');
-        })->sortByDesc(function ($entries, $date) {
-        return $date;
-        }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-
-        <h2><b><?php echo e($date); ?></b></h2>
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Task Name</th>
-                <th>Project Type</th>
-                <th>Task Type</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Duration</th>
-            </tr>
-            </thead>
-            <tbody>
-                <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <tr>
-                    <td><?php echo e($timesheet->created_at->format('Y-m-d')); ?></td>
-                    <td><?php echo e($timesheet->task_name); ?></td>
-                    <td><?php echo e($timesheet->project_type); ?></td>
-                    <td><?php echo e($timesheet->task_type); ?></td>
-                    <td><?php echo e($timesheet->start_time->format('H:i:s')); ?></td>
-                    <td><?php echo e($timesheet->end_time ? $timesheet->end_time->format('H:i:s') : ''); ?></td>
-                    <td><?php echo e($timesheet->getDurationAttribute()); ?></td>
-                </tr>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </tbody>
-        </table>
+        <h1 class="text-3xl font-bold">Recorded Entries</h1>
+        <?php $__currentLoopData = $timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
+        return $entry->start_time->format('Y-m-d');
+    }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <h2 class="text-2xl font-bold mt-6"><b><?php echo e($date); ?></b></h2>
+            <div class="overflow-x-auto">
+                <table class="table-auto border-collapse w-full">
+                    <thead>
+                        <tr>
+                            <th class="border px-4 py-2">Date</th>
+                            <th class="border px-4 py-2">Task Name</th>
+                            <th class="border px-4 py-2">Project Type</th>
+                            <th class="border px-4 py-2">Task Type</th>
+                            <th class="border px-4 py-2">Start Time</th>
+                            <th class="border px-4 py-2">End Time</th>
+                            <th class="border px-4 py-2">Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <tr>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('Y-m-d')); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->task_name); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->project_type); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->task_type); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('H:i:s')); ?></td>
+                                <td class="border px-4 py-2">
+                                    <?php echo e($timesheet->end_time ? $timesheet->end_time->format('H:i:s') : ''); ?></td>
+                                <td class="border px-4 py-2"><?php echo e($timesheet->getDurationAttribute()); ?></td>
+                            </tr>
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                    </tbody>
+                </table>
+            </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
     </div>
 
 
@@ -208,26 +217,25 @@
             //NOT YET WORKING
             // Send an AJAX request to submit the form data
             $.ajax({
-                url: '/intern/timesheets/stop'
-                , processData: false
-                , contentType: false
-                , cache: false
-                , method: 'POST'
-                , data: formData
-                , headers: {
+                url: '/intern/timesheets/stop',
+                processData: false,
+                contentType: false,
+                cache: false,
+                method: 'POST',
+                data: formData,
+                headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-                , success: function(response) {
+                },
+                success: function(response) {
                     alert('Data submitted successfully!');
                     window.location.href = '/intern/timesheets/';
-                }
-                , error: function(xhr, status, error) {
+                },
+                error: function(xhr, status, error) {
                     alert('Error submitting data. Please try again.');
                     console.log(xhr.responseText); // Log the error for debugging
                 }
             });
         });
-
     </script>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

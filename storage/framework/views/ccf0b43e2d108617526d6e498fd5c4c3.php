@@ -1,21 +1,34 @@
 <form action="/users/profile/upload-profile-picture" method="POST" enctype="multipart/form-data">
     <?php echo csrf_field(); ?>
-    <div class="profile-picture-container">
-        <label for="profile_picture">
-            <img id="profile_picture_preview" style="width: 100px;" src="<?php echo e(auth()->user()->profile_picture ? asset('storage/profile_pictures/'.auth()->user()->profile_picture) : asset('images/default-profile-picture.png')); ?>" alt="Profile Picture">
+    <div class="flex flex-col items-center">
+        <label for="profile_picture" class="cursor-pointer">
+            <div class="relative">
+                <img id="profile_picture_preview" class="w-32 rounded-full object-cover"
+                    src="<?php echo e(auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png')); ?>"
+                    alt="Profile Picture">
+                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100">
+                    <span class="text-white text-lg font-bold">Upload Profile Picture</span>
+                </div>
+            </div>
         </label>
         <input type="file" name="profile_picture" id="profile_picture" hidden>
+        <input type="hidden" name="user_id" value="<?php echo e(isset($user) ? $user->id : ''); ?>">
+        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
+            Save Profile Picture
+        </button>
     </div>
-    <input type="hidden" name="user_id" value="<?php echo e(isset($user) ? $user->id : ''); ?>">
-    <button type="submit" class="btn btn-primary">Save Profile Picture</button>
-</form>
 
-<main>
+
+</form>
+<main class="mt-8">
     <?php echo e($slot); ?>
 
     
-    <a href="<?php echo e(url('/users/change-password')); ?>" class="btn btn-primary" id="startTimerButton">Change password</a>
+    <a href="<?php echo e(url('/users/change-password')); ?>"
+        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200">Change
+        password</a>
 </main>
+
 
 
 <script>

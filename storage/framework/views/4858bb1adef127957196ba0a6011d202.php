@@ -24,6 +24,9 @@
         <p>No timesheets found for today.</p>
         <?php else: ?>
         <table>
+            <?php $__currentLoopData = $timesheets->sortByDesc('start_time')->groupBy(function($entry) {
+                return $entry->created_at->format('Y-m-d');
+            }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <thead>
                 <tr>
                     <th>Date</th>
@@ -36,7 +39,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php $__currentLoopData = $timesheets; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><tr>
+                <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?><tr>
 
                     <td><?php echo e($timesheet->created_at); ?></td>
                     <td><?php echo e($timesheet->task_name); ?></td>
@@ -49,12 +52,13 @@
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
         </table>
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php endif; ?>
     </div>
 
 
     <div style="width:40%;">
-        <h3>Attendance Tracker</h3>
+        <h3>Daily Intern Attendance Tracker</h3>
         <canvas id="attendanceTracker"></canvas>
     </div>
 
