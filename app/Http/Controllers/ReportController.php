@@ -230,7 +230,8 @@ class ReportController extends Controller
 
                 //$this->export($request, $request->timesheets[0]);
                 foreach($request->timesheets as $key=>$user_id){
-                    $filename = "user_id_{$user_id}_from_{$start_date}_to_{$end_date}.pdf";
+                    $user_name = User::find($user_id)->name;
+                    $filename = "{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
                     $content = $this->export($request, $user_id)->getOriginalContent();
                     Storage::put('storage/pdfs/' . $filename, $content);
                     $headers = array(

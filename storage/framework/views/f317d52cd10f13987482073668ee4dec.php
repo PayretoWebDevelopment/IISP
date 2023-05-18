@@ -7,6 +7,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+    <title>Payreto | Edit Emplyoee Information</title>
     <h1 class="text-2xl font-bold mb-4">Edit Employee</h1>
     <form action="/admin/employee-update/<?php echo e($employee->id); ?>" method="POST">
         <?php echo csrf_field(); ?>
