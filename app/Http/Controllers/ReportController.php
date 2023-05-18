@@ -257,7 +257,7 @@ class ReportController extends Controller
         }
     }
 
-    public function ensureExportsDeleted()
+    public static function ensureExportsDeleted()
     {
         $fs = new Filesystem();
         $fs->cleanDirectory(storage_path('app/storage/pdfs'));
