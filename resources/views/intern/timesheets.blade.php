@@ -4,6 +4,7 @@
 
 
 <x-layout module_name="Timesheets">
+    <title>Payreto | Timesheets</title>
     <!-- Modal for starting time tracking -->
     <div class="modal fade bg-gray-200 p-5" id="startTimerModal" tabindex="-1" aria-labelledby="startTimerModalLabel"
         aria-hidden="true">

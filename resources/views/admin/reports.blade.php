@@ -1,4 +1,5 @@
 <x-layout module_name="Reports">
+    <title>Payreto | Reports</title>
     <div class="container">
         <h1 class="text-3xl font-bold">Reports</h1>
         <form method="get" action="/admin/reports/filter" class="mt-8">

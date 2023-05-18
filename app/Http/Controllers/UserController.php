@@ -332,18 +332,18 @@ class UserController extends Controller
     {
         $interns = User::where('role', 'intern')->get();
         $admins = User::where('role', 'admin')->get();
-        $user_role = auth()->user()->role;
+        $user_role = $request->user()->role;
         if ($request->user()->isAdmin()) {
             return view('admin.employee-list', compact('interns', 'admins', 'user_role'));
         }
     }
 
     //show edit employee form
-    public function employee_edit($id)
+    public function employee_edit($id, Request $request)
     {
         $employee = User::findOrFail($id);
-
-        return view('admin.employee-edit', compact('employee'));
+        $role = $request->user()->role;
+        return view('admin.employee-edit', compact('employee', 'role'));
     }
 
     //request edit hourly rate
@@ -369,18 +369,41 @@ class UserController extends Controller
     public function employee_update(Request $request, $id)
     {
         $employee = User::findOrFail($id);
-
+        // dd($request->all());
         // Validate the form data
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-            'role' => 'required|max:255',
-            'hourly_rate' => 'required|numeric',
-            'required_hours' => 'required|numeric',
-            'department' => 'required|max:255',
-        ]);
+        // $validatedData = $request->validate([
+        //     'name' => 'required|max:255',
+        //     'username' => 'required|max:50',
+        //     'email' => 'required',
+        //     'contact number' => 'required|numeric',
+        //     'position' => 'required|max:255',
+        //     'role' => 'required|max:255',
+        //     'hourly_rate' => 'required|numeric',
+        //     'required_hours' => 'required|numeric',
+        //     'department' => 'required|max:255',
+        //     'start_date' => 'required|date',
+        //     'active' => 'required|boolean',
+        //     'bank' => 'required|max:255',
+        //     'bank account number' => 'required|numeric',
+        // ]);
 
-        // Update the employee record with the new data
-        $employee->update($validatedData);
+        // dd($request->all());
+        // // Update the employee record with the new data
+        // $employee->save($validatedData);
+        $employee->name = $request->name;
+        $employee->username = $request->username;
+        $employee->email = $request->email;
+        $employee->contact_number = $request->contact_number;
+        $employee->position = $request->position;
+        $employee->hourly_rate = $request->hourly_rate;
+        $employee->required_hours = $request->required_hours;
+        $employee->department = $request->department;
+        $employee->start_date = $request->start_date;
+        $employee->active = $request->active;
+        $employee->bank = $request->bank;
+        $employee->bank_account_no = $request->bank_account_number;
+
+        $employee->save();
 
         // Redirect back to the employee list
         return redirect('/admin/employee-list')->with('success', 'Employee updated successfully!');

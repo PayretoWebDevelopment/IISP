@@ -1,8 +1,7 @@
 <x-layout module_name="My Profile">
-    <title>Payreto | My Profile</title>
     <x-card class="p-10">
         <x-profile>
-
+            <title>Payreto | Profile</title>
             @auth
                 <ul list-style-type: none;>
                     <li>Full name: {{ auth()->user()->name }}</li>

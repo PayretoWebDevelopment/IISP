@@ -7,6 +7,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Approvals']); ?>
+    <title>Payreto | Approvals</title>
     <h1 class="text-2xl font-bold mb-4">Edit Request List</h1>
     <h2 class="text-lg font-bold mb-2">Pending Requests</h2>
     <?php if($approvals->isEmpty()): ?>

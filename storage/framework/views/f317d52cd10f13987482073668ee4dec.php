@@ -39,10 +39,16 @@
             <input type="text" name="start_date" id="start_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->start_date); ?>">
         </div>
         <div class="mb-4" id="active">
-            <label for="active" class="block text-gray-700 font-bold mb-2">Active</label>
+            <label for="active" class="block text-gray-700 font-bold mb-2">Active:</label>
             <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600" name="active"
                 <?php echo e($employee->start_date ? 'checked' : ''); ?> value="1" <?php if(old('active') == 1): ?> checked <?php endif; ?> />
         </div>
+        <?php if($role === 'superadmin'): ?>
+        <div class="mb-4" id="hourly_rate">
+            <label for="active" class="block text-gray-700 font-bold mb-2">Hourly rate:</label>
+            <input type="number" name="hourly_rate" id="hourly_rate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->hourly_rate); ?>" step="0.01">
+        </div>
+        <?php endif; ?>
         <div class="mb-4">
             <label for="required_hours" class="block text-gray-700 font-bold mb-2">Required Hours:</label>
             <input type="number" name="required_hours" id="required_hours" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->required_hours); ?>">
@@ -64,12 +70,13 @@
             <a href="/admin/employee-list/" class="text-blue-500 hover:text-blue-700 font-bold">Cancel</a>
         </div>
     </form>
+    <?php if($role === 'admin'): ?>
     <h1 class="text-2xl font-bold mb-4">Edit Employee Hourly Rate</h1>
     <form action="/admin/employee-edit-hourly-rate/<?php echo e($employee->id); ?>" method="POST" onsubmit="return validateForm()">
         <?php echo csrf_field(); ?>
         <div class="mb-4">
             <label for="hourly_rate" class="block text-gray-700 font-bold mb-2">Hourly rate:</label>
-            <input type="number" name="hourly_rate" id="hourly_rate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->hourly_rate); ?>">
+            <input type="number" name="hourly_rate" id="hourly_rate" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->hourly_rate); ?>" step="0.01">
         </div>
         <div class="mb-4">
             <label for="reason" class="block text-gray-700 font-bold mb-2">Reason:</label>
@@ -80,6 +87,7 @@
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Request change</button>
         </div>
     </form>
+    <?php endif; ?>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

@@ -100,11 +100,7 @@
                             <path class="fill-current text-gray-300 group-hover:text-cyan-300" d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
                         </svg>
                         <span class="group-hover:text-gray-700">
-                            <?php if(auth()->user()->isAdmin()): ?>
-                                Profiles
-                            <?php else: ?>
-                                My Profile
-                            <?php endif; ?>
+                            Profile
                         </span>
                     </a>
                 </li>

@@ -7,6 +7,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Reports']); ?>
+    <title>Payreto | Reports</title>
     <div class="container">
         <h1 class="text-3xl font-bold">Reports</h1>
         <form method="get" action="/admin/reports/filter" class="mt-8">

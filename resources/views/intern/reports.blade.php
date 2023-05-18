@@ -1,5 +1,6 @@
 <x-layout module_name="Reports">
     <div class="container">
+        <title>Payreto | Timesheet Reports</title>
         <h1 class="text-3xl font-bold">Timesheet Report</h1>
         <form method="get" action="/intern/reports/filter" class="mt-8">
             <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">

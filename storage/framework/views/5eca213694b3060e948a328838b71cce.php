@@ -12,6 +12,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Timesheets']); ?>
+    <title>Payreto | Timesheets</title>
     <!-- Modal for starting time tracking -->
     <div class="modal fade bg-gray-200 p-5" id="startTimerModal" tabindex="-1" aria-labelledby="startTimerModalLabel"
         aria-hidden="true">
