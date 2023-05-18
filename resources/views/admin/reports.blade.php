@@ -5,45 +5,53 @@
         <form method="get" action="/admin/reports/filter" class="mt-8">
             <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                 <div class="flex-1">
-                    <label for="start_date" class="block text-gray-700 font-bold mb-2">From Date:</label>
-                    <input type="date" class="form-input rounded-md shadow-sm w-full" id="start_date"
-                        name="start_date"
+                    <label for="start_date" class="text-gray-700 font-bold mb-2">From Date:</label>
+                    <input type="date"
+                        class="w-96 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                        id="start_date" name="start_date"
                         value="{{ app('request')->input('start_date') ?? (old('start_date') ?? date('Y-m-d')) }}"
                         required>
                 </div>
                 <div class="flex-1">
-                    <label for="end_date" class="block text-gray-700 font-bold mb-2">To Date:</label>
-                    <input type="date" class="form-input rounded-md shadow-sm w-full" id="end_date" name="end_date"
+                    <label for="end_date" class="text-gray-700 font-bold mb-2">To Date:</label>
+                    <input type="date"
+                        class="w-96 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring"
+                        id="end_date" name="end_date"
                         value="{{ app('request')->input('end_date') ?? (old('start_date') ?? date('Y-m-d')) }}"
                         required>
                 </div>
-                <div>
-                    <button type="submit"
-                        class="bt`n btn-primary px-4 py-2 text-white font-bold rounded bg-blue-700 focus:outline-none 
-                        focus:shadow-outline-blue active:bg-blue-800 transition duration-150 ease-in-out">Apply
-                        Filter</button>
-                </div>
+                <button type="submit"
+                    class="block px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">Apply
+                    Filter</button>
             </div>
         </form>
         <form id="export_form" method="post" action="/admin/reports/export_selection">
             @csrf
-            <input type="hidden" name="start_date"
-                value="{{ app('request')->input('start_date') ?? (old('start_date') ?? date('Y-m-d')) }}">
-            <input type="hidden" name="end_date"
-                value="{{ app('request')->input('end_date') ?? (old('start_date') ?? date('Y-m-d')) }}">
-            <button type="submit"
-                class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-green-500 
+            <div class="flex justify-start mt-5">
+                <input type="hidden" name="start_date"
+                    value="{{ app('request')->input('start_date') ?? (old('start_date') ?? date('Y-m-d')) }}">
+                <input type="hidden" name="end_date"
+                    value="{{ app('request')->input('end_date') ?? (old('start_date') ?? date('Y-m-d')) }}">
+                <div>
+                    <button type="submit"
+                        class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-green-500
             hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4"
-                name="submit" value="export_csv">Export to CSV</button>
-            <button type="submit"
-                class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-yellow-500 
+                        name="submit" value="export_csv">Export to CSV</button>
+                </div>
+                <div>
+                    <button type="submit"
+                        class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-yellow-500
             hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4"
-                name="submit" value="export_xlsx">Export to XLSX</button>
-            <button type="submit"
-                class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-red-500 
+                        name="submit" value="export_xlsx">Export to XLSX</button>
+                </div>
+                <div>
+                    <button type="submit"
+                        class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-red-500
             hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4"
-                name="submit" value="export_pdf">Export to PDF</button>
-            <hr class="my-8">
+                        name="submit" value="export_pdf">Export to PDF</button>
+                </div>
+                <hr class="my-8">
+            </div>
         </form>
     </div>
     <div class="flex mt-8">
@@ -87,7 +95,7 @@
                                             value="{{ app('request')->input('end_date') ?? (old('end_date') ?? date('Y-m-d')) }}">
                                         <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                                             <button type="submit"
-                                                class="bt`n btn-primary px-4 py-2 text-white font-bold rounded bg-blue-700 focus:outline-none 
+                                                class="bt`n btn-primary px-4 py-2 text-white font-bold rounded bg-blue-700 focus:outline-none
                                                             focus:shadow-outline-blue active:bg-blue-800 transition duration-150 ease-in-out">Inspect</button>
                                         </div>
             </div>
