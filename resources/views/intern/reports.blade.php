@@ -7,12 +7,12 @@
                 <div class="flex-1">
                     <label for="start_date" class="block text-gray-700 font-bold mb-2">From Date:</label>
                     <input type="date" class="form-input rounded-md shadow-sm w-full" id="start_date"
-                        name="start_date" value="{{ app('request')->input('start_date') ?? old('start_date') ?? date('Y-m-d') }}" required>
+                        name="start_date" value="{{ app('request')->input('start_date') ?? old('start_date')}}" required>
                 </div>
                 <div class="flex-1">
                     <label for="end_date" class="block text-gray-700 font-bold mb-2">To Date:</label>
                     <input type="date" class="form-input rounded-md shadow-sm w-full" id="end_date" name="end_date"
-                        value="{{ app('request')->input('end_date') ?? old('start_date') ?? date('Y-m-d') }}" required>
+                        value="{{ app('request')->input('end_date') ?? old('end_date')}}" required>
                 </div>
                 <div>
                     <button type="submit"

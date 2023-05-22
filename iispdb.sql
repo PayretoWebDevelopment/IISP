@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 18, 2023 at 04:53 AM
+-- Generation Time: May 22, 2023 at 03:26 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.5
 
@@ -57,9 +57,9 @@ INSERT INTO `approvals` (`id`, `requestor_id`, `profile_id`, `field_to_edit`, `o
 (10, 3, 3, 'name', 'Test Intern', 'Test4 Intern', 'asdasdasd', 0, '2023-05-15 04:06:22', '2023-05-15 04:19:47'),
 (11, 3, 3, 'hourly_rate', '54.34', '54.38', 'asdasdasd', 0, '2023-05-15 04:06:22', '2023-05-15 04:19:47'),
 (12, 3, 3, 'hourly_rate', '56.33', '56.50', 'update', 1, '2023-05-15 04:25:06', '2023-05-15 04:42:15'),
-(13, 1, 3, 'hourly_rate', '56.5', '57.5', 'asdsfdfg', NULL, '2023-05-15 05:31:24', '2023-05-15 05:31:24'),
-(14, 1, 3, 'hourly_rate', '56.5', '57.5', 'asdsfdfg', NULL, '2023-05-15 05:32:08', '2023-05-15 05:32:08'),
-(15, 2, 3, 'hourly_rate', '56.5', '58.5', 'dfgdfhhj', NULL, '2023-05-15 05:33:47', '2023-05-15 05:33:47');
+(13, 1, 3, 'hourly_rate', '56.5', '57.5', 'asdsfdfg', 0, '2023-05-15 05:31:24', '2023-05-18 04:15:22'),
+(14, 1, 3, 'hourly_rate', '56.5', '57.5', 'asdsfdfg', 0, '2023-05-15 05:32:08', '2023-05-18 04:15:22'),
+(15, 2, 3, 'hourly_rate', '56.5', '58.5', 'dfgdfhhj', 0, '2023-05-15 05:33:47', '2023-05-18 04:15:22');
 
 -- --------------------------------------------------------
 
@@ -195,7 +195,7 @@ CREATE TABLE `users` (
   `position` varchar(255) NOT NULL,
   `start_date` date DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `hourly_rate` double(8,2) DEFAULT NULL,
+  `hourly_rate` float(8,2) DEFAULT NULL,
   `required_hours` int(11) DEFAULT NULL,
   `bank` varchar(255) DEFAULT NULL,
   `hourly_rate_last_updated` date DEFAULT NULL,
@@ -210,9 +210,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `contact_number`, `position`, `start_date`, `active`, `hourly_rate`, `required_hours`, `bank`, `hourly_rate_last_updated`, `supervisor`, `bank_account_no`, `profile_picture`, `department`) VALUES
-(1, 'testsuperadmin', 'Test Superadmin', 'test@example.com', '2023-05-15 03:45:01', '$2y$10$WQGfneiiPGJAYJKIzXZJFOSnqOdAlPK9gLhihmXGgf0gU4AE1maYm', 'TN2wSfUuKnnByyqEsu8AvPVBnHVGgVhdVPLAVh2O5DkwJFlwppTwJD8IRKXI', '2023-05-15 03:45:01', '2023-05-15 03:45:01', 'superadmin', '123456', 'CEO', '2023-01-02', 1, 54.01, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', NULL, 'Technology'),
-(2, 'testadmin', 'Test Admin', 'test1@example.com', '2023-05-15 03:45:01', '$2y$10$LBdZKgFgVsE/x/Yq2adJTOx3xZM02luZccI.n7S9p/fn/N5bTTnqa', 'jbF1MRH1i9qR1AK2RFUcexgverxf7RcEiP93qXnILCLQrDWJ6Fnf7ebQTq24', '2023-05-15 03:45:01', '2023-05-16 08:56:08', 'admin', '123456', 'CEO', '2023-01-02', 1, 54.00, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', '2_1684227368.jpg', 'People'),
-(3, 'testintern', 'Test Intern', 'test2@example.com', '2023-05-15 03:45:01', '$2y$10$FnColtYBM1dB0EM1X7DM.uuYZoXAVc0KMHWeMzyWo94TS1lh46A72', 'OJqv9z3D3Q9arCjlH0GaE2qC531PHk5fhXQlRU8XiNkWoyRhbGYvOf6PYJga', '2023-05-15 03:45:01', '2023-05-15 04:42:15', 'intern', '123456', 'CEO', '2023-01-02', 1, 56.50, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', NULL, 'Technology'),
+(1, 'testsuperadmin', 'Test Superadmin', 'test@example.com', '2023-05-15 03:45:01', '$2y$10$WQGfneiiPGJAYJKIzXZJFOSnqOdAlPK9gLhihmXGgf0gU4AE1maYm', 'CFfYyC4YWGlIFuRsH8XMxh7YeULgsZcyEl2T0Bkg9h0GfCpvXa3k6InxU3gK', '2023-05-15 03:45:01', '2023-05-15 03:45:01', 'superadmin', '123456', 'CEO', '2023-01-02', 1, 54.01, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', NULL, 'Technology'),
+(2, 'testadmin', 'Test Admin', 'test1@example.com', '2023-05-15 03:45:01', '$2y$10$LBdZKgFgVsE/x/Yq2adJTOx3xZM02luZccI.n7S9p/fn/N5bTTnqa', '0eDR3dGlgrvZTV00Smq6oZYZaxPfSVIS5XuhAaIq6N3b1UsTTNQfBRy2jdIB', '2023-05-15 03:45:01', '2023-05-16 08:56:08', 'admin', '123456', 'CEO', '2023-01-02', 1, 54.00, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', '2_1684227368.jpg', 'People'),
+(3, 'testintern', 'Test Intern', 'test2@example.com', '2023-05-15 03:45:01', '$2y$10$FnColtYBM1dB0EM1X7DM.uuYZoXAVc0KMHWeMzyWo94TS1lh46A72', 'W7RllqnV1lnhVnYgmW4p7DF2pTIb6yFEWuDDILdJo9bKLsnqnT8tcvtJD9nQ', '2023-05-15 03:45:01', '2023-05-18 04:07:18', 'intern', '12345655', 'CEO', '2023-01-02', 1, 56.51, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '123456', NULL, 'Technology'),
 (4, 'Welch', 'Annie Brekke', 'nrolfson@example.net', '2023-05-15 03:45:02', '$2y$10$Bd6sdx8si11.0c3Dc5NjK.VWdUdDdAs35x6MJ/cLMFqU5oOxdTe.m', '4qhO7kM8st', '2023-05-15 03:45:02', '2023-05-15 03:45:02', 'admin', '(512) 209-2079', 'Photographic Restorer', '2023-01-02', 1, 40.00, 322, 'GCASH', '2023-06-03', 'Grover Vandervort III', '4716525136857904', NULL, 'Business Development'),
 (5, 'Kohler', 'Evert Rodriguez', 'rebeca.lang@example.org', '2023-05-15 03:45:02', '$2y$10$catjtbq/WQf5iCsK6LW9Zu9o0XDWBcpqpth.ix5fx2/oqz8yIgdqm', '330SMQHwmd', '2023-05-15 03:45:02', '2023-05-15 03:45:02', 'intern', '973.656.8317', 'Bartender', '2023-01-02', 1, 60.00, 460, 'GCASH', '2023-06-03', 'Mr. Alphonso Beatty II', '4259936667208412', NULL, 'Technology'),
 (6, 'Cormier', 'Emmanuel Kovacek', 'jacobson.vanessa@example.net', '2023-05-15 03:45:02', '$2y$10$WmXEHgXVRyB/erQGaUZqgeLi2zATgZwyXExCYXMLKDEJvRC4uZvJa', 'a2DcPOPOxU', '2023-05-15 03:45:02', '2023-05-15 03:45:02', 'intern', '+18382458725', 'Hand Trimmer', '2023-01-02', 1, 48.00, 121, 'BDO', '2023-06-03', 'Jaycee Stehr Jr.', '374572016232916', NULL, 'Business Development'),

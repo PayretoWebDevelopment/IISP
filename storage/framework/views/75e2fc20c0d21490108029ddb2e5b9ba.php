@@ -29,6 +29,14 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="<?php echo e(asset('css/custom.css')); ?>" rel="stylesheet" />
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#example').DataTable();
+        });
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -40,25 +48,24 @@
             },
         };
     </script>
-
-    <style>
-        table,
-        th,
-        td {
-            border: 1px solid black;
-            border-collapse: collapse;
-            text-align: center;
-            padding: 10px;
-        }
-    </style>
-
 </head>
 
+<style>
+.dataTables_filter{
+    margin-bottom: 2rem;
+}
+.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover{
+    background-color: #3b82f6;
+    color: white;
+    border: 0;
+    border-radius: 0.3rem;
+}
+</style>
 <body>
 
     <!-- call export folder cleaning function -->
     <?php
-    App\Http\Controllers\ReportController::ensureExportsDeleted();
+        App\Http\Controllers\ReportController::ensureExportsDeleted();
     ?>
 
 
