@@ -49,26 +49,6 @@ class ApprovalController extends Controller
         return redirect('/admin/approvals');
     }
 
-    public function show()
-    {
-        //to-do
-    }
-
-    public function create()
-    {
-        //to-do
-    }
-
-    public function store()
-    {
-        //to-do
-    }
-
-    public function delete()
-    {
-        //to-do
-    }
-
     //show edit request (interns  )
     public function create_edit_request(Request $request)
     {
@@ -118,7 +98,7 @@ class ApprovalController extends Controller
                 $approvalRequest->original_value = $user->{$modifiedField}; //$request->input($modifiedField)
 
                 $approvalRequest->modified_value = $formData[$modifiedField];
-                $approvalRequest->reason = $request->input('reason');
+                $approvalRequest->reason = filter_input(INPUT_POST, 'reason', FILTER_SANITIZE_SPECIAL_CHARS);//$request->input('reason');
                 $approvalRequest->save();
                 
             }

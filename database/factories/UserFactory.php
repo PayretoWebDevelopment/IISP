@@ -18,7 +18,7 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $f = $this->faker;
-        $roles = ['superadmin', 'admin', 'intern'];
+        $roles = ['admin', 'intern']; //'superadmin' role removed from user seeder for now
         $departments = ['Technology', 'People', 'Business Development'];
         return [
             'name' => $f->name(),
@@ -31,7 +31,7 @@ class UserFactory extends Factory
             'position' => $f->jobTitle(),
             'start_date' => '2023/1/2',
             'active' => true,
-            'hourly_rate' => $f->numberBetween(25, 60),
+            'hourly_rate' => $f->randomFloat(2, 24.85, 60.19),
             'required_hours' => $f->numberBetween(100, 500), 
             'bank' => $f->randomElement(['GCASH', 'BDO', 'DBP']), 
             'bank_account_no' => $f->creditCardNumber(),

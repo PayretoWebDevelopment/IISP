@@ -86,4 +86,9 @@
             @endforeach
         </tbody>
     </table>
+
+    <!--SUPERADMINS SECTION (CANNOT EDIT OR DELETE OTHER SUPERADMINS. CAN ONLY EDIT SELF)-->
+    @if ($user_role === 'superadmin')
+        @include('admin.superadmin-employee-list')
+    @endif
 </x-layout>

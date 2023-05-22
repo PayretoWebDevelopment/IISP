@@ -197,12 +197,12 @@ class UserController extends Controller
 
         $credentials = [
             'email' => $user->email,
-            'password' => $request->input('current_password')
+            'password' => filter_input(INPUT_POST, 'current_password', FILTER_SANITIZE_SPECIAL_CHARS) //$request->input('current_password')
         ];
 
         if (Auth::attempt($credentials)) {
             $user->update([
-                'password' => Hash::make($request->input('password'))
+                'password' => Hash::make(filter_input(INPUT_POST, 'password', FILTER_SANITIZE_SPECIAL_CHARS))  //$request->input('password'))
             ]);
 
             Auth::logout();
@@ -334,6 +334,10 @@ class UserController extends Controller
         $admins = User::where('role', 'admin')->get();
         $user_role = $request->user()->role;
         if ($request->user()->isAdmin()) {
+            if($request->user()->role == 'superadmin'){
+                $superadmins = User::where('role', 'superadmin')->get();
+                return view('admin.employee-list', compact('interns', 'admins', 'superadmins', 'user_role'));
+            }
             return view('admin.employee-list', compact('interns', 'admins', 'user_role'));
         }
     }
@@ -350,19 +354,21 @@ class UserController extends Controller
     public function employee_request_edit($id, Request $request)
     {
         $employee = User::findOrFail($id);
-        $employees = User::where('role', 'intern')->get();
+        $interns = User::where('role', 'intern')->get();
+        $admins = User::where('role', 'admin')->get();
+        $user_role = $request->user()->role;
 
-    $approvalRequest = new Approval();
-                $approvalRequest->requestor_id = $request->user()->id;
-                $approvalRequest->profile_id = $employee->id;
-                $approvalRequest->field_to_edit = 'hourly_rate';
-                $approvalRequest->original_value = $employee->hourly_rate; 
-                $approvalRequest->modified_value = $request->input('hourly_rate');
-                $approvalRequest->reason = $request->input('reason');
-                // dd($approvalRequest);
-                $approvalRequest->save();
+        $approvalRequest = new Approval();
+        $approvalRequest->requestor_id = $request->user()->id;
+        $approvalRequest->profile_id = $employee->id;
+        $approvalRequest->field_to_edit = 'hourly_rate';
+        $approvalRequest->original_value = $employee->hourly_rate; 
+        $approvalRequest->modified_value = filter_input(INPUT_POST, 'hourly_rate', FILTER_SANITIZE_NUMBER_FLOAT);//$request->input('hourly_rate');
+        $approvalRequest->reason = $request->input('reason');
+        // dd($approvalRequest);
+        $approvalRequest->save();
 
-    return view('admin.employee-list', compact('employees'));
+    return view('admin.employee-list', compact('interns', 'admins', 'user_role'));
     }
 
     //Edit Employee

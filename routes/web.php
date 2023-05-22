@@ -91,14 +91,13 @@ Route::post('/admin/employee-update/{id}', [UserController::class, 'employee_upd
 Route::delete('/admin/employee-delete/{id}', [UserController::class, 'employee_delete']);
 Route::post('/admin/employee-edit-hourly-rate/{id}', [UserController::class, 'employee_request_edit']);
 
-//superadmin side
+
 #endregion
 
 #region Intern/Admin Reports Redirector and Routes
 Route::get('/reports', [ReportController::class, 'index']);
 
 //reports (other profile)
-Route::post('/reports/{id}', [ReportController::class, 'others_index']);
 
 Route::get('/intern/reports/filter', [ReportController::class, 'filter']);
 

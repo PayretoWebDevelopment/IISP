@@ -26,9 +26,9 @@ class TimesheetController extends Controller
 
         $formFields = [
             'user_id' => $user_id,
-            'task_name' => $request->input('task_name'),
-            'task_type' => $request->input('task_type'),
-            'project_type' => $request->input('project_type'),
+            'task_name' => filter_input(INPUT_POST, 'task_name', FILTER_SANITIZE_SPECIAL_CHARS),//$request->input('task_name'),
+            'task_type' => filter_input(INPUT_POST, 'task_type', FILTER_SANITIZE_SPECIAL_CHARS),//$request->input('task_type'),
+            'project_type' => filter_input(INPUT_POST, 'project_type', FILTER_SANITIZE_SPECIAL_CHARS),//$request->input('project_type'),
             'start_time' => $start_time,
             'end_time' => $end_time,
         ];

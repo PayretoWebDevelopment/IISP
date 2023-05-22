@@ -77,8 +77,8 @@ class DatabaseSeeder extends Seeder
             'supervisor' => 'Juan de la Cruz',
             'department' => $faker->randomElement($departments),
         ]);
-        User::factory(5)->create();
+        User::factory(10)->create();
         Timesheet::factory(10)->create();
-        // Approval::factory(10)->create();
+        Approval::factory(10)->create();
     }
 }

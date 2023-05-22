@@ -81,7 +81,7 @@
         </div>
         <div class="mb-4">
             <label for="reason" class="block text-gray-700 font-bold mb-2">Reason:</label>
-            <input type="text" name="reason" id="reason" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="">
+            <input type="text" name="reason" id="reason" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required value="">
         </div>
         
         <div class="flex items-center justify-between">
