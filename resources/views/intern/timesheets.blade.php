@@ -43,9 +43,38 @@
                             <select class="form-select border border-gray-400 rounded w-full py-2 px-3"
                                 id="project_type" name="project_type" required>
                                 <option value="">Select Project Type</option>
-                                <option value="Deep Dive Session">Deep Dive Session</option>
-                                <option value="Meeting">Meeting</option>
-                                <option value="Debugging">Debugging</option>
+                                <optgroup label="Attendance">
+                                    <option value="Attendance: Break">Break</option>
+                                    <option value="Attendance: Login">Login</option>
+                                    <option value="Attendance: Logout">Logout</option>
+                                </optgroup>
+                                <optgroup label="HR General">
+                                    <option value="HR General: Ad Hoc">Ad Hoc</option>
+                                    <option value="HR General: Email Correspondence">Email Correspondence</option>
+                                    <option value="HR General: Meeting">Meeting</option>
+                                    <option value="HR General: Monthly Assembly">Monthly Assembly</option>
+                                    <option value="HR General: Performance Evaluation">Performance Evaluation</option>
+                                    <option value="HR General: Team Building">Team Building</option>
+                                    <option value="HR General: Team Tailgate">Team Tailgate</option>
+                                    <option value="HR General: Touchbase">Touchbase</option>
+                                    <option value="HR General: Training or Webinar">Training or Webinar</option>
+                                    <option value="HR General: Weekly Huddle">Weekly Huddle</option>
+                                </optgroup>
+                                <optgroup label="Data Analytics">
+                                    <option value="Data Analytics: Automation">Automation</option>
+                                    <option value="Data Analytics: Data Analysis">Data Analysis</option>
+                                    <option value="Data Analytics: Data Cleansing">Data Cleansing</option>
+                                    <option value="Data Analytics: Data Consolidation">Data Consolidation</option>
+                                    <option value="Data Analytics: Meeting">Meeting</option>
+                                    <option value="Data Analytics: Networking Debugging">Networking Debugging</option>
+                                    <option value="Data Analytics: Report Generation">Report Generation</option>
+                                    <option value="Data Analytics: Workshop">Workshop</option>
+                                </optgroup>
+                                <optgroup label="Web Development">
+                                    <option value="Web Development: Deep Dive Session">Deep Dive Session</option>
+                                    <option value="Web Development: Meeting">Meeting</option>
+                                    <option value="Web Development: Debugging">Debugging</option>
+                                </optgroup>
                             </select>
                         </div>
                         <div class="mb-3">

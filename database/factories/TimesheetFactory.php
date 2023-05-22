@@ -20,12 +20,40 @@ class TimesheetFactory extends Factory
         $users = User::all()->pluck('id')->toArray();
         $f = $this->faker;
         $task_list= ['TASK', 'BREAK', 'LOGIN', 'LOGOUT', 'LUNCH', 'MEETING', 'TRAINING', 'WEBINAR'];
-        $project_list= ['Deep Dive Session', 'Meeting', 'Debugging'];
+        $projectTypes = [
+            ['Attendance', ['Break', 'Login', 'Logout']],
+            ['HR General', ['Ad Hoc', 'Email Correspondence', 'Meeting', 'Monthly Assembly', 'Performance Evaluation', 'Team Building', 'Team Tailgate', 'Touchbase', 'Training or Webinar', 'Weekly Huddle']],
+            ['Data Analytics', ['Automation', 'Data Analysis', 'Data Cleansing', 'Data Consolidation', 'Meeting', 'Networking Debugging', 'Report Generation', 'Workshop']],
+            ['Web Development', ['Deep Dive Session', 'Meeting', 'Debugging']],
+        ];
+
+        $projectTypeNames = [];
+        $validProjectTypes = [];
+
+        foreach ($projectTypes as &$projectType) {
+            $typeName = $projectType[0];
+            $subtypes = $projectType[1];
+
+            $subtypes = array_unique($subtypes); // Remove duplicate subtypes
+
+            $projectType = [$typeName, $subtypes]; // Update the project type entry
+
+            if (in_array($typeName, $projectTypeNames)) {
+                $typeName .= ' (Duplicate)';
+            }
+
+            foreach ($subtypes as $subtype) {
+                $validProjectTypes[] = "$typeName: $subtype";
+            }
+
+            $projectTypeNames[] = $typeName;
+        }
+
         return [
             'user_id'=>$f->randomElement($users),
             'task_name'=>$f->lexify('????? Development'),
             'task_type'=>$f->randomElement($task_list),
-            'project_type'=>$f->randomElement($project_list),
+            'project_type'=>$f->randomElement($validProjectTypes),
             'end_time'=>$f->dateTime(),
             'start_time'=>$f->dateTime('end_time'), //max is end-time
         ];

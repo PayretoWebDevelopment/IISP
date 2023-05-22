@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\Approval;
 use Carbon\Carbon;
 use Faker\Factory;
 use App\Models\User;
@@ -77,6 +79,6 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory(5)->create();
         Timesheet::factory(10)->create();
-        
+        // Approval::factory(10)->create();
     }
 }

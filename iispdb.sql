@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 22, 2023 at 03:26 AM
+-- Generation Time: May 22, 2023 at 05:50 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.5
 
@@ -40,27 +40,6 @@ CREATE TABLE `approvals` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `approvals`
---
-
-INSERT INTO `approvals` (`id`, `requestor_id`, `profile_id`, `field_to_edit`, `original_value`, `modified_value`, `reason`, `approve`, `created_at`, `updated_at`) VALUES
-(1, 3, 3, 'hourly_rate', '56.22', '56.22', 'test float value input', 0, '2023-05-15 03:52:08', '2023-05-15 04:19:47'),
-(2, 3, 3, 'hourly_rate', '56.33', '56.33', 'float test 2', 1, '2023-05-15 03:53:12', '2023-05-15 04:19:47'),
-(3, 3, 3, 'name', 'Test2 Intern', 'Test2 Intern', 'asdasd', 0, '2023-05-15 03:54:13', '2023-05-15 04:19:47'),
-(4, 3, 3, 'start_date', '2023-01-18', '2023-01-18', 'asdasd', 0, '2023-05-15 03:54:13', '2023-05-15 04:19:47'),
-(5, 3, 3, 'name', 'Test2 Intern', 'Test2 Intern', 'sdad', 0, '2023-05-15 03:58:00', '2023-05-15 04:19:47'),
-(6, 3, 3, 'name', '54.34', 'Test2 Intern', 'asdas', 0, '2023-05-15 04:01:28', '2023-05-15 04:19:47'),
-(7, 3, 3, 'name', 'Test Intern', 'Test2 Intern', 'asdasd', 0, '2023-05-15 04:03:55', '2023-05-15 04:19:47'),
-(8, 3, 3, 'name', 'Test Intern', 'Test2 Intern', 'update', 0, '2023-05-15 04:05:57', '2023-05-15 04:19:47'),
-(9, 3, 3, 'hourly_rate', '54.34', '54.36', 'update', 0, '2023-05-15 04:05:57', '2023-05-15 04:19:47'),
-(10, 3, 3, 'name', 'Test Intern', 'Test4 Intern', 'asdasdasd', 0, '2023-05-15 04:06:22', '2023-05-15 04:19:47'),
-(11, 3, 3, 'hourly_rate', '54.34', '54.38', 'asdasdasd', 0, '2023-05-15 04:06:22', '2023-05-15 04:19:47'),
-(12, 3, 3, 'hourly_rate', '56.33', '56.50', 'update', 1, '2023-05-15 04:25:06', '2023-05-15 04:42:15'),
-(13, 1, 3, 'hourly_rate', '56.5', '57.5', 'asdsfdfg', 0, '2023-05-15 05:31:24', '2023-05-18 04:15:22'),
-(14, 1, 3, 'hourly_rate', '56.5', '57.5', 'asdsfdfg', 0, '2023-05-15 05:32:08', '2023-05-18 04:15:22'),
-(15, 2, 3, 'hourly_rate', '56.5', '58.5', 'dfgdfhhj', 0, '2023-05-15 05:33:47', '2023-05-18 04:15:22');
-
 -- --------------------------------------------------------
 
 --
@@ -94,16 +73,16 @@ CREATE TABLE `migrations` (
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(87, '2014_10_12_000000_create_users_table', 1),
-(88, '2014_10_12_100000_create_password_reset_tokens_table', 1),
-(89, '2019_08_19_000000_create_failed_jobs_table', 1),
-(90, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(91, '2023_05_08_002657_add_username_to_users_table', 1),
-(92, '2023_05_08_023959_modify_user_table', 1),
-(93, '2023_05_09_063818_create_timesheets_table', 1),
-(94, '2023_05_11_083106_add_profile_picture_to_users_table', 1),
-(95, '2023_05_12_031917_add_department_to_user', 1),
-(96, '2023_05_12_103027_create_approvals_table', 1);
+(283, '2014_10_12_000000_create_users_table', 1),
+(284, '2014_10_12_100000_create_password_reset_tokens_table', 1),
+(285, '2019_08_19_000000_create_failed_jobs_table', 1),
+(286, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(287, '2023_05_08_002657_add_username_to_users_table', 1),
+(288, '2023_05_08_023959_modify_user_table', 1),
+(289, '2023_05_09_063818_create_timesheets_table', 1),
+(290, '2023_05_11_083106_add_profile_picture_to_users_table', 1),
+(291, '2023_05_12_031917_add_department_to_user', 1),
+(292, '2023_05_12_103027_create_approvals_table', 1);
 
 -- --------------------------------------------------------
 
@@ -147,7 +126,7 @@ CREATE TABLE `timesheets` (
   `user_id` bigint(20) UNSIGNED NOT NULL,
   `task_name` varchar(255) NOT NULL,
   `task_type` enum('TASK','BREAK','LOGIN','LOGOUT','LUNCH','MEETING','TRAINING','WEBINAR') NOT NULL,
-  `project_type` enum('Deep Dive Session','Meeting','Debugging') NOT NULL,
+  `project_type` enum('Attendance: Break','Attendance: Login','Attendance: Logout','HR General: Ad Hoc','HR General: Email Correspondence','HR General: Meeting','HR General: Monthly Assembly','HR General: Performance Evaluation','HR General: Team Building','HR General: Team Tailgate','HR General: Touchbase','HR General: Training or Webinar','HR General: Weekly Huddle','Data Analytics: Automation','Data Analytics: Data Analysis','Data Analytics: Data Cleansing','Data Analytics: Data Consolidation','Data Analytics: Meeting','Data Analytics: Networking Debugging','Data Analytics: Report Generation','Data Analytics: Workshop','Web Development: Deep Dive Session','Web Development: Meeting','Web Development: Debugging') NOT NULL,
   `start_time` datetime NOT NULL,
   `end_time` datetime NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -159,20 +138,16 @@ CREATE TABLE `timesheets` (
 --
 
 INSERT INTO `timesheets` (`id`, `user_id`, `task_name`, `task_type`, `project_type`, `start_time`, `end_time`, `created_at`, `updated_at`) VALUES
-(1, 6, 'rmzfu Development', 'LUNCH', 'Deep Dive Session', '2023-05-08 02:45:02', '2023-05-08 03:45:02', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(2, 4, 'wpecf Development', 'LUNCH', 'Debugging', '2023-05-15 10:45:02', '2023-05-15 11:45:02', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(3, 2, 'fqfqz Development', 'TASK', 'Deep Dive Session', '1970-01-01 08:00:00', '2010-09-20 11:53:10', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(4, 7, 'dfgrb Development', 'WEBINAR', 'Meeting', '2023-03-08 06:45:02', '2023-03-08 08:45:02', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(5, 6, 'ubxgl Development', 'TASK', 'Deep Dive Session', '2023-04-08 09:45:02', '2023-04-08 11:45:02', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(6, 6, 'oiefh Development', 'TRAINING', 'Meeting', '2023-05-15 11:45:02', '2023-05-15 13:45:02', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(7, 3, 'djrhr Development', 'BREAK', 'Debugging', '2023-06-15 08:00:02', '2023-06-15 08:45:02', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(8, 2, 'jqybc Development', 'LUNCH', 'Meeting', '1970-01-01 08:00:00', '2003-01-01 09:33:44', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(9, 5, 'yojwz Development', 'TASK', 'Deep Dive Session', '2023-05-15 11:45:02', '2023-05-15 12:45:02', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(10, 3, 'ykkam Development', 'TRAINING', 'Deep Dive Session', '2023-05-15 10:45:02', '2023-05-15 11:45:02', '2023-05-15 03:45:02', '2023-05-15 03:45:02'),
-(11, 3, 'time in', 'LOGIN', 'Debugging', '2023-05-15 00:12:58', '2023-05-15 00:13:01', '2023-05-15 04:13:01', '2023-05-15 04:13:01'),
-(12, 3, 'asdfgb', 'LOGIN', 'Meeting', '2023-05-15 18:49:24', '2023-05-15 18:49:28', '2023-05-15 10:49:28', '2023-05-15 10:49:28'),
-(13, 3, 'asdfg Development', 'TASK', 'Deep Dive Session', '2023-05-16 10:50:48', '2023-05-16 10:50:53', '2023-05-16 02:50:52', '2023-05-16 02:50:52'),
-(14, 3, 'development again', 'TASK', 'Debugging', '2023-05-16 00:52:59', '2023-05-16 00:53:03', '2023-05-16 04:52:59', '2023-05-16 04:52:59');
+(1, 8, 'iindj Development', 'TASK', 'Data Analytics: Networking Debugging', '1970-01-01 08:00:00', '1993-08-27 01:19:06', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(2, 5, 'ltxpu Development', 'MEETING', 'HR General: Meeting', '1970-01-01 08:00:00', '1985-05-08 07:26:34', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(3, 4, 'tnbel Development', 'LOGIN', 'Data Analytics: Data Cleansing', '1970-01-01 08:00:00', '2000-09-09 18:01:27', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(4, 4, 'bomaq Development', 'WEBINAR', 'HR General: Team Tailgate', '1970-01-01 08:00:00', '1973-06-02 12:37:14', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(5, 5, 'uprin Development', 'TRAINING', 'Attendance: Login', '1970-01-01 08:00:00', '1998-01-12 19:56:03', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(6, 2, 'cydzp Development', 'WEBINAR', 'HR General: Training or Webinar', '1970-01-01 08:00:00', '1977-03-30 03:20:16', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(7, 2, 'jzedx Development', 'TASK', 'HR General: Email Correspondence', '1970-01-01 08:00:00', '1992-03-04 03:04:29', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(8, 3, 'fmbtw Development', 'LUNCH', 'HR General: Email Correspondence', '1970-01-01 08:00:00', '2015-07-10 23:26:04', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(9, 8, 'cubok Development', 'TASK', 'HR General: Weekly Huddle', '1970-01-01 08:00:00', '2002-03-15 23:06:06', '2023-05-22 03:43:13', '2023-05-22 03:43:13'),
+(10, 2, 'xmtez Development', 'TRAINING', 'Data Analytics: Workshop', '1970-01-01 08:00:00', '1974-04-16 19:00:30', '2023-05-22 03:43:13', '2023-05-22 03:43:13');
 
 -- --------------------------------------------------------
 
@@ -195,7 +170,7 @@ CREATE TABLE `users` (
   `position` varchar(255) NOT NULL,
   `start_date` date DEFAULT NULL,
   `active` tinyint(1) DEFAULT NULL,
-  `hourly_rate` float(8,2) DEFAULT NULL,
+  `hourly_rate` double(8,2) DEFAULT NULL,
   `required_hours` int(11) DEFAULT NULL,
   `bank` varchar(255) DEFAULT NULL,
   `hourly_rate_last_updated` date DEFAULT NULL,
@@ -210,15 +185,14 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `username`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `role`, `contact_number`, `position`, `start_date`, `active`, `hourly_rate`, `required_hours`, `bank`, `hourly_rate_last_updated`, `supervisor`, `bank_account_no`, `profile_picture`, `department`) VALUES
-(1, 'testsuperadmin', 'Test Superadmin', 'test@example.com', '2023-05-15 03:45:01', '$2y$10$WQGfneiiPGJAYJKIzXZJFOSnqOdAlPK9gLhihmXGgf0gU4AE1maYm', 'CFfYyC4YWGlIFuRsH8XMxh7YeULgsZcyEl2T0Bkg9h0GfCpvXa3k6InxU3gK', '2023-05-15 03:45:01', '2023-05-15 03:45:01', 'superadmin', '123456', 'CEO', '2023-01-02', 1, 54.01, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', NULL, 'Technology'),
-(2, 'testadmin', 'Test Admin', 'test1@example.com', '2023-05-15 03:45:01', '$2y$10$LBdZKgFgVsE/x/Yq2adJTOx3xZM02luZccI.n7S9p/fn/N5bTTnqa', '0eDR3dGlgrvZTV00Smq6oZYZaxPfSVIS5XuhAaIq6N3b1UsTTNQfBRy2jdIB', '2023-05-15 03:45:01', '2023-05-16 08:56:08', 'admin', '123456', 'CEO', '2023-01-02', 1, 54.00, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', '2_1684227368.jpg', 'People'),
-(3, 'testintern', 'Test Intern', 'test2@example.com', '2023-05-15 03:45:01', '$2y$10$FnColtYBM1dB0EM1X7DM.uuYZoXAVc0KMHWeMzyWo94TS1lh46A72', 'W7RllqnV1lnhVnYgmW4p7DF2pTIb6yFEWuDDILdJo9bKLsnqnT8tcvtJD9nQ', '2023-05-15 03:45:01', '2023-05-18 04:07:18', 'intern', '12345655', 'CEO', '2023-01-02', 1, 56.51, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '123456', NULL, 'Technology'),
-(4, 'Welch', 'Annie Brekke', 'nrolfson@example.net', '2023-05-15 03:45:02', '$2y$10$Bd6sdx8si11.0c3Dc5NjK.VWdUdDdAs35x6MJ/cLMFqU5oOxdTe.m', '4qhO7kM8st', '2023-05-15 03:45:02', '2023-05-15 03:45:02', 'admin', '(512) 209-2079', 'Photographic Restorer', '2023-01-02', 1, 40.00, 322, 'GCASH', '2023-06-03', 'Grover Vandervort III', '4716525136857904', NULL, 'Business Development'),
-(5, 'Kohler', 'Evert Rodriguez', 'rebeca.lang@example.org', '2023-05-15 03:45:02', '$2y$10$catjtbq/WQf5iCsK6LW9Zu9o0XDWBcpqpth.ix5fx2/oqz8yIgdqm', '330SMQHwmd', '2023-05-15 03:45:02', '2023-05-15 03:45:02', 'intern', '973.656.8317', 'Bartender', '2023-01-02', 1, 60.00, 460, 'GCASH', '2023-06-03', 'Mr. Alphonso Beatty II', '4259936667208412', NULL, 'Technology'),
-(6, 'Cormier', 'Emmanuel Kovacek', 'jacobson.vanessa@example.net', '2023-05-15 03:45:02', '$2y$10$WmXEHgXVRyB/erQGaUZqgeLi2zATgZwyXExCYXMLKDEJvRC4uZvJa', 'a2DcPOPOxU', '2023-05-15 03:45:02', '2023-05-15 03:45:02', 'intern', '+18382458725', 'Hand Trimmer', '2023-01-02', 1, 48.00, 121, 'BDO', '2023-06-03', 'Jaycee Stehr Jr.', '374572016232916', NULL, 'Business Development'),
-(7, 'McKenzie', 'Dr. Berta Kassulke V', 'kristy.bernhard@example.org', '2023-05-15 03:45:02', '$2y$10$TovnizpeBhWdUWsYGAMhc.C7GBupVUsRdS97vujP21bPlRp9inJmC', 'KhrqHXHMAw', '2023-05-15 03:45:02', '2023-05-15 03:45:02', 'intern', '1-480-206-8814', 'Accountant', '2023-01-02', 1, 40.00, 424, 'BDO', '2023-06-03', 'Mrs. Rosalia Ritchie', '4539413813374953', NULL, 'People'),
-(8, 'Leuschke', 'Art Rice', 'lenny90@example.net', '2023-05-15 03:45:02', '$2y$10$OpVGGR6P91v2ab9QY.E7mOAXyRqk0byZFMxtjNgHJauBD1qtRVw0q', '5l3pmXz9vt', '2023-05-15 03:45:02', '2023-05-15 03:45:02', 'intern', '769.924.9235', 'Transportation Equipment Maintenance', '2023-01-02', 1, 29.00, 428, 'DBP', '2023-06-03', 'Roberto Leuschke', '4916859338577533', NULL, 'Technology'),
-(9, 'trysample', 'try', 'try@gmail.com', NULL, '$2y$10$m70YInr.sUrHGUJXWHXMaelCefYYvHdNG/XaGYfdIepf8BocYkO8q', NULL, '2023-05-16 00:42:25', '2023-05-16 00:42:25', 'admin', '1234565', 'admin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Technology');
+(1, 'testsuperadmin', 'Test Superadmin', 'test@example.com', '2023-05-22 03:43:12', '$2y$10$1YT.PZXxSnu.2Pq9MM2OIuY78uYpiI9CItMGv4bXGc9lllGn1.3YW', 'NuE8aeHHtU', '2023-05-22 03:43:12', '2023-05-22 03:43:12', 'superadmin', '123456', 'CEO', '2023-01-02', 1, 54.01, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', NULL, 'Business Development'),
+(2, 'testadmin', 'Test Admin', 'test1@example.com', '2023-05-22 03:43:12', '$2y$10$vYkwHXyx.96SelUJo36saeyqZeP4wP7RSRot/tQz92xWVHhjSievm', 'zR1ajFLYev', '2023-05-22 03:43:12', '2023-05-22 03:43:12', 'admin', '123456', 'CEO', '2023-01-02', 1, 54.00, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', NULL, 'Technology'),
+(3, 'testintern', 'Test Intern', 'test2@example.com', '2023-05-22 03:43:13', '$2y$10$GqVrhB7vjAbtWQQEWfQg/OK/fkaDhCxvT0za92z3aYr7QjLmpgQuO', 'fEOwW4AyRe', '2023-05-22 03:43:13', '2023-05-22 03:43:13', 'intern', '123456', 'CEO', '2023-01-02', 1, 54.34, 500, 'GCASH', '2023-06-03', 'Juan de la Cruz', '1244356', NULL, 'Technology'),
+(4, 'Paucek', 'Mrs. Ocie Sauer DVM', 'rdicki@example.com', '2023-05-22 03:43:13', '$2y$10$DqvDT8w.WHg.g0RYJGkX4.TT.iA38uujdlJjp70dduywxZWGnLL62', 'NpbWp28h3t', '2023-05-22 03:43:13', '2023-05-22 03:43:13', 'superadmin', '1-409-496-5562', 'Actuary', '2023-01-02', 1, 58.00, 402, 'DBP', '2023-06-03', 'Malachi Sawayn', '5421735529465701', NULL, 'Business Development'),
+(5, 'Smith', 'Dino Schuster', 'delphine31@example.com', '2023-05-22 03:43:13', '$2y$10$BhI6rm7seulwM2Ds1xRerO9/jae8Z.ugHcGz3pz7wL1ttIqPaeY/.', 'Q8yppBNRUV', '2023-05-22 03:43:13', '2023-05-22 03:43:13', 'superadmin', '1-404-686-6132', 'Claims Adjuster', '2023-01-02', 1, 54.00, 155, 'DBP', '2023-06-03', 'Rosetta Hayes', '2598072350159003', NULL, 'People'),
+(6, 'Wyman', 'Rachelle Russel', 'mschamberger@example.com', '2023-05-22 03:43:13', '$2y$10$OIEihuvCGRj.AzJgIevfqehsBXyEUYVcslWwJHRyBR5WKVnjOxCq.', '1gAdzv09vD', '2023-05-22 03:43:13', '2023-05-22 03:43:13', 'intern', '+1 (561) 768-5679', 'Avionics Technician', '2023-01-02', 1, 34.00, 447, 'DBP', '2023-06-03', 'Moriah Bradtke', '4916617123442127', NULL, 'Technology'),
+(7, 'Swift', 'Griffin Windler', 'shawn96@example.net', '2023-05-22 03:43:13', '$2y$10$LsKZBV7ScHGqsG6sJNpBGOwSrsrOFY3ZIwZW3ipMMpSV1aALrUjtu', 'dece1Pw5my', '2023-05-22 03:43:13', '2023-05-22 03:43:13', 'admin', '+1-757-625-6749', 'Home Appliance Installer', '2023-01-02', 1, 43.00, 125, 'DBP', '2023-06-03', 'Shayne Roberts', '3589524793592215', NULL, 'People'),
+(8, 'Frami', 'Winston Bartoletti PhD', 'mertz.santino@example.com', '2023-05-22 03:43:13', '$2y$10$4Pavk6affmksWBzdjFvycugbtQot7LI8tFYKD9.IY3uJ/bGNbbdnO', 'FWKGNYw5wu', '2023-05-22 03:43:13', '2023-05-22 03:43:13', 'admin', '(769) 398-3466', 'Reservation Agent OR Transportation Ticket Agent', '2023-01-02', 1, 42.00, 100, 'BDO', '2023-06-03', 'Prof. Lincoln Kris DVM', '2376832069580171', NULL, 'People');
 
 --
 -- Indexes for dumped tables
@@ -282,7 +256,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `approvals`
 --
 ALTER TABLE `approvals`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -294,7 +268,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=293;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -306,13 +280,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `timesheets`
 --
 ALTER TABLE `timesheets`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables

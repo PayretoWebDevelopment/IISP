@@ -200,13 +200,13 @@ class ReportController extends Controller
         }
         
         if ($request->has('export_csv') || $request->submit == "export_csv") {
-            $filename = "{$user_name}_from_{$start_date}_to_{$end_date}.csv";
+            $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.csv";
             return Excel::download(new TimesheetsExport($timesheets), $filename);
         } elseif ($request->has('export_xlsx') || $request->submit == "export_xlsx") {
-            $filename = "{$user_name}_from_{$start_date}_to_{$end_date}.xlsx";
+            $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.xlsx";
             return Excel::download(new TimesheetsExport($timesheets), $filename);
         } elseif ($request->has('export_pdf') || $request->submit == "export_pdf") {
-            $filename = "{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
+            $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
             $pdf = PDF::loadView('intern.timesheets_pdf', compact('timesheets', 'totalAllowance'));
             return $pdf->download($filename); //returns a response to a pdf
         }
