@@ -20,20 +20,12 @@
     {{-- DataTables --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script>
-        // Report Table
-        $(document).ready(function() {
-            $('#report').DataTable();
-        });
-        // Admin List Table
-        $(document).ready(function() {
-            $('#adminList').DataTable();
-        });
-        // Intern List Table
-        $(document).ready(function() {
-            $('#internList').DataTable();
-        });
-    </script>
+    <script src="{{asset('js/datatables.js')}}"></script>
+    {{-- Flowbite --}}
+    <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    @vite(['resources/css/app.css','resources/js/app.js'])
+
+
     <script>
         tailwind.config = {
             theme: {

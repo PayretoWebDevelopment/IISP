@@ -69,12 +69,12 @@
         
         <section>
             <div class="overflow-x-auto">
-                <div class="">
+                <div>
                     <?php if($timesheetsByUser->isEmpty()): ?>
                         <p class="text-gray-700">No data found.</p>
                     <?php else: ?>
                         <div class="mt-10">
-                            <table class="min-w-full divide-y divide-gray-200" id="example" style="width:100%">
+                            <table class="min-w-full divide-y divide-gray-200" id="reportList" style="width:100%">
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col"
