@@ -7,20 +7,18 @@
             <form method="get" action="/admin/reports/filter" class="mt-8">
                 <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                     <div class="flex-1">
-                        <label for="start_date" class="text-gray-700 font-bold mb-2">From Date:</label>
+                        <label for="start_date" class="text-gray-700 font-semibold mb-2">From Date:</label>
                         <input type="date"
-                            class="w-96 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40"
+                            class="w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
                             id="start_date" name="start_date"
-                            value="{{ app('request')->input('start_date') ?? old('start_date')}}"
-                            required>
+                            value="{{ app('request')->input('start_date') ?? old('start_date') }}" required>
                     </div>
                     <div class="flex-1">
-                        <label for="end_date" class="text-gray-700 font-bold mb-2">To Date:</label>
+                        <label for="end_date" class="text-gray-700 font-semibold mb-2">To Date:</label>
                         <input type="date"
-                            class="w-96 px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40"
+                            class="w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
                             id="end_date" name="end_date"
-                            value="{{ app('request')->input('end_date') ?? old('end_date')}}"
-                            required>
+                            value="{{ app('request')->input('end_date') ?? old('end_date') }}" required>
                     </div>
                     <button type="submit"
                         class="block px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">Apply
@@ -37,20 +35,17 @@
                         value="{{ app('request')->input('end_date') ?? (old('start_date') ?? date('Y-m-d')) }}">
                     <div>
                         <button type="submit"
-                            class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-green-500
-            hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4"
+                            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                             name="submit" value="export_csv">Export to CSV</button>
                     </div>
                     <div>
                         <button type="submit"
-                            class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-yellow-500
-            hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4"
+                            class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"
                             name="submit" value="export_xlsx">Export to XLSX</button>
                     </div>
                     <div>
                         <button type="submit"
-                            class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-red-500
-            hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4"
+                            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
                             name="submit" value="export_pdf">Export to PDF</button>
                     </div>
                     <hr class="my-8">
@@ -61,60 +56,55 @@
         {{-- REPORT TABLE --}}
         <section>
             <div class="overflow-x-auto">
-                <div>
+                <div class="">
                     @if ($timesheetsByUser->isEmpty())
                         <p class="text-gray-700">No data found.</p>
                     @else
-                        <div class="mt-10">
-                            <table class="min-w-full divide-y divide-gray-200" id="reportList" style="width:100%">
-                                <thead class="bg-gray-50">
+                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                            <table class="w-full text-sm text-left text-gray-500" id="reportList"
+                                style="width:100%">
+                                <thead
+                                    class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
-                                        <th scope="col"
-                                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                        <th scope="col" class="px-6 py-3">
                                             <span class="hidden"></span>
                                         </th>
-                                        <th scope="col"
-                                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                        <th scope="col" class="px-6 py-3">
                                             Name
                                         </th>
-                                        <th scope="col"
-                                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                        <th scope="col" class="px-6 py-3">
                                             Role
                                         </th>
-                                        <th scope="col"
-                                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                        <th scope="col" class="px-6 py-3">
                                             Position
                                         </th>
-                                        <th scope="col"
-                                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                        <th scope="col" class="px-6 py-3">
                                             Hourly Rate
                                         </th>
-                                        <th scope="col"
-                                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                        <th scope="col" class="px-6 py-3">
                                             Hours Rendered
                                         </th>
-                                        <th scope="col"
-                                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                        <th scope="col" class="px-6 py-3">
                                             Actions
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody class="bg-white divide-y divide-gray-200">
+                                <tbody>
                                     @foreach ($timesheetsByUser as $user => $timesheets)
-                                        <tr>
-                                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                        <tr class="bg-white border-b">
+                                            <td class="px-6 py-4">
                                                 <input type="checkbox" name="timesheets[]" value={{ $user }}
                                                     form="export_form">
                                             </td>
-                                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                            <td class="px-6 py-4">
                                                 {{ $timesheetsByUser[$user]['userReference']->name }}</td>
-                                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                            <td class="px-6 py-4">
                                                 {{ $timesheetsByUser[$user]['userReference']->role }}</td>
-                                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                            <td class="px-6 py-4">
                                                 {{ $timesheetsByUser[$user]['userReference']->position }}</td>
-                                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                            <td class="px-6 py-4">
                                                 {{ $timesheetsByUser[$user]['userReference']->hourly_rate }}</td>
-                                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                            <td class="px-6 py-4">
                                                 {{ floor($timesheetsByUser[$user]['total_hours_rendered'] / 3600) .
                                                     ':' .
                                                     floor(($timesheetsByUser[$user]['total_hours_rendered'] % 3600) / 60) .

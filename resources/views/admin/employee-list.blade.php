@@ -1,18 +1,17 @@
 <x-layout>
     <title>Payreto | Employee List</title>
     <h1 class="text-2xl font-bold mb-4">Employee List</h1>
-    <a href="/admin/create-new-employee"
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-block mb-4">Add Employee</a>
 
-    <!-- Modal toggle -->
-    <button data-modal-target="defaultModal" data-modal-toggle="defaultModal"
+
+    <!-- Add User Modal toggle -->
+    <button data-modal-target="addUserModal" data-modal-toggle="addUserModal"
         class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
         type="button">
-        Add Employee
+        Add User
     </button>
 
-    <!-- Main modal -->
-    <div id="defaultModal" tabindex="-1" aria-hidden="true"
+    <!-- Add Usedr Main modal -->
+    <div id="addUserModal" tabindex="-1" aria-hidden="true"
         class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative w-full max-w-2xl max-h-full">
             <!-- Modal content -->
@@ -24,7 +23,7 @@
                     </h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                        data-modal-hide="defaultModal">
+                        data-modal-hide="addUserModal">
                         <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -205,38 +204,8 @@
                             @enderror
                         </div>
 
-
                         {{-- script for hiding fields when admin role is selected --}}
-                        <script>
-                            const roleSelect = document.getElementById('role');
-                            const startDateInput = document.getElementById('start_date');
-                            const activeInput = document.getElementById('active');
-                            const hourlyRateInput = document.getElementById('hourly_rate');
-                            const requiredHoursInput = document.getElementById('required_hours');
-                            const bankInput = document.getElementById('bank');
-                            const bankAccountNoInput = document.getElementById('bank_account_no');
-                            const supervisorInput = document.getElementById('supervisor');
-
-                            roleSelect.addEventListener('change', () => {
-                                if (roleSelect.value === 'Admin') {
-                                    startDateInput.classList.add('hidden');
-                                    activeInput.classList.add('hidden');
-                                    hourlyRateInput.classList.add('hidden');
-                                    requiredHoursInput.classList.add('hidden');
-                                    bankInput.classList.add('hidden');
-                                    bankAccountNoInput.classList.add('hidden');
-                                    supervisorInput.classList.add('hidden');
-                                } else {
-                                    startDateInput.classList.remove('hidden');
-                                    activeInput.classList.remove('hidden');
-                                    hourlyRateInput.classList.remove('hidden');
-                                    requiredHoursInput.classList.remove('hidden');
-                                    bankInput.classList.remove('hidden');
-                                    bankAccountNoInput.classList.remove('hidden');
-                                    supervisorInput.classList.remove('hidden');
-                                }
-                            });
-                        </script>
+                        <script src="{{asset('js/scripts.js')}}"></script>
                     </div>
                     <!-- Modal footer -->
                     <div class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
@@ -244,7 +213,7 @@
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
                             Submit
                         </button>
-                        <button data-modal-hide="defaultModal" type="button"
+                        <button data-modal-hide="addUserModal" type="button"
                             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Decline</button>
                     </div>
                 </form>
@@ -293,6 +262,7 @@
                     <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                         <a href="/admin/employee-edit/{{ $intern->id }}"
                             class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded inline-block">Edit</a>
+
                         <a href="/admin/employee-delete/{{ $intern->id }}"
                             class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
                             onclick="event.preventDefault();
@@ -337,6 +307,7 @@
                     <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                         <a href="/admin/employee-edit/{{ $admin->id }}"
                             class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded inline-block">Edit</a>
+
                         @if ($user_role === 'superadmin')
                             <a href="/admin/employee-delete/{{ $admin->id }}"
                                 class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
