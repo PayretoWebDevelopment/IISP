@@ -10,3 +10,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $('#internList').DataTable();
 });
+// Pending Request Table
+$(document).ready(function() {
+    $('#pendingRequestList').DataTable();
+});

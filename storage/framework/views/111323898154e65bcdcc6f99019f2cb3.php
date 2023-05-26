@@ -8,15 +8,17 @@
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
     <title>Payreto | Employee List</title>
-    <h1 class="text-2xl font-bold mb-4">Employee List</h1>
+    <h1 class="font-bold text-gray-700">Users List</h1>
 
 
     <!-- Add User Modal toggle -->
-    <button data-modal-target="addUserModal" data-modal-toggle="addUserModal"
-        class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-        type="button">
-        Add User
-    </button>
+    <div class="flex justify-end">
+        <button data-modal-target="addUserModal" data-modal-toggle="addUserModal"
+            class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            type="button">
+            <i class="fa-solid fa-user"></i> Add User
+        </button>
+    </div>
 
     <!-- Add Usedr Main modal -->
     <div id="addUserModal" tabindex="-1" aria-hidden="true"
@@ -333,116 +335,123 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </div>
+    <section class="mt-4">
+        <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
+            <h2 class="font-semibold text-center mb-5">Interns List</h2>
+            <table class="min-w-full divide-y divide-gray-200" id="internList" style="width:100%">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        </th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Name
+                        </th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Role
+                        </th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Hourly Rate</th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Required Hours</th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Department</th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Iterate over employees and populate table rows -->
+                    <?php $__currentLoopData = $interns; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $intern): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <tr>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"><?php echo e($intern->id); ?></td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"hover:bg-blue-700"><a
+                                    href="/users/profile/<?php echo e($intern->id); ?>"><?php echo e($intern->name); ?></a></td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"><?php echo e($intern->role); ?></td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <?php echo e($intern->hourly_rate); ?>
 
-    <h2 class="font-bold mb-4">Interns</h2>
-    <table class="min-w-full divide-y divide-gray-200" id="internList" style="width:100%">
-        <thead class="bg-gray-50">
-            <tr>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
-                </th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Name
-                </th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Role
-                </th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Hourly Rate</th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Required Hours</th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Department</th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Actions</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-            <!-- Iterate over employees and populate table rows -->
-            <?php $__currentLoopData = $interns; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $intern): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <tr>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"><?php echo e($intern->id); ?></td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"hover:bg-blue-700"><a
-                            href="/users/profile/<?php echo e($intern->id); ?>"><?php echo e($intern->name); ?></a></td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"><?php echo e($intern->role); ?></td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <?php echo e($intern->hourly_rate); ?>
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <?php echo e($intern->required_hours); ?></td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <?php echo e($intern->department); ?>
 
-                    </td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <?php echo e($intern->required_hours); ?></td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <?php echo e($intern->department); ?>
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <a href="/admin/employee-edit/<?php echo e($intern->id); ?>"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i class="fa-solid fa-edit"></i></a>
 
-                    </td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <a href="/admin/employee-edit/<?php echo e($intern->id); ?>"
-                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded inline-block">Edit</a>
+                                <a href="/admin/employee-delete/<?php echo e($intern->id); ?>"
+                                    class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full inline-block"
+                                    onclick="event.preventDefault();
+                                            if(confirm('Are you sure you want to delete this employee?')) {
+                                                document.getElementById('delete-form-<?php echo e($intern->id); ?>').submit();
+                                            }"><i class="fa-solid fa-trash"></i></a>
+                                <form id="delete-form-<?php echo e($intern->id); ?>"
+                                    action="/admin/employee-delete/<?php echo e($intern->id); ?>" method="POST"
+                                    style="display: none;">
+                                    <?php echo csrf_field(); ?>
+                                    <?php echo method_field('DELETE'); ?>
+                                </form>
+                            </td>
+                        </tr>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-                        <a href="/admin/employee-delete/<?php echo e($intern->id); ?>"
-                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
-                            onclick="event.preventDefault();
-                                    if(confirm('Are you sure you want to delete this employee?')) {
-                                        document.getElementById('delete-form-<?php echo e($intern->id); ?>').submit();
-                                    }">Delete</a>
-                        <form id="delete-form-<?php echo e($intern->id); ?>"
-                            action="/admin/employee-delete/<?php echo e($intern->id); ?>" method="POST"
-                            style="display: none;">
-                            <?php echo csrf_field(); ?>
-                            <?php echo method_field('DELETE'); ?>
-                        </form>
-                    </td>
-                </tr>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </tbody>
-    </table>
-    <h2 class="font-bold mb-4">Admins</h2>
-    <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
-        <thead class="bg-gray-50">
-            <tr>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
-                </th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Name
-                </th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Role
-                </th>
-                <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                    Actions</th>
-            </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-            <!-- Iterate over employees and populate table rows -->
-            <?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <tr>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"><?php echo e($admin->id); ?></td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"hover:bg-blue-700"><a
-                            href="/users/profile/<?php echo e($admin->id); ?>"><?php echo e($admin->name); ?></a></td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"><?php echo e($admin->role); ?></td>
-                    <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                        <a href="/admin/employee-edit/<?php echo e($admin->id); ?>"
-                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded inline-block">Edit</a>
+    <section class="mt-10">
+        <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
+            <h2 class="font-semibold text-center mb-5">Employee List</h2>
+            <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        </th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Name
+                        </th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Role
+                        </th>
+                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                            Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Iterate over employees and populate table rows -->
+                    <?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <tr>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"><?php echo e($admin->id); ?></td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"hover:bg-blue-700"><a
+                                    href="/users/profile/<?php echo e($admin->id); ?>"><?php echo e($admin->name); ?></a></td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"><?php echo e($admin->role); ?></td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <a href="/admin/employee-edit/<?php echo e($admin->id); ?>"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i class="fa-solid fa-edit"></i></a>
 
-                        <?php if($user_role === 'superadmin'): ?>
-                            <a href="/admin/employee-delete/<?php echo e($admin->id); ?>"
-                                class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
-                                onclick="event.preventDefault();
-                                    if(confirm('Are you sure you want to delete this employee?')) {
-                                        document.getElementById('delete-form-<?php echo e($admin->id); ?>').submit();
-                                    }">Delete</a>
-                            <form id="delete-form-<?php echo e($admin->id); ?>"
-                                action="/admin/employee-delete/<?php echo e($admin->id); ?>" method="POST"
-                                style="display: none;">
-                                <?php echo csrf_field(); ?>
-                                <?php echo method_field('DELETE'); ?>
-                            </form>
-                        <?php endif; ?>
-                    </td>
-                </tr>
-            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </tbody>
-    </table>
-
+                                <?php if($user_role === 'superadmin'): ?>
+                                    <a href="/admin/employee-delete/<?php echo e($admin->id); ?>"
+                                        class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
+                                        onclick="event.preventDefault();
+                                            if(confirm('Are you sure you want to delete this employee?')) {
+                                                document.getElementById('delete-form-<?php echo e($admin->id); ?>').submit();
+                                            }">Delete</a>
+                                    <form id="delete-form-<?php echo e($admin->id); ?>"
+                                        action="/admin/employee-delete/<?php echo e($admin->id); ?>" method="POST"
+                                        style="display: none;">
+                                        <?php echo csrf_field(); ?>
+                                        <?php echo method_field('DELETE'); ?>
+                                    </form>
+                                <?php endif; ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </tbody>
+            </table>
+        </div>
+    </section>
     <!--SUPERADMINS SECTION (CANNOT EDIT OR DELETE OTHER SUPERADMINS. CAN ONLY EDIT SELF)-->
     <?php if($user_role === 'superadmin'): ?>
         <?php echo $__env->make('admin.superadmin-employee-list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

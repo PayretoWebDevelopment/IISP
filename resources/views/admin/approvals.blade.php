@@ -7,48 +7,50 @@
     @else
     <form method="POST" action="/admin/approve-requests">
         @csrf
-        <table class="table-auto border-collapse w-full">
-            <thead>
-                <tr class="bg-gray-200">
-                    <th class="py-2 px-4 border">Requestor</th>
-                    <th class="py-2 px-4 border">Profile to Edit</th>
-                    <th class="py-2 px-4 border">Value to Edit</th>
-                    <th class="py-2 px-4 border">From</th>
-                    <th class="py-2 px-4 border">To</th>
-                    <th class="py-2 px-4 border">Reason</th>
-                    <th class="py-2 px-4 border">Approve?</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Iterate over approvals and populate table rows -->
-                @foreach ($approvals as $approval)
+        <div class="overflow-x-auto bg-white border border-gray-200 rounded-lg shadow p-5">
+            <table class=" divide-gray-200" id="internList" style="width:100%">
+                <thead class="bg-gray-50">
                     <tr>
-                        <td class="py-2 px-4 border">{{ $approval->requestor->name }}</td>
-                        <td class="py-2 px-4 border">{{ $approval->profile->name }}</td>
-                        <td class="py-2 px-4 border">{{ $approval->field_to_edit }}</td>
-                        <td class="py-2 px-4 border">{{ $approval->original_value }}</td>
-                        <td class="py-2 px-4 border">{{ $approval->modified_value }}</td>
-                        <td class="py-2 px-4 border">{{ $approval->reason }}</td>
-                        <td class="py-2 px-4 border">
-                            @php
-                                $options = [
-                                    1 => 'Yes',
-                                    0 => 'No',
-                                    null => 'Ignore'
-                                ];
-                            @endphp
-                            @foreach ($options as $value => $label)
-                                <label class="inline-flex items-center">
-                                    <input type="radio" class="form-radio" name="approval[{{ $approval->id }}]" value="{{ $value }}" {{ $approval->approve == $value ? 'checked' : '' }}>
-                                    <span class="ml-2">{{ $label }}</span>
-                                </label>
-                                <br>
-                            @endforeach
-                        </td>
+                        <th class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Requestor</th>
+                        <th class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Profile to Edit</th>
+                        <th class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Value to Edit</th>
+                        <th class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">From</th>
+                        <th class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">To</th>
+                        <th class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Reason</th>
+                        <th class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">Approve?</th>
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    <!-- Iterate over approvals and populate table rows -->
+                    @foreach ($approvals as $approval)
+                        <tr>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $approval->requestor->name }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $approval->profile->name }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $approval->field_to_edit }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $approval->original_value }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $approval->modified_value }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $approval->reason }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                @php
+                                    $options = [
+                                        1 => 'Yes',
+                                        0 => 'No',
+                                        null => 'Ignore'
+                                    ];
+                                @endphp
+                                @foreach ($options as $value => $label)
+                                    <label class="inline-flex items-center">
+                                        <input type="radio" class="form-radio" name="approval[{{ $approval->id }}]" value="{{ $value }}" {{ $approval->approve == $value ? 'checked' : '' }}>
+                                        <span class="ml-2">{{ $label }}</span>
+                                    </label>
+                                    <br>
+                                @endforeach
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
         <div class="mt-4">
             <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700">Approve pending requests</button>
         </div>

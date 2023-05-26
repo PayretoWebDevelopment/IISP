@@ -15,7 +15,7 @@
                     <th class="py-2 px-4 border">Value to Edit</th>
                     <th class="py-2 px-4 border">From</th>
                     <th class="py-2 px-4 border">To</th>
-                    <th class="py-2 px-4 border">Reason</th>
+                    <th class="py-2 px-4    background-color: #3b82f6;">Reason</th>
                     <th class="py-2 px-4 border">Approve?</th>
                 </tr>
             </thead>

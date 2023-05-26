@@ -8,7 +8,7 @@
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Reports']); ?>
     <title>Payreto | Reports</title>
-    <div class="container mx-auto">
+    <div class="container">
         <h1 class="font-bold text-gray-700">Reports</h1>
         
         <section>
@@ -29,8 +29,9 @@
                             value="<?php echo e(app('request')->input('end_date') ?? old('end_date')); ?>" required>
                     </div>
                     <button type="submit"
-                        class="block px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">Apply
-                        Filter</button>
+                        class="block px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                        <i class="fa-solid fa-filter"></i> Filter
+                    </button>
                 </div>
             </form>
 
@@ -44,17 +45,17 @@
                     <div>
                         <button type="submit"
                             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                            name="submit" value="export_csv">Export to CSV</button>
+                            name="submit" value="export_csv"><i class="fa-solid fa-file-csv"></i> Export</button>
                     </div>
                     <div>
                         <button type="submit"
                             class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:focus:ring-yellow-900"
-                            name="submit" value="export_xlsx">Export to XLSX</button>
+                            name="submit" value="export_xlsx"><i class="fa-solid fa-file-excel"></i> Export</button>
                     </div>
                     <div>
                         <button type="submit"
                             class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                            name="submit" value="export_pdf">Export to PDF</button>
+                            name="submit" value="export_pdf"><i class="fa-solid fa-file-pdf"></i> Export</button>
                     </div>
                     <hr class="my-8">
                 </div>
@@ -68,11 +69,9 @@
                     <?php if($timesheetsByUser->isEmpty()): ?>
                         <p class="text-gray-700">No data found.</p>
                     <?php else: ?>
-                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left text-gray-500" id="reportList"
-                                style="width:100%">
-                                <thead
-                                    class="text-xs text-gray-700 uppercase bg-gray-50">
+                        <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
+                            <table class="min-w-full divide-y divide-gray-200" id="reportList" style="width:100%">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
                                             <span class="hidden"></span>
@@ -130,8 +129,8 @@
                                                         value="<?php echo e(app('request')->input('end_date') ?? (old('end_date') ?? date('Y-m-d'))); ?>">
                                                     <div>
                                                         <button type="submit"
-                                                            class="px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
-                                                            Inspect
+                                                            class="px-6 py-2 font-medium tracking-wide text-white transition-colors duration-300 transform bg-zinc-600 rounded-lg hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                                                            <i class="fa-solid fa-eye"></i> View
                                                         </button>
                                                     </div>
                                                 </form>
@@ -140,13 +139,13 @@
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </tbody>
                             </table>
+
                         </div>
                 </div>
                 <?php endif; ?>
             </div>
         </section>
         
-
     </div>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
