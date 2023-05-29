@@ -33,7 +33,7 @@
         </div>
         <div class="mb-4">
             <label for="department" class="block text-gray-700 font-bold mb-2">Department (Dropdown):</label>
-            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="department" required value="<?php echo e($employee->department); ?>">
+            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="department" required>
                 <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <option value="<?php echo e($department); ?>" <?php echo e(($department == $employee->department) ? 'selected':''); ?>><?php echo e($department); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

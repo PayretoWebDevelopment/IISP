@@ -25,3 +25,4 @@ tailwindcss
 /public/dist/
 .tailwindcss-manifest.json
 tailwindcss
+node_modules/

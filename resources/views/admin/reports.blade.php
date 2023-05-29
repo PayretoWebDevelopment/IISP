@@ -11,14 +11,14 @@
                         <input type="date"
                             class="w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
                             id="start_date" name="start_date"
-                            value="{{ app('request')->input('start_date') ?? old('start_date') }}" required>
+                            value="{{ app('request')->input('start_date') ?? old('start_date') ?? date('Y-m-d') }}" required>
                     </div>
                     <div class="flex-1">
                         <label for="end_date" class="text-gray-700 font-semibold mb-2">To Date:</label>
                         <input type="date"
                             class="w-1/2 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 p-2.5"
                             id="end_date" name="end_date"
-                            value="{{ app('request')->input('end_date') ?? old('end_date') }}" required>
+                            value="{{ app('request')->input('start_date') ?? old('start_date') ?? date('Y-m-d') }}" required>
                     </div>
                     <button type="submit"
                         class="block px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">

@@ -56,5 +56,6 @@ git push origin main/master (check the branches)
 ### To use cloudflare
 download "cloudflared" for Windows
 do "php artisan serve"
+do "npm run dev" for tailwindcss (install package if missing)
 do "cloudflared tunnel --url http://localhost:port"
     *note: change port to the same port you're using

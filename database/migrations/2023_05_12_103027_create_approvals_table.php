@@ -16,9 +16,9 @@ return new class extends Migration
 
             $table->id();
             $table->unsignedBigInteger('requestor_id');
-            $table->foreign('requestor_id')->references('id')->on('users');
+            $table->foreign('requestor_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('profile_id');
-            $table->foreign('profile_id')->references('id')->on('users');
+            $table->foreign('profile_id')->references('id')->on('users')->onDelete('cascade');
             $table->enum('field_to_edit', $user_columns);
             $table->string('original_value');
             $table->string('modified_value');

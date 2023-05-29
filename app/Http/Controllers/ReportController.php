@@ -85,12 +85,12 @@ class ReportController extends Controller
         })
         ->where(function ($query) use ($start_date) {
             if ($start_date) {
-                $query->whereDate('start_time', '>=', $start_date);
+                return $query->whereDate('start_time', '>=', $start_date);
             }
         })
         ->where(function ($query) use ($end_date) {
             if ($end_date) {
-                $query->whereDate('start_time', '<=', $end_date);
+                return $query->whereDate('start_time', '<=', $end_date);
             }
         })
         ->where('user_id', '=', $id)
@@ -190,13 +190,19 @@ class ReportController extends Controller
 
         foreach ($timesheets as $index => $timesheet) {
             $timesheets[$index]->rate = $this->computeRate($user_id, $timesheet);
+            //dd($timesheets[$index]->rate, gettype($timesheets[$index]->rate));
             $timesheets[$index]->hourly_rate = $hourly_rate;
         }
 
         $totalAllowance = 0;
 
         foreach ($timesheets as $timesheet) {
-            $totalAllowance += $timesheet->rate;
+            //dd($timesheet->rate, gettype($timesheet->rate));
+            try {
+                $totalAllowance += $timesheet->rate;
+            } catch (Exception $e) {
+                $totalAllowance += floatval(str_replace(',', '', $timesheet->rate));
+            }
         }
         
         if ($request->has('export_csv') || $request->submit == "export_csv") {
@@ -273,6 +279,7 @@ class ReportController extends Controller
         $total_hours = $hours + ($minutes / 60) + ($seconds / 3600);
         // dd($total_hours);
         // return number_format(User::find($user_id)->hourly_rate * $timesheet->getDurationValue(), $decimal_places);
+        // return number_format(User::find($user_id)->hourly_rate * $total_hours, $decimal_places);
         return number_format(User::find($user_id)->hourly_rate * $total_hours, $decimal_places);
     }
 }
