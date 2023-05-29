@@ -23,9 +23,14 @@ In case you started your Git repository and project files separately on Github, 
 # Technologies Used
 
 - Laravel 10.9
-- PHP 8.2
-- Tailwind CSS
-- MySQL
+- PHP 8.2.0
+- Tailwind CSS 0.9.0
+- MySQL 15.1
+- PHPMailer 6.8
+- Laravel Excel (maatwebsite/excel) 3.1
+- Laravel DOMPDF (barryvdh/laravel-dompdf) 2.0
+- Cloudflare SDK 1.3
+- Cloudflare Tunnels (cloudflared) 2023.5.0
 
 
 # Personal Notes
