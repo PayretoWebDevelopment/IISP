@@ -30,32 +30,25 @@ In case you started your Git repository and project files separately on Github, 
 
 # Personal Notes
 ### Cloudflare tunnel setup:
-download "cloudflared" for Windows 
-do "php artisan serve"   
-do "cloudflared tunnel --url http://localhost:port" 
-*note: change port to the same port you're using
+- download "cloudflared" for Windows 
+- do "php artisan serve"   
+- do "cloudflared tunnel --url http://localhost:port" *note: change port to the same port you're using
 
 ### Pushing to GitHub:  
-username: miguel.pajarillo@payreto.com
+- username: miguel.pajarillo@payreto.com or your email/username
 
-password (personal access token): 
-refer to personal access token in discord channel
+- password (personal access token): refer to personal access token in discord channel or create your own token (or set default username and email on your machine)
 
-git remote add origin <project_link>
+- git remote add origin <project_link>
 
 #### Main Workflow
-git add *
-git status 
-git commit -m "commit message"
-git push origin main/master (check the branches)
-
-git status 
-git commit -m "commit message"
-git push origin main/master (check the branches)
+- git add *
+- git status 
+- git commit -m "commit message"
+- git push origin main/master (check the branches, see Pushing to GitHub for setting origin)
 
 ### To use cloudflare
-download "cloudflared" for Windows
-do "php artisan serve"
-do "npm run dev" for tailwindcss (install package if missing)
-do "cloudflared tunnel --url http://localhost:port"
-    *note: change port to the same port you're using
+- download "cloudflared" for Windows
+- do "php artisan serve"
+- do "npm run dev" for tailwindcss (install package if missing)
+- do "cloudflared tunnel --url http://localhost:port" *note: change port to the same port you're using
