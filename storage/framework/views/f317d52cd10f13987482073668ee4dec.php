@@ -7,7 +7,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
-    <title>Payreto | Edit Emplyoee Information</title>
+    <title>Payreto | Edit Employee Information</title>
     <h1 class="text-2xl font-bold mb-4">Edit Employee</h1>
     <form action="/admin/employee-update/<?php echo e($employee->id); ?>" method="POST">
         <?php echo csrf_field(); ?>
@@ -32,12 +32,17 @@
             <input type="text" name="position" id="position" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->position); ?>">
         </div>
         <div class="mb-4">
-            <label for="department" class="block text-gray-700 font-bold mb-2">Department:</label>
-            <input type="text" name="department" id="department" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->department); ?>">
+            <label for="department" class="block text-gray-700 font-bold mb-2">Department (Dropdown):</label>
+            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="department" required>
+                <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <option value="<?php echo e($department); ?>" <?php echo e(($department == $employee->department) ? 'selected':''); ?>><?php echo e($department); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </select>
+            <!--<input type="text" name="department" id="department" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->department); ?>">-->
         </div>
         <div class="mb-4">
             <label for="start_date" class="block text-gray-700 font-bold mb-2">Start Date:</label>
-            <input type="text" name="start_date" id="start_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->start_date); ?>">
+            <input type="date" name="start_date" id="start_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="<?php echo e($employee->start_date); ?>">
         </div>
         <div class="mb-4" id="active">
             <label for="active" class="block text-gray-700 font-bold mb-2">Active:</label>
@@ -71,6 +76,7 @@
             <a href="/admin/employee-list/" class="text-blue-500 hover:text-blue-700 font-bold">Cancel</a>
         </div>
     </form>
+
     <?php if($role === 'admin'): ?>
     <h1 class="text-2xl font-bold mb-4">Edit Employee Hourly Rate</h1>
     <form action="/admin/employee-edit-hourly-rate/<?php echo e($employee->id); ?>" method="POST" onsubmit="return validateForm()">
@@ -83,7 +89,7 @@
             <label for="reason" class="block text-gray-700 font-bold mb-2">Reason:</label>
             <input type="text" name="reason" id="reason" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required value="">
         </div>
-        
+
         <div class="flex items-center justify-between">
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Request change</button>
         </div>

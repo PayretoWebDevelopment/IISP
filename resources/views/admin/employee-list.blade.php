@@ -1,4 +1,9 @@
 <x-layout>
+    <head>
+        <!-- Other head elements -->
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <!-- Other head elements -->
+    </head>
     <title>Payreto | intern List</title>
     <h1 class="font-bold text-gray-700">Users List</h1>
 
@@ -379,6 +384,8 @@
                                 </form>
 
                                 <!-- Main modal -->
+                                <div id="success_message" class="hidden text-green-500 font-bold mb-4">Form submitted
+                                    successfully!</div>
                                 <div id="editinternModal" tabindex="-1" aria-hidden="true"
                                     class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                     <div class="relative w-full max-w-2xl max-h-full">
@@ -402,159 +409,171 @@
                                                 </button>
                                             </div>
                                             <!-- Modal body -->
-                                            <div class="p-6 space-y-6">
-                                                <div class="mb-4">
-                                                    <label for="name"
-                                                        class="block text-gray-700 font-bold mb-2">Full Name:</label>
-                                                    <input type="text" name="name" id="edit_name"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="name"
-                                                        class="block text-gray-700 font-bold mb-2">Username:</label>
-                                                    <input type="text" name="name" id="edit_username"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="name"
-                                                        class="block text-gray-700 font-bold mb-2">Email:</label>
-                                                    <input type="text" name="name" id="edit_email"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="name"
-                                                        class="block text-gray-700 font-bold mb-2">Contact
-                                                        Number:</label>
-                                                    <input type="text" name="name" id="edit_contact_number"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="name"
-                                                        class="block text-gray-700 font-bold mb-2">Position:</label>
-                                                    <input type="text" name="name" id="edit_position"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="department"
-                                                        class="block text-gray-700 font-bold mb-2">Department:</label>
-                                                    <select id="edit_department"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                        name="department" required>
-
-                                                        <?php
-                                                        $department_list = ['Technology', 'People', 'Business Development'];
-                                                        ?>
-                                                        @foreach ($department_list as $department)
-                                                            <option value="{{ $department }}"
-                                                                {{ $department == $intern->department ? 'selected' : '' }}>
-                                                                {{ $department }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="start_date"
-                                                        class="block text-gray-700 font-bold mb-2">Start Date:</label>
-                                                    <input type="date" name="start_date" id="start_date"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                        value="{{ $intern->start_date }}">
-                                                </div>
-                                                <div class="mb-4" id="active">
-                                                    <label for="active"
-                                                        class="block text-gray-700 font-bold mb-2">Active:</label>
-                                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"
-                                                        name="active" {{ $intern->start_date ? 'checked' : '' }}
-                                                        value="1"
-                                                        @if (old('active') == 1) checked @endif />
-                                                </div>
-                                                @if ($user_role === 'superadmin')
+                                            <form id="edit_form" class="p-6 space-y-6">
+                                                @csrf
+                                                <div class="p-6 space-y-6">
                                                     <div class="mb-4">
-                                                        <label for="hourly_rate"
-                                                            class="block text-gray-700 font-bold mb-2">Hourly
-                                                            rate:</label>
-                                                        <input type="number" name="edit_required_hours"
-                                                            id="edit_hourly_rate"
-                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                            step="0.01">
+                                                        <label for="id"
+                                                            class="block text-gray-700 font-bold mb-2">ID:</label>
+                                                        <input type="text" name="name" id="edit_id"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                                     </div>
-                                                @endif
-                                                <div class="mb-4">
-                                                    <label for="required_hours"
-                                                        class="block text-gray-700 font-bold mb-2">Required
-                                                        Hours:</label>
-                                                    <input type="number" name="edit_required_hours"
-                                                        id="edit_required_hours"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="bank"
-                                                        class="block text-gray-700 font-bold mb-2">Bank:</label>
-                                                    <input type="text" name="bank" id="edit_bank"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="bank_account_no"
-                                                        class="block text-gray-700 font-bold mb-2">Bank Account
-                                                        No:</label>
-                                                    <input type="number" name="bank_account_no"
-                                                        id="edit_bank_account_no"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                </div>
-                                                <div class="mb-4">
-                                                    <label for="supervisor"
-                                                        class="block text-gray-700 font-bold mb-2">Name of
-                                                        supervisor:</label>
-                                                    <input type="text" name="supervisor" id="edit_supervisor"
-                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                        value="{{ $intern->supervisor }}">
-                                                </div>
-                                                <div class="flex items-center justify-between">
-                                                    <button type="submit"
-                                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save
-                                                        Changes</button>
-                                                    <a href="/admin/intern-list/"
-                                                        class="text-blue-500 hover:text-blue-700 font-bold">Cancel</a>
-                                                </div>
+                                                    <div class="mb-4">
+                                                        <label for="name"
+                                                            class="block text-gray-700 font-bold mb-2">Full
+                                                            Name:</label>
+                                                        <input type="text" name="name" id="edit_name"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="name"
+                                                            class="block text-gray-700 font-bold mb-2">Username:</label>
+                                                        <input type="text" name="name" id="edit_username"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="name"
+                                                            class="block text-gray-700 font-bold mb-2">Email:</label>
+                                                        <input type="text" name="name" id="edit_email"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="name"
+                                                            class="block text-gray-700 font-bold mb-2">Contact
+                                                            Number:</label>
+                                                        <input type="text" name="name" id="edit_contact_number"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="name"
+                                                            class="block text-gray-700 font-bold mb-2">Position:</label>
+                                                        <input type="text" name="name" id="edit_position"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="department"
+                                                            class="block text-gray-700 font-bold mb-2">Department:</label>
+                                                        <select id="edit_department"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                            name="department" required>
 
-                                                @if ($user_role === 'admin')
-                                                    <h1 class="text-2xl font-bold mb-4">Edit Employee Hourly Rate</h1>
-                                                    {{-- <form action="/admin/employee-edit-hourly-rate/{{ $employee->id }}" method="POST" onsubmit="return validateForm()"> --}}
-                                                    <form>
-                                                        @csrf
+                                                            <?php
+                                                            $department_list = ['Technology', 'People', 'Business Development'];
+                                                            ?>
+                                                            @foreach ($department_list as $department)
+                                                                <option value="{{ $department }}"
+                                                                    {{ $department == $intern->department ? 'selected' : '' }}>
+                                                                    {{ $department }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="start_date"
+                                                            class="block text-gray-700 font-bold mb-2">Start
+                                                            Date:</label>
+                                                        <input type="date" name="start_date" id="edit_start_date"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                            value="{{ $intern->start_date }}">
+                                                    </div>
+                                                    <div class="mb-4" id="active">
+                                                        <label for="active"
+                                                            class="block text-gray-700 font-bold mb-2">Active:</label>
+                                                        <input type="checkbox" id="edit_active"
+                                                            class="form-checkbox h-5 w-5 text-gray-600" name="active"
+                                                            {{ $intern->start_date ? 'checked' : '' }} value="1"
+                                                            @if (old('active') == 1) checked @endif />
+                                                    </div>
+                                                    @if ($user_role === 'superadmin')
                                                         <div class="mb-4">
                                                             <label for="hourly_rate"
                                                                 class="block text-gray-700 font-bold mb-2">Hourly
                                                                 rate:</label>
-                                                            <input type="number" name="hourly_rate" id="edit_hourly_rate"
+                                                            <input type="number" name="hourly_rate"
+                                                                id="edit_hourly_rate"
                                                                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                                                 step="0.01">
                                                         </div>
-                                                        <div class="mb-4">
-                                                            <label for="reason"
-                                                                class="block text-gray-700 font-bold mb-2">Reason:</label>
-                                                            <input type="text" name="reason" id="reason"
-                                                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                                required value="">
-                                                        </div>
+                                                    @endif
+                                                    <div class="mb-4">
+                                                        <label for="required_hours"
+                                                            class="block text-gray-700 font-bold mb-2">Required
+                                                            Hours:</label>
+                                                        <input type="number" name="required_hours"
+                                                            id="edit_required_hours"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="bank"
+                                                            class="block text-gray-700 font-bold mb-2">Bank:</label>
+                                                        <input type="text" name="bank" id="edit_bank"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="bank_account_no"
+                                                            class="block text-gray-700 font-bold mb-2">Bank Account
+                                                            No:</label>
+                                                        <input type="number" name="bank_account_no"
+                                                            id="edit_bank_account_no"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="supervisor"
+                                                            class="block text-gray-700 font-bold mb-2">Name of
+                                                            supervisor:</label>
+                                                        <input type="text" name="supervisor" id="edit_supervisor"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                            value="{{ $intern->supervisor }}">
+                                                    </div>
 
-                                                        <div class="flex items-center justify-between">
-                                                            <button type="submit"
-                                                                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Request
-                                                                change</button>
-                                                        </div>
-                                                    </form>
-                                                @endif
-                                                <!-- Modal footer -->
-                                                <div
-                                                    class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-                                                    <button data-modal-hide="editinternModal" type="button"
-                                                        class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Decline</button>
-                                                    <button data-modal-hide="editinternModal" type="button"
-                                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">I
-                                                        Submit</button>
-                                                </div>
+                                                    <div class="flex items-center justify-between">
+                                                        <button type="submit"
+                                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save
+                                                            Changes</button>
+                                                        <a href="/admin/employee-list/"
+                                                            class="text-blue-500 hover:text-blue-700 font-bold">Cancel</a>
+                                                    </div>
+                                            </form>
+                                            @if ($user_role === 'admin')
+                                                <h1 class="text-2xl font-bold mb-4">Edit Employee Hourly Rate</h1>
+                                                {{-- <form action="/admin/employee-edit-hourly-rate/{{ $employee->id }}" method="POST" onsubmit="return validateForm()"> --}}
+                                                <form>
+                                                    @csrf
+                                                    <div class="mb-4">
+                                                        <label for="hourly_rate"
+                                                            class="block text-gray-700 font-bold mb-2">Hourly
+                                                            rate:</label>
+                                                        <input type="number" name="hourly_rate"
+                                                            id="edit_hourly_rate"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                            step="0.01">
+                                                    </div>
+                                                    <div class="mb-4">
+                                                        <label for="reason"
+                                                            class="block text-gray-700 font-bold mb-2">Reason:</label>
+                                                        <input type="text" name="reason" id="reason"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                            required value="">
+                                                    </div>
+
+                                                    <div class="flex items-center justify-between">
+                                                        <button type="submit"
+                                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Request
+                                                            change</button>
+                                                    </div>
+                                                </form>
+                                            @endif
+                                            <!-- Modal footer -->
+                                            <div
+                                                class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                                                <button data-modal-hide="editinternModal" type="button"
+                                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
+                                                <button data-modal-hide="editinternModal" type="button"
+                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">I
+                                                    Submit</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
                             </td>
                         </tr>
                     @endforeach
@@ -628,6 +647,7 @@
         @include('admin.superadmin-intern-list')
     @endif
     <script>
+        //Edit Intern Modal
         $(document).on("click", ".editinternList", function() {
             $tr = $(this).closest('tr');
 
@@ -637,6 +657,7 @@
 
             console.log(editinternData);
 
+            $('#edit_id').val(editinternData[0].trim());
             $('#edit_name').val(editinternData[1].trim());
             $('#edit_username').val(editinternData[2].trim());
             $('#edit_email').val(editinternData[3].trim());
@@ -652,5 +673,71 @@
             $('#edit_bank_account_no').val(editinternData[13].trim());
             $('#edit_supervisor').val(editinternData[14].trim());
         });
+
+        //Form submission modal
+        const form = document.getElementById('edit_form');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const successMessage = document.getElementById('success_message');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            // Get the form data
+            const id = document.getElementById('edit_id').value;
+            const name = document.getElementById('edit_name').value;
+            const username = document.getElementById('edit_username').value;
+            const email = document.getElementById('edit_email').value;
+            const contact_number = document.getElementById('edit_contact_number').value;
+            const position = document.getElementById('edit_position').value;
+            const start_date = document.getElementById('edit_start_date').value;
+            const active = document.getElementById('edit_active').value;
+            const hourly_rate = document.getElementById('edit_hourly_rate').value;
+            const required_hours = document.getElementById('edit_required_hours').value;
+            const department = document.getElementById('edit_department').value;
+            const bank = document.getElementById('edit_bank').value;
+            const bank_account_no = document.getElementById('edit_bank_account_no').value;
+            const supervisor = document.getElementById('edit_supervisor').value;
+
+            // Create an object with the form data
+            const formData = {
+                name: name,
+                username: username,
+                email: email,
+                contact_number: contact_number,
+                position: position,
+                start_date: start_date,
+                active: active,
+                hourly_rate: hourly_rate,
+                required_hours: required_hours,
+                department: department,
+                bank: bank,
+                bank_account_no: bank_account_no,
+                supervisor: supervisor
+            };
+
+            // Perform an AJAX request to submit the form data
+            fetch(`/admin/employee-update/${id}`, {
+                method: 'POST',
+                body: JSON.stringify(formData),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
+                }
+            })
+            .then(response => {
+                // Handle the response from the server
+                if (response.ok) {
+                    // Form submission successful, show success message
+                    alert('Form submitted successfully.');
+                } else {
+                    // Form submission failed, handle the error (e.g., show an error message)
+                    alert('Form submission failed.');
+                }
+            })
+            .catch(error => {
+                // Handle any errors that occurred during the request
+                console.error(error);
+            });
+    });
     </script>
 </x-layout>

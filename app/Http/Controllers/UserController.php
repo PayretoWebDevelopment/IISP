@@ -395,26 +395,40 @@ class UserController extends Controller
         // dd($request->all());
         // // Update the employee record with the new data
         // $employee->save($validatedData);
-        $employee->name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS); //$request->name;
-        $employee->username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS); //$request->username;
-        $employee->email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL); //$request->email;
-        $employee->contact_number = filter_input(INPUT_POST, 'contact_number', FILTER_SANITIZE_SPECIAL_CHARS); //$request->contact_number;
-        $employee->position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS); //$request->position;
-        $employee->hourly_rate = filter_input(INPUT_POST, 'hourly_rate', FILTER_SANITIZE_NUMBER_FLOAT); //$request->hourly_rate;
-        $employee->required_hours = filter_input(INPUT_POST, 'required_hours', FILTER_SANITIZE_NUMBER_INT); //$request->required_hours;
-        $employee->department = filter_input(INPUT_POST, 'department', FILTER_SANITIZE_SPECIAL_CHARS); //$request->department;
-        $employee->start_date = $request->start_date;
-        $employee->active = filter_input(INPUT_POST, 'active', FILTER_SANITIZE_NUMBER_INT); //$request->active;
-        $employee->bank = filter_input(INPUT_POST, 'bank', FILTER_SANITIZE_SPECIAL_CHARS); //$request->bank;
-        $employee->bank_account_no = filter_input(INPUT_POST, 'bank_account_number', FILTER_SANITIZE_NUMBER_INT); //$request->bank_account_number;
+        // $employee->name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS); //$request->name;
+        // $employee->username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS); //$request->username;
+        // $employee->email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL); //$request->email;
+        // $employee->contact_number = filter_input(INPUT_POST, 'contact_number', FILTER_SANITIZE_SPECIAL_CHARS); //$request->contact_number;
+        // $employee->position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS); //$request->position;
+        // $employee->hourly_rate = filter_input(INPUT_POST, 'hourly_rate', FILTER_SANITIZE_NUMBER_FLOAT); //$request->hourly_rate;
+        // $employee->required_hours = filter_input(INPUT_POST, 'required_hours', FILTER_SANITIZE_NUMBER_INT); //$request->required_hours;
+        // $employee->department = filter_input(INPUT_POST, 'department', FILTER_SANITIZE_SPECIAL_CHARS); //$request->department;
+        // $employee->start_date = $request->start_date;
+        // $employee->active = filter_input(INPUT_POST, 'active', FILTER_SANITIZE_NUMBER_INT); //$request->active;
+        // $employee->bank = filter_input(INPUT_POST, 'bank', FILTER_SANITIZE_SPECIAL_CHARS); //$request->bank;
+        // $employee->bank_account_no = filter_input(INPUT_POST, 'bank_account_number', FILTER_SANITIZE_NUMBER_INT); //$request->bank_account_number;
 
+        // Update the employee record with the form data
+        $employee->name = $request->input('name');
+        $employee->username = $request->input('username');
+        $employee->email = $request->input('email');
+        $employee->contact_number = $request->input('contact_number');
+        $employee->position = $request->input('position');
+        $employee->start_date = $request->input('start_date');
+        $employee->active = $request->input('active');
+        $employee->hourly_rate = $request->input('hourly_rate');
+        $employee->required_hours = $request->input('required_hours');
+        $employee->department = $request->input('department');
+        $employee->bank = $request->input('bank');
+        $employee->bank_account_no = $request->input('bank_account_no');
+        $employee->supervisor = $request->input('supervisor');
         $employee->save();
 
         // Redirect back to the employee list
         return redirect('/admin/employee-list')->with('success', 'Employee updated successfully!');
     }
 
-    // Delete emplotee
+    // Delete employee
     public function employee_delete($id)
     {
         // Find the employee by ID and delete it

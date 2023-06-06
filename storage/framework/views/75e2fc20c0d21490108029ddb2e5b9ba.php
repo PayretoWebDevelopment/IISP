@@ -35,9 +35,11 @@
     <script src="<?php echo e(asset('js/datatables.js')); ?>"></script>
     
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
-    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css','resources/js/app.js']); ?>
+    <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 
     <script>
@@ -54,27 +56,31 @@
 </head>
 
 <style>
-.dataTables_wrapper .dataTables_length select {
-    border: 1px solid #aaa;
-    border-radius: 5px;
-    background-color: transparent;
-    padding: 0 1.2em 0 1.2em;
-}
+    html {
+        background-repeat: repeat;
+        background: url(<?php echo e(url('images/webb.png')); ?>);
+    }
+    .dataTables_wrapper .dataTables_length select {
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        background-color: transparent;
+        padding: 0 1.2em 0 1.2em;
+    }
 
-.dataTables_wrapper .dataTables_filter input {
-    border: 1px solid #aaa;
-    border-radius: 5px;
-    padding: 5px;
-    background-color: transparent;
-    margin-bottom: 2em;
-}
+    .dataTables_wrapper .dataTables_filter input {
+        border: 1px solid #aaa;
+        border-radius: 5px;
+        padding: 5px;
+        background-color: transparent;
+        margin-bottom: 2em;
+    }
 
-.dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-    background-color: #f9fafb;
-}
-
-
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        background-color: #f9fafb;
+    }
 </style>
+
 <body>
 
     <!-- call export folder cleaning function -->
@@ -203,7 +209,6 @@
     <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
         <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
             <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
-                
                 <button class="w-12 h-16 -mr-2 border-r lg:hidden">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 my-auto" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor">
