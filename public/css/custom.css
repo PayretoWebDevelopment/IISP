@@ -12,3 +12,9 @@ h6,
 p {
     font-family: 'Montserrat', sans-serif;
 }
+
+html{
+    background-image: url("/public/images/background.png");
+    background-repeat: repeat;
+    background-size: cover;
+}

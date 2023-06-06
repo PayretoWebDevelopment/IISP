@@ -136,8 +136,8 @@
 
                         <div class="mb-6" id="start_date">
                             <label for="start_date" class="inline-block text-lg mb-2">Start date</label>
-                            <input type="start_date" class="border border-gray-200 rounded p-2 w-full"
-                                name="start_date" value=""{{ old('start_date') }} />
+                            <input type="date" class="border border-gray-200 rounded p-2 w-full" name="start_date"
+                                value=""{{ old('start_date') }} />
 
                             @error('start_date')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
@@ -207,7 +207,7 @@
                         </div>
 
                         {{-- script for hiding fields when admin role is selected --}}
-                        <script src="{{asset('js/scripts.js')}}"></script>
+                        <script src="{{ asset('js/scripts.js') }}"></script>
                     </div>
                     <!-- Modal footer -->
                     <div class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
@@ -228,21 +228,28 @@
             <table class="min-w-full divide-y divide-gray-200" id="internList" style="width:100%">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
                         </th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Name
                         </th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Role
                         </th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Hourly Rate</th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Required Hours</th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Department</th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Actions</th>
                     </tr>
                 </thead>
@@ -250,10 +257,13 @@
                     <!-- Iterate over employees and populate table rows -->
                     @foreach ($interns as $intern)
                         <tr>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $intern->id }}</td>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"hover:bg-blue-700"><a
-                                    href="/users/profile/{{ $intern->id }}">{{ $intern->name }}</a></td>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $intern->role }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                {{ $intern->id }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <a href="/users/profile/{{ $intern->id }}">{{ $intern->name }}</a>
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                {{ $intern->role }}</td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 {{ $intern->hourly_rate }}
                             </td>
@@ -263,15 +273,121 @@
                                 {{ $intern->department }}
                             </td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                <a href="/admin/employee-edit/{{ $intern->id }}"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i class="fa-solid fa-edit"></i></a>
+                                {{-- <a href="/admin/employee-edit/{{ $intern->id }}"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i
+                                        class="fa-solid fa-edit"></i></a> --}}
+                                <!-- Modal toggle -->
+                                <button data-modal-target="editEmployeeModal" data-modal-toggle="editEmployeeModal"
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block editEmployeeList"
+                                    type="button">
+                                    Edit
+                                </button>
+
+                                <!-- Main modal -->
+                                <div id="editEmployeeModal" tabindex="-1" aria-hidden="true"
+                                    class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                                    <div class="relative w-full max-w-2xl max-h-full">
+                                        <!-- Modal content -->
+                                        <div class="relative bg-white rounded-lg shadow">
+                                            <!-- Modal header -->
+                                            <div class="flex items-start justify-between p-4 border-b rounded-t">
+                                                <h3 class="text-xl font-semibold text-gray-900">
+                                                    Edit Employee
+                                                </h3>
+                                                <button type="button"
+                                                    class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                                                    data-modal-hide="editEmployeeModal">
+                                                    <svg aria-hidden="true" class="w-5 h-5" fill="currentColor"
+                                                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                                        <path fill-rule="evenodd"
+                                                            d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                            clip-rule="evenodd"></path>
+                                                    </svg>
+                                                    <span class="sr-only">Close modal</span>
+                                                </button>
+                                            </div>
+                                            <!-- Modal body -->
+                                            <div class="p-6 space-y-6">
+                                                <div class="mb-4">
+                                                    <label for="name"
+                                                        class="block text-gray-700 font-bold mb-2">Full Name:</label>
+                                                    <input type="text" name="name" id="edit_name"
+                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label for="name"
+                                                        class="block text-gray-700 font-bold mb-2">Username:</label>
+                                                    <input type="text" name="name" id="edit_username"
+                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label for="name"
+                                                        class="block text-gray-700 font-bold mb-2">Email:</label>
+                                                    <input type="text" name="name" id="edit_email"
+                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label for="name"
+                                                        class="block text-gray-700 font-bold mb-2">Contact
+                                                        Number:</label>
+                                                    <input type="text" name="name" id="edit_contact"
+                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label for="name"
+                                                        class="block text-gray-700 font-bold mb-2">Position:</label>
+                                                    <input type="text" name="name" id="edit_position"
+                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label for="department"
+                                                        class="block text-gray-700 font-bold mb-2">Department:</label>
+                                                    <select
+                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                        name="department" required>
+                                                        @foreach ($department_list as $department)
+                                                            <option value="{{ $department }}"
+                                                                {{ $department == $employee->department ? 'selected' : '' }}>
+                                                                {{ $department }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="mb-4">
+                                                    <label for="start_date"
+                                                        class="block text-gray-700 font-bold mb-2">Start Date:</label>
+                                                    <input type="date" name="start_date" id="start_date"
+                                                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                        value="{{ $employee->start_date }}">
+                                                </div>
+                                                <div class="mb-4" id="active">
+                                                    <label for="active"
+                                                        class="block text-gray-700 font-bold mb-2">Active:</label>
+                                                    <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600"
+                                                        name="active" {{ $employee->start_date ? 'checked' : '' }}
+                                                        value="1"
+                                                        @if (old('active') == 1) checked @endif />
+                                                </div>
+                                            </div>
+                                            <!-- Modal footer -->
+                                            <div
+                                                class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
+                                                <button data-modal-hide="editEmployeeModal" type="button"
+                                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Decline</button>
+                                                <button data-modal-hide="editEmployeeModal" type="button"
+                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">I
+                                                    Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <a href="/admin/employee-delete/{{ $intern->id }}"
                                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full inline-block"
                                     onclick="event.preventDefault();
                                             if(confirm('Are you sure you want to delete this employee?')) {
                                                 document.getElementById('delete-form-{{ $intern->id }}').submit();
-                                            }"><i class="fa-solid fa-trash"></i></a>
+                                            }"><i
+                                        class="fa-solid fa-trash"></i></a>
                                 <form id="delete-form-{{ $intern->id }}"
                                     action="/admin/employee-delete/{{ $intern->id }}" method="POST"
                                     style="display: none;">
@@ -292,15 +408,19 @@
             <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
                 <thead class="bg-gray-50">
                     <tr>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
                         </th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Name
                         </th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Role
                         </th>
-                        <th scope="col" class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                             Actions</th>
                     </tr>
                 </thead>
@@ -308,13 +428,18 @@
                     <!-- Iterate over employees and populate table rows -->
                     @foreach ($admins as $admin)
                         <tr>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $admin->id }}</td>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"hover:bg-blue-700"><a
-                                    href="/users/profile/{{ $admin->id }}">{{ $admin->name }}</a></td>
-                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">{{ $admin->role }}</td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                {{ $admin->id }}</td>
+                            <td
+                                class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"hover:bg-blue-700">
+                                <a href="/users/profile/{{ $admin->id }}">{{ $admin->name }}</a>
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                {{ $admin->role }}</td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <a href="/admin/employee-edit/{{ $admin->id }}"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i class="fa-solid fa-edit"></i></a>
+                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i
+                                        class="fa-solid fa-edit"></i></a>
 
                                 @if ($user_role === 'superadmin')
                                     <a href="/admin/employee-delete/{{ $admin->id }}"
@@ -341,4 +466,22 @@
     @if ($user_role === 'superadmin')
         @include('admin.superadmin-employee-list')
     @endif
+    <script>
+        $(document).on("click", ".editEmployeeList", function() {
+            $tr = $(this).closest('tr');
+
+            var editEmployeeData = $tr.children("td").map(function() {
+                return $(this).text();
+            }).get();
+
+            console.log(editEmployeeData);
+
+            $('#edit_name').val(editEmployeeData[1].trim());
+            $('#edit_username').val(editEmployeeData[2].trim());
+            $('#edit_email').val(editEmployeeData[3].trim());
+            $('#edit_contact_number').val(editEmployeeData[4].trim());
+            $('#edit_department').val(editEmployeeData[5].trim());
+            // $('#edit_username').val(editEmployeeData[5]);
+        });
+    </script>
 </x-layout>

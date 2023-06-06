@@ -76,7 +76,7 @@
             <a href="/admin/employee-list/" class="text-blue-500 hover:text-blue-700 font-bold">Cancel</a>
         </div>
     </form>
-    <br>
+
     <?php if($role === 'admin'): ?>
     <h1 class="text-2xl font-bold mb-4">Edit Employee Hourly Rate</h1>
     <form action="/admin/employee-edit-hourly-rate/<?php echo e($employee->id); ?>" method="POST" onsubmit="return validateForm()">
@@ -89,7 +89,7 @@
             <label for="reason" class="block text-gray-700 font-bold mb-2">Reason:</label>
             <input type="text" name="reason" id="reason" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" required value="">
         </div>
-        
+
         <div class="flex items-center justify-between">
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Request change</button>
         </div>

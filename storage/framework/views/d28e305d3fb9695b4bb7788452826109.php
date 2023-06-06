@@ -48,7 +48,7 @@
 <?php if (isset($__componentOriginal740c66ff9bbfcb19a96a45ba2fa42d64)): ?>
 <?php $component = $__componentOriginal740c66ff9bbfcb19a96a45ba2fa42d64; ?>
 <?php unset($__componentOriginal740c66ff9bbfcb19a96a45ba2fa42d64); ?>
-<?php endif; ?>
+<?php endif; ?> 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

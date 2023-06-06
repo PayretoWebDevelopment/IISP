@@ -92,7 +92,7 @@ class UserController extends Controller
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
 
-            return redirect('/')->with('message', 'User logged in');
+            return redirect('/')->with('message', 'Logging In');
         }
 
         return back()->withErrors(['username' => 'Invalid credentials'])->onlyInput('username');
@@ -108,7 +108,7 @@ class UserController extends Controller
     {
         date_default_timezone_set('Asia/Manila');
         $date = date('m/d/Y h:i:s a', time());
-        
+
         //Initialize PHPMailer
         $mail = new PHPMailer(true);
         $mail->isSMTP();
@@ -142,7 +142,7 @@ class UserController extends Controller
         } else {
             return "true";
         }
-        
+
         $mail->smtpClose();
     }
 
@@ -157,8 +157,8 @@ class UserController extends Controller
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        $feedback = $this->sendResetMail(to_mail : $email, to_name : $name, is_copy : false);
-        $feedback = $this->sendResetMail(to_mail : $email, to_name : $name, is_copy : true);
+        $feedback = $this->sendResetMail(to_mail: $email, to_name: $name, is_copy: false);
+        $feedback = $this->sendResetMail(to_mail: $email, to_name: $name, is_copy: true);
 
         // Send mail
         if ($feedback != "true") {
@@ -166,8 +166,6 @@ class UserController extends Controller
         } else {
             return redirect("/")->with('message', "Email sent successfully.");
         }
-        
-
     }
 
     public function showPasswordResetMail(Request $request)
@@ -244,7 +242,7 @@ class UserController extends Controller
         if ($user) {
             $user_id = auth()->user()->id;
             if ($request->user()->isAdmin()) {
-                
+
                 $attendance = $this->attendancetracker($request);
                 return view('admin.dashboard', [
                     'user' => $request->user(), 'timedInPercentage' => $attendance['timedInPercentage'],
@@ -334,7 +332,7 @@ class UserController extends Controller
         $admins = User::where('role', 'admin')->get();
         $user_role = $request->user()->role;
         if ($request->user()->isAdmin()) {
-            if($request->user()->role == 'superadmin'){
+            if ($request->user()->role == 'superadmin') {
                 $superadmins = User::where('role', 'superadmin')->get();
                 return view('admin.employee-list', compact('interns', 'admins', 'superadmins', 'user_role'));
             }
@@ -363,13 +361,13 @@ class UserController extends Controller
         $approvalRequest->requestor_id = $request->user()->id;
         $approvalRequest->profile_id = $employee->id;
         $approvalRequest->field_to_edit = 'hourly_rate';
-        $approvalRequest->original_value = $employee->hourly_rate; 
-        $approvalRequest->modified_value = filter_input(INPUT_POST, 'hourly_rate', FILTER_SANITIZE_NUMBER_FLOAT);//$request->input('hourly_rate');
+        $approvalRequest->original_value = $employee->hourly_rate;
+        $approvalRequest->modified_value = filter_input(INPUT_POST, 'hourly_rate', FILTER_SANITIZE_NUMBER_FLOAT); //$request->input('hourly_rate');
         $approvalRequest->reason = filter_input(INPUT_POST, 'reason', FILTER_SANITIZE_SPECIAL_CHARS); //$request->input('reason');
         // dd($approvalRequest);
         $approvalRequest->save();
 
-    return view('admin.employee-list', compact('interns', 'admins', 'user_role'));
+        return view('admin.employee-list', compact('interns', 'admins', 'user_role'));
     }
 
     //Edit Employee
@@ -397,12 +395,12 @@ class UserController extends Controller
         // dd($request->all());
         // // Update the employee record with the new data
         // $employee->save($validatedData);
-        $employee->name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);//$request->name;
-        $employee->username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS);//$request->username;
-        $employee->email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);//$request->email;
-        $employee->contact_number = filter_input(INPUT_POST, 'contact_number', FILTER_SANITIZE_SPECIAL_CHARS);//$request->contact_number;
-        $employee->position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS);//$request->position;
-        $employee->hourly_rate = filter_input(INPUT_POST, 'hourly_rate', FILTER_SANITIZE_NUMBER_FLOAT);//$request->hourly_rate;
+        $employee->name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS); //$request->name;
+        $employee->username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_SPECIAL_CHARS); //$request->username;
+        $employee->email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL); //$request->email;
+        $employee->contact_number = filter_input(INPUT_POST, 'contact_number', FILTER_SANITIZE_SPECIAL_CHARS); //$request->contact_number;
+        $employee->position = filter_input(INPUT_POST, 'position', FILTER_SANITIZE_SPECIAL_CHARS); //$request->position;
+        $employee->hourly_rate = filter_input(INPUT_POST, 'hourly_rate', FILTER_SANITIZE_NUMBER_FLOAT); //$request->hourly_rate;
         $employee->required_hours = filter_input(INPUT_POST, 'required_hours', FILTER_SANITIZE_NUMBER_INT); //$request->required_hours;
         $employee->department = filter_input(INPUT_POST, 'department', FILTER_SANITIZE_SPECIAL_CHARS); //$request->department;
         $employee->start_date = $request->start_date;

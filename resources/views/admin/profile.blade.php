@@ -14,5 +14,5 @@
             @endauth
             <br>
         </x-profile>
-    </x-card>
+    </x-card> 
 </x-layout>

@@ -12,5 +12,5 @@ $(document).ready(function() {
 });
 // Pending Request Table
 $(document).ready(function() {
-    $('#pendingRequestList').DataTable();
+    $('#pendingRequestListc').DataTable();
 });

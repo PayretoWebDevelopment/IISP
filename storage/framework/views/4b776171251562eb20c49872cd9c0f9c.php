@@ -12,12 +12,11 @@
     <title>Payreto | User Dashboard</title>
     <h1 class="font-bold text-gray-700">Dashboard</h1>
     <?php if(auth()->guard()->check()): ?>
-        
     <?php endif; ?>
-    <div class="container flex justify-center">
+    <div class="container flex justify-start">
         <div class="text-center" style="width:40%;">
-            <h3>Daily Intern Attendance Tracker</h3>
-            <div class="px-8 py-4 bg-white rounded-lg shadow-md">
+            <div class="p-6 bg-white border border-gray-200 rounded-lg shadow">
+                <h3>Daily Intern Attendance Tracker</h3>
                 <canvas id="attendanceTracker"></canvas>
             </div>
         </div>
