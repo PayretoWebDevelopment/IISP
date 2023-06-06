@@ -10,19 +10,18 @@
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Dashboard']); ?>
     <title>Payreto | User Dashboard</title>
+    <h1 class="font-bold text-gray-700">Dashboard</h1>
     <?php if(auth()->guard()->check()): ?>
-        <span class="font-bold uppercase">
-            Welcome, <?php echo e(auth()->user()->name); ?>!
-        </span>
     <?php endif; ?>
-    <h1>Dashboard</h1>
-    <div class="container flex justify-center">
+    <div class="container flex justify-start">
         <div class="text-center" style="width:40%;">
-            <h3>Daily Intern Attendance Tracker</h3>
-            <canvas id="attendanceTracker"></canvas>
+            <div class="p-6 bg-white border border-gray-200 rounded-lg shadow">
+                <h3>Daily Intern Attendance Tracker</h3>
+                <canvas id="attendanceTracker"></canvas>
+            </div>
         </div>
     </div>
-    
+
 
     
     <script>
