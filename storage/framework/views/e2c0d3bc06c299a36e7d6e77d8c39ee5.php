@@ -534,12 +534,10 @@ unset($__errorArgs, $__bag); ?>
                                             <form id="edit_form" class="p-6 space-y-6">
                                                 <?php echo csrf_field(); ?>
                                                 <div class="p-6 space-y-6">
-                                                    <div class="mb-4">
-                                                        <label for="id"
-                                                            class="block text-gray-700 font-bold mb-2">ID:</label>
-                                                        <input type="text" name="name" id="edit_id"
-                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                    </div>
+                                                    <div class="mb-4" hidden>
+                                                        <label for="id" class="block text-gray-700 font-bold mb-2">ID:</label>
+                                                        <input type="text" name="name" id="edit_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>                                                    
                                                     <div class="mb-4">
                                                         <label for="name"
                                                             class="block text-gray-700 font-bold mb-2">Full
@@ -651,8 +649,8 @@ unset($__errorArgs, $__bag); ?>
                                                         <button type="submit"
                                                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save
                                                             Changes</button>
-                                                        <a href="/admin/employee-list/"
-                                                            class="text-blue-500 hover:text-blue-700 font-bold">Cancel</a>
+                                                            <button data-modal-hide="editinternModal" type="button"
+                                                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
                                                     </div>
                                             </form>
                                             <?php if($user_role === 'admin'): ?>
@@ -685,14 +683,7 @@ unset($__errorArgs, $__bag); ?>
                                                 </form>
                                             <?php endif; ?>
                                             <!-- Modal footer -->
-                                            <div
-                                                class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
-                                                <button data-modal-hide="editinternModal" type="button"
-                                                    class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
-                                                <button data-modal-hide="editinternModal" type="button"
-                                                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">I
-                                                    Submit</button>
-                                            </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
