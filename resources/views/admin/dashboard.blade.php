@@ -2,7 +2,7 @@
 
 <x-layout module_name="Dashboard">
     <title>Payreto | User Dashboard</title>
-    <h1 class="font-bold text-gray-700">Dashboard</h1>
+    <h1 class="font-bold text-gray-700 text-3xl">Dashboard</h1>
     @auth
     @endauth
     <section class="container">
@@ -104,7 +104,7 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">{{ $approvals }}</div>
+
 
                             <div class="mt-1 text-base text-gray-600">Pending Approvals</div>
                         </div>

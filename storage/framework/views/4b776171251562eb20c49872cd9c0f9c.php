@@ -10,7 +10,7 @@
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Dashboard']); ?>
     <title>Payreto | User Dashboard</title>
-    <h1 class="font-bold text-gray-700">Dashboard</h1>
+    <h1 class="font-bold text-gray-700 text-3xl">Dashboard</h1>
     <?php if(auth()->guard()->check()): ?>
     <?php endif; ?>
     <section class="container">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">1</div>
+                            <div class="mt-3 text-3xl font-bold leading-8"><?php echo e($interns); ?></div>
 
                             <div class="mt-1 text-base text-gray-600">Total Interns</div>
                         </div>
@@ -112,7 +112,7 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">3</div>
+
 
                             <div class="mt-1 text-base text-gray-600">Pending Approvals</div>
                         </div>
@@ -163,9 +163,9 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">2</div>
+                            <div class="mt-3 text-3xl font-bold leading-8"><?php echo e($active_interns); ?></div>
 
-                            <div class="mt-1 text-base text-gray-600">Active Interns</div>
+                            <div class="mt-1 text-base text-gray-600">Active interns</div>
                         </div>
                     </div>
                 </div>
@@ -200,9 +200,9 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">3</div>
+                            <div class="mt-3 text-3xl font-bold leading-8"><?php echo e($admins); ?></div>
 
-                            <div class="mt-1 text-base text-gray-600">Total Admin</div>
+                            <div class="mt-1 text-base text-gray-600">Total Admins</div>
                         </div>
                     </div>
                 </div>
