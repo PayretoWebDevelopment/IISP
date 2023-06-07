@@ -60,6 +60,7 @@
         background-repeat: repeat;
         background: url(<?php echo e(url('images/webb.png')); ?>);
     }
+
     .dataTables_wrapper .dataTables_length select {
         border: 1px solid #aaa;
         border-radius: 5px;
@@ -97,7 +98,7 @@
                 <a href="/" title="Dashboard">
                     <img src="<?php echo e(asset('images/logo.png')); ?>" class="w-10" alt="PayretoLogo">
                 </a>
-                <p class="ms-4 text-base font-bold">IISP</p>
+                <p class="ms-2 font-semibold" style="font-size: 11px;">Intern Information System & Payroll</p>
             </div>
 
             <ul class="space-y-2 tracking-wide mt-8">
