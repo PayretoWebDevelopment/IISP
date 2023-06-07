@@ -239,14 +239,32 @@ class UserController extends Controller
     public function dashboard(Request $request)
     {
         $user = auth()->user();
+        $interns = User::where('role', 'intern')->get()->count();
+        $admins = User::where('role', 'admin')->get()->count();
+        $active_interns = User::where('role', 'intern')
+            ->where('active', true)
+            ->get()->count();
+            if ($user->role != 'superadmin') {
+                $approvals = Approval::where('approve', null)
+                    ->where('field_to_edit', '<>', 'hourly_rate')
+                    ->get()->count();
+            } else {
+                $approvals = Approval::where('approve', null)
+                    ->get()->count();
+            }
+        
         if ($user) {
-            $user_id = auth()->user()->id;
+            // $user_id = auth()->user()->id;
             if ($request->user()->isAdmin()) {
 
                 $attendance = $this->attendancetracker($request);
                 return view('admin.dashboard', [
                     'user' => $request->user(), 'timedInPercentage' => $attendance['timedInPercentage'],
-                    'notTimedInPercentage' => $attendance['notTimedInPercentage']
+                    'notTimedInPercentage' => $attendance['notTimedInPercentage'], 
+                    'interns' => $interns,
+                    'admins' => $admins,
+                    'active_interns' => $active_interns,
+                    'approvals' =>$approvals
                 ]);
             } else {
                 $timesheets = Timesheet::whereBetween('start_time', [now()->startOfDay(), now()->endOfDay()])

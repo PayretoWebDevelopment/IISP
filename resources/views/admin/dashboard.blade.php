@@ -67,7 +67,7 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">1</div>
+                            <div class="mt-3 text-3xl font-bold leading-8">{{ $interns }}</div>
 
                             <div class="mt-1 text-base text-gray-600">Total Interns</div>
                         </div>
@@ -104,7 +104,7 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">3</div>
+                            <div class="mt-3 text-3xl font-bold leading-8">{{ $approvals }}</div>
 
                             <div class="mt-1 text-base text-gray-600">Pending Approvals</div>
                         </div>
@@ -155,9 +155,9 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">2</div>
+                            <div class="mt-3 text-3xl font-bold leading-8">{{ $active_interns }}</div>
 
-                            <div class="mt-1 text-base text-gray-600">Active Interns</div>
+                            <div class="mt-1 text-base text-gray-600">Active interns</div>
                         </div>
                     </div>
                 </div>
@@ -192,9 +192,9 @@
                     </div>
                     <div class="ml-2 w-full flex-1">
                         <div>
-                            <div class="mt-3 text-3xl font-bold leading-8">3</div>
+                            <div class="mt-3 text-3xl font-bold leading-8">{{ $admins }}</div>
 
-                            <div class="mt-1 text-base text-gray-600">Total Admin</div>
+                            <div class="mt-1 text-base text-gray-600">Total Admins</div>
                         </div>
                     </div>
                 </div>

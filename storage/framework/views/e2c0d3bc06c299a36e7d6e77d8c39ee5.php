@@ -768,7 +768,7 @@ unset($__errorArgs, $__bag); ?>
                 return $(this).text();
             }).get();
 
-            console.log(editinternData);
+            // console.log(editinternData);
 
             $('#edit_id').val(editinternData[0].trim());
             $('#edit_name').val(editinternData[1].trim());
