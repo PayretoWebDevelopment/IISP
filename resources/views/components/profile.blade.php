@@ -1,34 +1,32 @@
 <form action="/users/profile/upload-profile-picture" method="POST" enctype="multipart/form-data">
     @csrf
-    <div class="flex flex-col items-center">
+    <div class="container flex justify-around items-center">
         <label for="profile_picture" class="cursor-pointer">
             <div class="relative">
-                <img id="profile_picture_preview" class="w-32 rounded-full object-cover"
+                <img id="profile_picture_preview" class="w-28 rounded-full object-cover"
                     src="{{ auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png') }}"
                     alt="Profile Picture">
                 <div
                     class="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100">
-                    <span class="text-white text-lg font-bold">Upload Profile Picture</span>
+                    <span class="text-white text-center text-sm font-bold">Upload Image</span>
                 </div>
             </div>
         </label>
         <input type="file" name="profile_picture" id="profile_picture" hidden>
         <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
-            Save Profile Picture
+        <button type="submit"
+            class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+            Save
         </button>
     </div>
-
-
 </form>
-<main class="mt-8">
+<div class="mt-5 text-center">
     {{ $slot }}
     {{-- button to change password --}}
     <a href="{{ url('/users/change-password') }}"
-        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200">Change
+        class="w-100 text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2">Change
         password</a>
-</main>
-
+</div>
 
 {{-- upload profile picture script --}}
 <script>

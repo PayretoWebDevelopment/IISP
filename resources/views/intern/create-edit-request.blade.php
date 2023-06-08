@@ -46,7 +46,8 @@
                 </label>
                 <select class="form-input ml-4 hidden" name="department" id="department">
                     @foreach ($department_list as $department)
-                        <option value="{{$department}}" {{($department == $user->department) ? 'selected':''}}>{{$department}}</option>
+                        <option value="{{ $department }}" {{ $department == $user->department ? 'selected' : '' }}>
+                            {{ $department }}</option>
                     @endforeach
                 </select>
             </div>
@@ -56,8 +57,8 @@
                 <label class="ml-2 block text-sm text-gray-900" for="edit_start_date">
                     Start Date
                 </label>
-                    <input type="date" class="form-input ml-4 hidden" id="start_date" name="start_date"
-                        value="{{ $user->start_date }}" required>
+                <input type="date" class="form-input ml-4 hidden" id="start_date" name="start_date"
+                    value="{{ $user->start_date }}" required>
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_hourly_rate"

@@ -7,13 +7,14 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+
     <head>
         <!-- Other head elements -->
         <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
         <!-- Other head elements -->
     </head>
     <title>Payreto | intern List</title>
-    <h1 class="font-bold text-gray-700">Users List</h1>
+    <h1 class="font-bold text-gray-700 text-3xl">Users List</h1>
 
 
     <!-- Add User Modal toggle -->
@@ -535,9 +536,11 @@ unset($__errorArgs, $__bag); ?>
                                                 <?php echo csrf_field(); ?>
                                                 <div class="p-6 space-y-6">
                                                     <div class="mb-4" hidden>
-                                                        <label for="id" class="block text-gray-700 font-bold mb-2">ID:</label>
-                                                        <input type="text" name="name" id="edit_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                    </div>                                                    
+                                                        <label for="id"
+                                                            class="block text-gray-700 font-bold mb-2">ID:</label>
+                                                        <input type="text" name="name" id="edit_id"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
                                                     <div class="mb-4">
                                                         <label for="name"
                                                             class="block text-gray-700 font-bold mb-2">Full
@@ -649,7 +652,7 @@ unset($__errorArgs, $__bag); ?>
                                                         <button type="submit"
                                                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save
                                                             Changes</button>
-                                                            <button data-modal-hide="editinternModal" type="button"
+                                                        <button data-modal-hide="editinternModal" type="button"
                                                             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
                                                     </div>
                                             </form>
@@ -830,28 +833,28 @@ unset($__errorArgs, $__bag); ?>
 
             // Perform an AJAX request to submit the form data
             fetch(`/admin/employee-update/${id}`, {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
-                }
-            })
-            .then(response => {
-                // Handle the response from the server
-                if (response.ok) {
-                    // Form submission successful, show success message
-                    alert('Form submitted successfully.');
-                } else {
-                    // Form submission failed, handle the error (e.g., show an error message)
-                    alert('Form submission failed.');
-                }
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the request
-                console.error(error);
-            });
-    });
+                    method: 'POST',
+                    body: JSON.stringify(formData),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
+                    }
+                })
+                .then(response => {
+                    // Handle the response from the server
+                    if (response.ok) {
+                        // Form submission successful, show success message
+                        alert('Form submitted successfully.');
+                    } else {
+                        // Form submission failed, handle the error (e.g., show an error message)
+                        alert('Form submission failed.');
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors that occurred during the request
+                    console.error(error);
+                });
+        });
     </script>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

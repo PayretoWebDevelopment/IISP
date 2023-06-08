@@ -1,7 +1,7 @@
 <x-layout module_name="Reports">
     <title>Payreto | Reports</title>
     <div class="container">
-        <h1 class="font-bold text-gray-700">Reports</h1>
+        <h1 class="font-bold text-gray-700 text-3xl">Reports</h1>
         {{-- REPORTS --}}
         <section>
             <form method="get" action="/admin/reports/filter" class="mt-8">
