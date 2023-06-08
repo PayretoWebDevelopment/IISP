@@ -45,7 +45,7 @@
                         </span>
                         <span class="tracking-wide">About</span>
                     </div>
-                    <div class="text-gray-700">
+                    <div class="text-gray-700 mt-10">
                         <div class="grid md:grid-cols-2 text-sm">
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">First Name</div>
@@ -144,20 +144,4 @@
         </div>
 
     </div>
-    <x-card class="p-10">
-        <x-profile>
-            <title>Payreto | Profile</title>
-            @auth
-                <ul list-style-type: none;>
-                    <li>Full name: {{ auth()->user()->name }}</li>
-                    <li>Contact number: {{ auth()->user()->contact_number }}</li>
-                    <li>Department: {{ auth()->user()->department }}</li>
-                    <li>Email address: {{ auth()->user()->email }}</li>
-                    <li>Position: {{ auth()->user()->position }}</li>
-                    <li>Role: {{ auth()->user()->role }}</li>
-                </ul>
-            @endauth
-            <br>
-        </x-profile>
-    </x-card>
 </x-layout>

@@ -1,5 +1,3 @@
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.layout','data' => ['moduleName' => 'Dashboard']] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>
 <?php $component->withName('layout'); ?>
@@ -19,9 +17,9 @@
                 href="#">
                 <div class="p-5">
                     <div class="flex justify-between">
-                        <svg height="32px" width="32px" version="1.1" id="Layer_1"
-                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                            viewBox="0 0 512 512" xml:space="preserve" fill="#000000">
+                        <svg height="32px" width="32px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve"
+                            fill="#000000">
                             <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                             <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
                             <g id="SVGRepo_iconCarrier">
@@ -208,8 +206,8 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-2 h-auto gap-4 mt-5">
-            <div class="text-center">`
+        <div class="grid grid-cols-2 gap-4 mt-5">
+            <div class="text-center">
                 <div
                     class="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg border p-6 bg-white">
                     <h3 class="font-bold">Daily Intern Attendance Tracker</h3>
@@ -224,7 +222,7 @@
                 </div>
             </div>
     </section>
-    </div>
+
     
     <script>
         var attendanceTracker = document.getElementById('attendanceTracker').getContext('2d');

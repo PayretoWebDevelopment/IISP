@@ -484,12 +484,11 @@ unset($__errorArgs, $__bag); ?>
 
                             </td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                
                                 <!-- Modal toggle -->
                                 <button data-modal-target="editinternModal" data-modal-toggle="editinternModal"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block editinternList"
                                     type="button">
-                                    Edit
+                                    <i class="fa-solid fa-edit"></i>
                                 </button>
 
                                 <a href="/admin/intern-delete/<?php echo e($intern->id); ?>"

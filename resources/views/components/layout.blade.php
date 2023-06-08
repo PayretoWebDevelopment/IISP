@@ -23,13 +23,19 @@
     <script src="{{ asset('js/datatables.js') }}"></script>
     {{-- Flowbite --}}
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/datepicker.min.js"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     {{-- Font Awesome --}}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    {{-- Charts --}}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
+    <script>
+        localStorage.theme = 'light'
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -207,7 +213,7 @@
             </button>
         </div>
 
-        <div class="px-6 pt-6 2xl:container">
+        <div class="px-6 pt-6 container mx-auto">
             <main>
                 <x-flash-message />
                 {{ $slot }}
