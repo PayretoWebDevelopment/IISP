@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <div class="bg-white dark:bg-gray-900">
+    <div class="bg-white">
         <div class="flex justify-center h-screen">
             <div class="hidden bg-cover lg:block lg:w-2/3"
                 style="background-image: url(https://www.payreto.com/wp-content/uploads/2021/03/Homepage-1.png)">
@@ -41,7 +41,7 @@
                             <img class="w-auto h-15 sm:h-14" src="<?php echo e(asset('images/logo.png')); ?>" alt="PayretoLogo">
                         </div>
 
-                        <p class="mt-3 text-gray-500 dark:text-gray-300">Sign in to access your account</p>
+                        <p class="mt-3 text-gray-500">Sign in to access your account</p>
                     </div>
 
                     <div class="mt-8">
@@ -49,9 +49,9 @@
                             <?php echo csrf_field(); ?>
                             <div>
                                 <label for="username"
-                                    class="block mb-2 text-sm text-gray-600 dark:text-gray-200">Username</label>
+                                    class="block mb-2 text-sm text-gray-600">Username</label>
                                 <input type="username" name="username" id="username" placeholder="Your Username"
-                                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                                     value="<?php echo e(old('username')); ?>" />
 
                                 <?php $__errorArgs = ['username'];
@@ -69,12 +69,12 @@ unset($__errorArgs, $__bag); ?>
                             <div class="mt-6">
                                 <div class="flex justify-between mb-2">
                                     <label for="password"
-                                        class="text-sm text-gray-600 dark:text-gray-200">Password</label>
+                                        class="text-sm text-gray-600">Password</label>
                                     
                                 </div>
 
                                 <input type="password" name="password" id="password" placeholder="Your Password"
-                                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg dark:placeholder-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                                    class="block w-full px-4 py-2 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-lg  focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                                     value="<?php echo e(old('password')); ?>" />
 
                                 <?php $__errorArgs = ['password'];
@@ -95,7 +95,7 @@ unset($__errorArgs, $__bag); ?>
                                     Sign in
                                 </button>
                             </div>
-                            <p class="mt-3 text-gray-500 dark:text-gray-300">Forgot your password? <a href="/users/forgot" class="underline">Reset your password.</a>
+                            <p class="mt-3 text-gray-500">Forgot your password? <a href="/users/forgot" class="underline">Reset your password.</a>
                         </form>
                     </div>
                 </div>

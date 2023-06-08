@@ -35,13 +35,19 @@
     <script src="<?php echo e(asset('js/datatables.js')); ?>"></script>
     
     <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.6.5/datepicker.min.js"></script>
     <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
+    <script>
+        localStorage.theme = 'light'
+    </script>
     <script>
         tailwind.config = {
             theme: {
@@ -208,19 +214,18 @@
         </div>
     </aside>
     <div class="ml-auto mb-6 lg:w-[75%] xl:w-[80%] 2xl:w-[85%]">
-        <div class="sticky z-10 top-0 h-16 border-b bg-white lg:py-2.5">
-            <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
-                <button class="w-12 h-16 -mr-2 border-r lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 my-auto" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
+
+        <div class="px-6 flex items-center justify-between space-x-4 2xl:container">
+            <button class="w-12 h-16 -mr-2 border-r lg:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 my-auto" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
         </div>
 
-        <div class="px-6 pt-6 2xl:container">
+        <div class="px-6 pt-6 container mx-auto">
             <main>
                 <?php if (isset($component)) { $__componentOriginal71c6471fa76ce19017edc287b6f4508c = $component; } ?>
 <?php $component = Illuminate\View\AnonymousComponent::resolve(['view' => 'components.flash-message','data' => []] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>

@@ -243,17 +243,17 @@ class UserController extends Controller
         $admins = User::where('role', 'admin')->get()->count();
         $active_interns = User::where('role', 'intern')
             ->where('active', true)
-            ->get()->count();
-            // if ($user->role != 'superadmin') {
-            //     $approvals = Approval::where('approve', null)
-            //         ->where('field_to_edit', '<>', 'hourly_rate')
-            //         ->get()->count();
-            // } else {
-            //     $approvals = Approval::where('approve', null)
-            //         ->get()->count();
-            // }
-        
+            ->get()->count(); 
+
         if ($user) {
+            if (auth()->user()->role != 'superadmin') {
+                $approvals = Approval::where('approve', null)
+                    ->where('field_to_edit', '<>', 'hourly_rate')
+                    ->get()->count();
+            } else {
+                $approvals = Approval::where('approve', null)
+                    ->get()->count();
+            }
             // $user_id = auth()->user()->id;
             if ($request->user()->isAdmin()) {
 
@@ -264,7 +264,7 @@ class UserController extends Controller
                     'interns' => $interns,
                     'admins' => $admins,
                     'active_interns' => $active_interns,
-                    // 'approvals' =>$approvals
+                    'approvals' =>$approvals
                 ]);
             } else {
                 $timesheets = Timesheet::whereBetween('start_time', [now()->startOfDay(), now()->endOfDay()])
