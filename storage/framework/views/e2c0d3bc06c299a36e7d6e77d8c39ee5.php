@@ -188,20 +188,19 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="mb-6">
-                            <label for="department"
-                                                            class="block text-gray-700 font-bold mb-2">Department:</label>
-                                                        <select id="department"
-                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                                            name="department" required>
+                            <label for="department" class="block text-gray-700 font-bold mb-2">Department:</label>
+                            <select id="department"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                name="department" required>
 
-                                                            <?php
-                                                            $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
-                                                            ?>
-                                                            <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                                                <option value=<?php echo e(old('department')); ?>>
-                                                                    <?php echo e($department); ?></option>
-                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                                                        </select>
+                                <?php
+                                $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
+                                ?>
+                                <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value=<?php echo e(old('department')); ?>>
+                                        <?php echo e($department); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
 
                             <?php $__errorArgs = ['department'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -773,7 +772,7 @@ unset($__errorArgs, $__bag); ?>
     <?php if($user_role === 'superadmin'): ?>
         <?php echo $__env->make('admin.superadmin-employee-list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
-    
+
     <script>
         //Edit Intern Modal
         $(document).on("click", ".editinternList", function() {

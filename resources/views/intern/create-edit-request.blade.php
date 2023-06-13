@@ -1,6 +1,9 @@
 <x-layout>
     <form action="/users/profile/create-edit-request/send" method="POST" onsubmit="return validateForm()">
         @csrf
+        <h3 class="text-xl font-semibold text-gray-900">
+            Create Edit Request
+        </h3>
         <input type="hidden" name="user_id" value="{{ $user->id }}">
         <input type="hidden" name="modified_fields" value="[]">
         <div class="space-y-4">
@@ -39,9 +42,9 @@
                     value="{{ $user->position }}">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_department" value="1" id="edit_department">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_department">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_department">
                     Department
                 </label>
                 <select class="form-input ml-4 hidden" name="department" id="department">
@@ -70,36 +73,36 @@
                     value="{{ $user->hourly_rate }}" step="any">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_required_hours" value="1" id="edit_required_hours">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_required_hours">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_required_hours">
                     Required Hours
                 </label>
                 <input type="number" name="required_hours" id="required_hours" class="form-input ml-4 hidden"
                     value="{{ $user->required_hours }}" step="any">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_bank" value="1" id="edit_bank">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_bank">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_bank">
                     Bank
                 </label>
                 <input type="text" name="bank" id="bank" class="form-input ml-4 hidden"
                     value="{{ $user->bank }}">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_supervisor" value="1" id="edit_supervisor">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_supervisor">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_supervisor">
                     Supervisor
                 </label>
                 <input type="text" name="supervisor" id="supervisor" class="form-input ml-4 hidden"
                     value="{{ $user->supervisor }}">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_bank_account_no" value="1" id="edit_bank_account_no">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_bank_account_no">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_bank_account_no">
                     Bank Account Number
                 </label>
                 <input type="number" name="bank_account_no" id="bank_account_no" class="form-input ml-4 hidden"

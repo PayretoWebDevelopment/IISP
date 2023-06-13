@@ -9,6 +9,9 @@
 <?php $component->withAttributes([]); ?>
     <form action="/users/profile/create-edit-request/send" method="POST" onsubmit="return validateForm()">
         <?php echo csrf_field(); ?>
+        <h3 class="text-xl font-semibold text-gray-900">
+            Create Edit Request
+        </h3>
         <input type="hidden" name="user_id" value="<?php echo e($user->id); ?>">
         <input type="hidden" name="modified_fields" value="[]">
         <div class="space-y-4">
@@ -47,13 +50,17 @@
                     value="<?php echo e($user->position); ?>">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_department" value="1" id="edit_department">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_bank_account_no">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_department">
                     Department
                 </label>
-                <input type="text" name="department" id="department" class="form-input ml-4 hidden"
-                    value="<?php echo e($user->department); ?>">
+                <select class="form-input ml-4 hidden" name="department" id="department">
+                    <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <option value="<?php echo e($department); ?>" <?php echo e($department == $user->department ? 'selected' : ''); ?>>
+                            <?php echo e($department); ?></option>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </select>
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_start_date"
@@ -61,8 +68,8 @@
                 <label class="ml-2 block text-sm text-gray-900" for="edit_start_date">
                     Start Date
                 </label>
-                    <input type="date" class="form-input ml-4 hidden" id="start_date" name="start_date"
-                        value="<?php echo e($user->start_date); ?>" required>
+                <input type="date" class="form-input ml-4 hidden" id="start_date" name="start_date"
+                    value="<?php echo e($user->start_date); ?>" required>
             </div>
             <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_hourly_rate"
@@ -74,36 +81,36 @@
                     value="<?php echo e($user->hourly_rate); ?>" step="any">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_required_hours" value="1" id="edit_required_hours">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_required_hours">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_required_hours">
                     Required Hours
                 </label>
                 <input type="number" name="required_hours" id="required_hours" class="form-input ml-4 hidden"
                     value="<?php echo e($user->required_hours); ?>" step="any">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_bank" value="1" id="edit_bank">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_bank">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_bank">
                     Bank
                 </label>
                 <input type="text" name="bank" id="bank" class="form-input ml-4 hidden"
                     value="<?php echo e($user->bank); ?>">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_supervisor" value="1" id="edit_supervisor">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_supervisor">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_supervisor">
                     Supervisor
                 </label>
                 <input type="text" name="supervisor" id="supervisor" class="form-input ml-4 hidden"
                     value="<?php echo e($user->supervisor); ?>">
             </div>
             <div class="flex items-center">
-                <input class="form-checkbox h-5 w-5 text-indigo-600 rounded border-gray-300" type="checkbox"
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox"
                     name="edit_bank_account_no" value="1" id="edit_bank_account_no">
-                <label class="ml-2 block text-sm leading-5 font-medium text-gray-700" for="edit_bank_account_no">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_bank_account_no">
                     Bank Account Number
                 </label>
                 <input type="number" name="bank_account_no" id="bank_account_no" class="form-input ml-4 hidden"
