@@ -14,7 +14,6 @@ p {
 }
 
 html{
-    background-image: url("/public/images/background.png");
-    background-repeat: repeat;
-    background-size: cover;
+    background-color: rgb(248 250 252);
+
 }

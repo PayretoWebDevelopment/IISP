@@ -111,7 +111,7 @@
                     <div class="ml-2 w-full flex-1">
                         <div>
 
-
+                            <div class="mt-3 text-3xl font-bold leading-8"><?php echo e($approvals); ?></div>
                             <div class="mt-1 text-base text-gray-600">Pending Approvals</div>
                         </div>
                     </div>

@@ -50,11 +50,6 @@
 </head>
 
 <style>
-    html {
-        background-repeat: repeat;
-        background: url({{ url('images/webb.png') }});
-    }
-
     .dataTables_wrapper .dataTables_length select {
         border: 1px solid #aaa;
         border-radius: 5px;
@@ -70,10 +65,36 @@
         margin-bottom: 2em;
     }
 
+
+    element.style {}
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {}
+
     .dataTables_wrapper .dataTables_paginate .paginate_button.current,
     .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-        background-color: #f9fafb;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        background-color: rgba(230, 230, 230, 0.1);
+        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(230, 230, 230, 0.1)), color-stop(100%, rgba(0, 0, 0, 0.1)));
+        background: -webkit-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        background: -moz-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        background: -ms-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        background: -o-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
+        background: linear-gradient(to bottom, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
     }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        min-width: 1.5em;
+        padding: 0.5em 1em;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        background: transparent;
 </style>
 
 <body>
@@ -130,12 +151,19 @@
                 </li>
                 <li>
                     <a href="/reports" class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path class="fill-current text-gray-300 group-hover:text-cyan-300" fill-rule="evenodd"
-                                d="M2 6a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1H8a3 3 0 00-3 3v1.5a1.5 1.5 0 01-3 0V6z"
-                                clip-rule="evenodd" />
-                            <path class="fill-current text-gray-600 group-hover:text-cyan-600"
-                                d="M6 12a2 2 0 012-2h8a2 2 0 012 2v2a2 2 0 01-2 2H2h2a2 2 0 002-2v-2z" />
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="#919191"
+                            class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600" viewBox="0 0 36 36"
+                            stroke="#919191">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <rect x="6.48" y="18" width="5.76" height="11.52" rx="1"
+                                    ry="1"></rect>
+                                <rect x="15.12" y="6.48" width="5.76" height="23.04" rx="1"
+                                    ry="1"></rect>
+                                <rect x="23.76" y="14.16" width="5.76" height="15.36" rx="1"
+                                    ry="1"></rect>
+                            </g>
                         </svg>
                         <span class="group-hover:text-gray-700">Reports</span>
                     </a>
@@ -143,12 +171,16 @@
                 <li>
                     <a href="/users/profile"
                         class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                            <path class="fill-current text-gray-600 group-hover:text-cyan-600" fill-rule="evenodd"
-                                d="M2 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 002 2H4a2 2 0 01-2-2V5zm3 1h6v4H5V6zm6 6H5v2h6v-2z"
-                                clip-rule="evenodd" />
-                            <path class="fill-current text-gray-300 group-hover:text-cyan-300"
-                                d="M15 7h1a2 2 0 012 2v5.5a1.5 1.5 0 01-3 0V7z" />
+                        <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
+                            viewBox="0 0 512 512" id="_x30_1" version="1.1" xml:space="preserve"
+                            xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                            <g id="SVGRepo_iconCarrier">
+                                <path
+                                    d="M256,0C114.615,0,0,114.615,0,256s114.615,256,256,256s256-114.615,256-256S397.385,0,256,0z M256,90 c37.02,0,67.031,35.468,67.031,79.219S293.02,248.438,256,248.438s-67.031-35.468-67.031-79.219S218.98,90,256,90z M369.46,402 H142.54c-11.378,0-20.602-9.224-20.602-20.602C121.938,328.159,181.959,285,256,285s134.062,43.159,134.062,96.398 C390.062,392.776,380.839,402,369.46,402z">
+                                </path>
+                            </g>
                         </svg>
                         <span class="group-hover:text-gray-700">
                             Profile
@@ -159,12 +191,33 @@
                     <li>
                         <a href="/admin/employee-list"
                             class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path class="fill-current text-gray-600 group-hover:text-cyan-600"
-                                    d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z" />
-                                <path class="fill-current text-gray-300 group-hover:text-cyan-300"
-                                    d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z" />
+                            <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
+                                viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <title>employee_group_solid</title>
+                                    <g id="ad30ea0b-4044-46a8-9d02-5476e64acf86" data-name="Layer 3">
+                                        <ellipse cx="18" cy="11.28" rx="4.76" ry="4.7">
+                                        </ellipse>
+                                        <path
+                                            d="M10.78,11.75c.16,0,.32,0,.48,0,0-.15,0-.28,0-.43a6.7,6.7,0,0,1,3.75-6,4.62,4.62,0,1,0-4.21,6.46Z">
+                                        </path>
+                                        <path
+                                            d="M24.76,11.28c0,.15,0,.28,0,.43.16,0,.32,0,.48,0A4.58,4.58,0,1,0,21,5.29,6.7,6.7,0,0,1,24.76,11.28Z">
+                                        </path>
+                                        <path
+                                            d="M22.29,16.45a21.45,21.45,0,0,1,5.71,2,2.71,2.71,0,0,1,.68.53H34V15.56a.72.72,0,0,0-.38-.64,18,18,0,0,0-8.4-2.05l-.66,0A6.66,6.66,0,0,1,22.29,16.45Z">
+                                        </path>
+                                        <path
+                                            d="M6.53,20.92A2.76,2.76,0,0,1,8,18.47a21.45,21.45,0,0,1,5.71-2,6.66,6.66,0,0,1-2.27-3.55l-.66,0a18,18,0,0,0-8.4,2.05.72.72,0,0,0-.38.64V22H6.53Z">
+                                        </path>
+                                        <rect x="21.46" y="26.69" width="5.96" height="1.4"></rect>
+                                        <path
+                                            d="M32.81,21.26H25.94v-1a1,1,0,0,0-2,0v1H22V18.43A20.17,20.17,0,0,0,18,18a19.27,19.27,0,0,0-9.06,2.22.76.76,0,0,0-.41.68v5.61h7.11v6.09a1,1,0,0,0,1,1H32.81a1,1,0,0,0,1-1V22.26A1,1,0,0,0,32.81,21.26Zm-1,10.36H17.64V23.26h6.3v.91a1,1,0,0,0,2,0v-.91h5.87Z">
+                                        </path>
+                                    </g>
+                                </g>
                             </svg>
                             <span class="group-hover:text-gray-700">Employee List</span>
                         </a>

@@ -52,7 +52,7 @@
                                         ];
                                     @endphp
                                     @foreach ($options as $value => $label)
-                                        <label class="inline-flex items-center">
+                                        <label class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300">
                                             <input type="radio" class="form-radio"
                                                 name="approval[{{ $approval->id }}]" value="{{ $value }}"
                                                 {{ $approval->approve == $value ? 'checked' : '' }}>

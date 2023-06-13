@@ -60,7 +60,7 @@
                                         ];
                                     ?>
                                     <?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <label class="inline-flex items-center">
+                                        <label class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300">
                                             <input type="radio" class="form-radio"
                                                 name="approval[<?php echo e($approval->id); ?>]" value="<?php echo e($value); ?>"
                                                 <?php echo e($approval->approve == $value ? 'checked' : ''); ?>>
