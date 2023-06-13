@@ -1,5 +1,5 @@
 <x-layout module_name="My Profile">
-    <h1 class="font-bold text-gray-700 text-3xl">Profile</h1>
+    <h1 class="font-bold text-gray-700 text-3xl">Admin Profile</h1>
     <div class="container mx-auto my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2 ">
             <!-- Left Side -->
@@ -16,11 +16,6 @@
                             </h3>
                             <ul
                                 class="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
-                                <li class="flex items-center py-3">
-                                    <span>{{ auth()->user()->role }}</span>
-                                    <span class="ml-auto"><span
-                                            class="bg-green-500 py-1 px-2 rounded text-white text-sm">Active</span></span>
-                                </li>
                                 <li class="flex items-center py-3">
                                     <span>{{ auth()->user()->email }}</span>
                                 </li>
@@ -48,16 +43,12 @@
                     <div class="text-gray-700 mt-10">
                         <div class="grid md:grid-cols-2 text-sm">
                             <div class="grid grid-cols-2">
-                                <div class="px-4 py-2 font-semibold">First Name</div>
-                                <div class="px-4 py-2">Miguel Bryan</div>
-                            </div>
-                            <div class="grid grid-cols-2">
-                                <div class="px-4 py-2 font-semibold">Last Name</div>
-                                <div class="px-4 py-2">Pajarillo</div>
+                                <div class="px-4 py-2 font-semibold">Full Name</div>
+                                <div class="px-4 py-2">{{ auth()->user()->name }}</div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Gender</div>
-                                <div class="px-4 py-2">Male</div>
+                                <div class="px-4 py-2"></div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Contact No.</div>
@@ -65,11 +56,11 @@
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Bank Type</div>
-                                <div class="px-4 py-2">Gcash</div>
+                                <div class="px-4 py-2">{{ auth()->user()->bank }}</div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Bank Account #</div>
-                                <div class="px-4 py-2">0909090909</div>
+                                <div class="px-4 py-2">{{ auth()->user()->bank_account_no }}</div>
                             </div>
                             <div class="grid grid-cols-2">
                                 <div class="px-4 py-2 font-semibold">Email.</div>
