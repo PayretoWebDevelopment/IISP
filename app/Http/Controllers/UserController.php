@@ -258,9 +258,14 @@ class UserController extends Controller
             if ($request->user()->isAdmin()) {
 
                 $attendance = $this->attendancetracker($request);
+                $departmentCounts = $attendance['departmentCounts'];
                 return view('admin.dashboard', [
                     'user' => $request->user(), 'timedInPercentage' => $attendance['timedInPercentage'],
                     'notTimedInPercentage' => $attendance['notTimedInPercentage'], 
+                    'technologyCount' => $departmentCounts['Technology'],
+                    'peopleCount' => $departmentCounts['People'],
+                    'opsCount' => $departmentCounts['Operations'],
+                    'bizdevCount' => $departmentCounts['Business Development'],
                     'interns' => $interns,
                     'admins' => $admins,
                     'active_interns' => $active_interns,
@@ -287,29 +292,42 @@ class UserController extends Controller
     public function attendancetracker(Request $request)
     {
         $interns = User::where('role', 'intern')->get();
-        // Get the current date and time
         $currentDate = now()->toDateString();
-
-        // Count the number of interns who have timed in and who have not timed in
+    
+        // Initialize department counters
+        $departmentCounts = [
+            'Technology' => 0,
+            'People' => 0,
+            'Operations' => 0,
+            'Business Development' => 0
+        ];
+    
+        // Count the number of interns who have timed in and who have not timed in, grouped by department
         $timedInCount = 0;
         $notTimedInCount = 0;
-
+    
         foreach ($interns as $intern) {
             $timesheet = $intern->timesheets()->whereDate('created_at', $currentDate)->first();
             if ($timesheet) {
                 $timedInCount++;
+                $departmentCounts[$intern->department]++;
             } else {
                 $notTimedInCount++;
             }
         }
-
+    
         // Calculate the percentage of interns who have timed in and who have not timed in
         $totalInterns = count($interns);
         $timedInPercentage = ($timedInCount / $totalInterns) * 100;
         $notTimedInPercentage = ($notTimedInCount / $totalInterns) * 100;
-
-        return ['timedInPercentage' => $timedInPercentage, 'notTimedInPercentage' => $notTimedInPercentage];
+        // echo '$departmentCounts' . print_r($departmentCounts);
+        return [
+            'timedInPercentage' => $timedInCount,
+            'notTimedInPercentage' => $notTimedInCount,
+            'departmentCounts' => $departmentCounts
+        ];
     }
+    
 
     //upload profile picture
     public function uploadProfilePicture(Request $request)

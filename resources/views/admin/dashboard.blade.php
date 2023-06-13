@@ -240,27 +240,34 @@
         });
     </script>
     {{-- Department Attendance --}}
-    <script>
-        var departmentTracker = document.getElementById('departmentTracker').getContext('2d');
-        var myPieChart = new Chart(departmentTracker, {
-            type: 'bar',
-            data: {
-                labels: ['Technology', 'People', 'Operations', 'BizDev'],
-                datasets: [{
-                    backgroundColor: ['#36a2eb', '#ff6384', '#ff3112', '#f31234'],
-                    data: ['23', '22', '12', '34'],
-                }]
-            },
-            options: {
+<script>
+    var departmentTracker = document.getElementById('departmentTracker').getContext('2d');
+    var myPieChart = new Chart(departmentTracker, {
+        type: 'bar',
+        data: {
+            labels: ['Technology', 'People', 'Operations', 'BizDev'],
+            datasets: [{
+                backgroundColor: ['#36a2eb', '#ff6384', '#ff3112', '#f31234'],
+                data: [
+                    {{ $technologyCount }},
+                    {{ $peopleCount }},
+                    {{ $opsCount }},
+                    {{ $bizdevCount }}
+                ]
+            }]
+        },
+        options: {
                 responsive: true,
                 legend: {
                     position: 'top',
                 },
                 title: {
                     display: true,
-                    text: 'Department Attendance'
+                    text: 'Department Attendance Tracker'
                 }
             }
-        });
-    </script>
+    });
+</script>
+
+    
 </x-layout>
