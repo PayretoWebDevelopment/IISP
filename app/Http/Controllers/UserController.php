@@ -279,9 +279,14 @@ class UserController extends Controller
                 // dd($timesheets);
 
                 $attendance = $this->attendancetracker($request);
+                $departmentCounts = $attendance['departmentCounts'];
                 return view('intern.dashboard', [
                     'user' => $request->user(), 'timesheets' => $timesheets, 'timedInPercentage' => $attendance['timedInPercentage'],
-                    'notTimedInPercentage' => $attendance['notTimedInPercentage']
+                    'notTimedInPercentage' => $attendance['notTimedInPercentage'],
+                    'technologyCount' => $departmentCounts['Technology'],
+                    'peopleCount' => $departmentCounts['People'],
+                    'opsCount' => $departmentCounts['Operations'],
+                    'bizdevCount' => $departmentCounts['Business Development']
                 ]);
             }
         }

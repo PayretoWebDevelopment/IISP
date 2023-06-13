@@ -221,6 +221,7 @@
                     <canvas id="departmentTracker"></canvas>
                 </div>
             </div>
+        </div>
     </section>
 
     

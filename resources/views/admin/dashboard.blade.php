@@ -213,6 +213,7 @@
                     <canvas id="departmentTracker"></canvas>
                 </div>
             </div>
+        </div>
     </section>
 
     {{-- script for attendace tracker --}}
