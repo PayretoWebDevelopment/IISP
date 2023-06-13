@@ -240,34 +240,47 @@
         });
     </script>
     {{-- Department Attendance --}}
-<script>
-    var departmentTracker = document.getElementById('departmentTracker').getContext('2d');
-    var myPieChart = new Chart(departmentTracker, {
-        type: 'bar',
-        data: {
-            labels: ['Technology', 'People', 'Operations', 'BizDev'],
-            datasets: [{
-                backgroundColor: ['#36a2eb', '#ff6384', '#ff3112', '#f31234'],
-                data: [
-                    {{ $technologyCount }},
-                    {{ $peopleCount }},
-                    {{ $opsCount }},
-                    {{ $bizdevCount }}
-                ]
-            }]
-        },
-        options: {
+    <script>
+        var departmentTracker = document.getElementById('departmentTracker').getContext('2d');
+        var myPieChart = new Chart(departmentTracker, {
+            type: 'bar',
+            data: {
+                labels: ['Technology', 'People', 'Operations', 'BizDev'],
+                datasets: [{
+                    backgroundColor: ['#36a2eb', '#ff6384', '#ff3112', '#f31234'],
+                    data: [
+                        {{ $technologyCount }},
+                        {{ $peopleCount }},
+                        {{ $opsCount }},
+                        {{ $bizdevCount }}
+                    ]
+                }]
+            },
+            options: {
                 responsive: true,
-                legend: {
-                    position: 'top',
+                plugins: {
+                    legend: {
+                        display: false, // Disable the default legend
+                    },
                 },
                 title: {
                     display: true,
-                    text: 'Department Attendance Tracker'
-                }
-            }
-    });
-</script>
+                    text: 'Department Attendance Tracker',
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                    },
+                    y: {
+                        grid: {
+                            display: true,
+                        },
+                    },
+                },
+            },
+        });
+    </script>
 
-    
 </x-layout>
