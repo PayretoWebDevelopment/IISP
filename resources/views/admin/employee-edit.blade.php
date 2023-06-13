@@ -17,7 +17,7 @@
         </div>
         <div class="mb-4">
             <label for="contact_number" class="block text-gray-700 font-bold mb-2">Contact number:</label>
-            <input type="number" name="contact_number" id="contact_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $employee->contact_number }}">
+            <input type="text" name="contact_number" id="contact_number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $employee->contact_number }}">
         </div>
         <div class="mb-4">
             <label for="position" class="block text-gray-700 font-bold mb-2">Position:</label>

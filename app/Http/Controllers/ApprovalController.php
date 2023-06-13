@@ -53,7 +53,7 @@ class ApprovalController extends Controller
     public function create_edit_request(Request $request)
     {
         $user = $request->user();
-        $department_list = ['Technology', 'People', 'Business Development'];
+        $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
         return view('intern.create-edit-request', compact('user', 'department_list'));
     }
 

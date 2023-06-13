@@ -381,7 +381,7 @@ class UserController extends Controller
     {
         $employee = User::findOrFail($id);
         $role = $request->user()->role;
-        $department_list = ['Technology', 'People', 'Business Development'];
+        $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
         return view('admin.employee-edit', compact('employee', 'role', 'department_list'));
     }
 

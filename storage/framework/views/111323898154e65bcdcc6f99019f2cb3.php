@@ -491,7 +491,7 @@ unset($__errorArgs, $__bag); ?>
                                     <i class="fa-solid fa-edit"></i>
                                 </button>
 
-                                <a href="/admin/intern-delete/<?php echo e($intern->id); ?>"
+                                <a href="/admin/employee-delete/<?php echo e($intern->id); ?>"
                                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full inline-block"
                                     onclick="event.preventDefault();
                                         if(confirm('Are you sure you want to delete this intern?')) {
@@ -499,7 +499,7 @@ unset($__errorArgs, $__bag); ?>
                                         }"><i
                                         class="fa-solid fa-trash"></i></a>
                                 <form id="delete-form-<?php echo e($intern->id); ?>"
-                                    action="/admin/intern-delete/<?php echo e($intern->id); ?>" method="POST"
+                                    action="/admin/employee-delete/<?php echo e($intern->id); ?>" method="POST"
                                     style="display: none;">
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
@@ -580,7 +580,7 @@ unset($__errorArgs, $__bag); ?>
                                                             name="department" required>
 
                                                             <?php
-                                                            $department_list = ['Technology', 'People', 'Business Development'];
+                                                            $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
                                                             ?>
                                                             <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($department); ?>"
@@ -699,7 +699,7 @@ unset($__errorArgs, $__bag); ?>
 
     <section class="mt-10">
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
-            <h2 class="font-semibold text-center mb-5">intern List</h2>
+            <h2 class="font-semibold text-center mb-5">Admin List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
                 <thead class="bg-gray-50">
                     <tr>
@@ -720,7 +720,7 @@ unset($__errorArgs, $__bag); ?>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <!-- Iterate over interns and populate table rows -->
+                    <!-- Iterate over admins and populate table rows -->
                     <?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
@@ -732,19 +732,19 @@ unset($__errorArgs, $__bag); ?>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <?php echo e($admin->role); ?></td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                <a href="/admin/intern-edit/<?php echo e($admin->id); ?>"
+                                <a href="/admin/employee-edit/<?php echo e($admin->id); ?>"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i
                                         class="fa-solid fa-edit"></i></a>
 
                                 <?php if($user_role === 'superadmin'): ?>
-                                    <a href="/admin/intern-delete/<?php echo e($admin->id); ?>"
+                                    <a href="/admin/employee-delete/<?php echo e($admin->id); ?>"
                                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
                                         onclick="event.preventDefault();
                                             if(confirm('Are you sure you want to delete this intern?')) {
                                                 document.getElementById('delete-form-<?php echo e($admin->id); ?>').submit();
                                             }">Delete</a>
                                     <form id="delete-form-<?php echo e($admin->id); ?>"
-                                        action="/admin/intern-delete/<?php echo e($admin->id); ?>" method="POST"
+                                        action="/admin/employee-delete/<?php echo e($admin->id); ?>" method="POST"
                                         style="display: none;">
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
@@ -757,10 +757,12 @@ unset($__errorArgs, $__bag); ?>
             </table>
         </div>
     </section>
+
     <!--SUPERADMINS SECTION (CANNOT EDIT OR DELETE OTHER SUPERADMINS. CAN ONLY EDIT SELF)-->
     <?php if($user_role === 'superadmin'): ?>
-        <?php echo $__env->make('admin.superadmin-intern-list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php echo $__env->make('admin.superadmin-employee-list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
+    
     <script>
         //Edit Intern Modal
         $(document).on("click", ".editinternList", function() {
@@ -843,7 +845,8 @@ unset($__errorArgs, $__bag); ?>
                     // Handle the response from the server
                     if (response.ok) {
                         // Form submission successful, show success message
-                        alert('Form submitted successfully.');
+                        // alert('Form submitted successfully!');
+                        location.reload();
                     } else {
                         // Form submission failed, handle the error (e.g., show an error message)
                         alert('Form submission failed.');

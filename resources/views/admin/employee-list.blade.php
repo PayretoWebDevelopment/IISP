@@ -367,7 +367,7 @@
                                     <i class="fa-solid fa-edit"></i>
                                 </button>
 
-                                <a href="/admin/intern-delete/{{ $intern->id }}"
+                                <a href="/admin/employee-delete/{{ $intern->id }}"
                                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full inline-block"
                                     onclick="event.preventDefault();
                                         if(confirm('Are you sure you want to delete this intern?')) {
@@ -375,7 +375,7 @@
                                         }"><i
                                         class="fa-solid fa-trash"></i></a>
                                 <form id="delete-form-{{ $intern->id }}"
-                                    action="/admin/intern-delete/{{ $intern->id }}" method="POST"
+                                    action="/admin/employee-delete/{{ $intern->id }}" method="POST"
                                     style="display: none;">
                                     @csrf
                                     @method('DELETE')
@@ -456,7 +456,7 @@
                                                             name="department" required>
 
                                                             <?php
-                                                            $department_list = ['Technology', 'People', 'Business Development'];
+                                                            $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
                                                             ?>
                                                             @foreach ($department_list as $department)
                                                                 <option value="{{ $department }}"
@@ -582,7 +582,7 @@
 
     <section class="mt-10">
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
-            <h2 class="font-semibold text-center mb-5">intern List</h2>
+            <h2 class="font-semibold text-center mb-5">Admin List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
                 <thead class="bg-gray-50">
                     <tr>
@@ -603,7 +603,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <!-- Iterate over interns and populate table rows -->
+                    <!-- Iterate over admins and populate table rows -->
                     @foreach ($admins as $admin)
                         <tr>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
@@ -615,19 +615,19 @@
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 {{ $admin->role }}</td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                <a href="/admin/intern-edit/{{ $admin->id }}"
+                                <a href="/admin/employee-edit/{{ $admin->id }}"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i
                                         class="fa-solid fa-edit"></i></a>
 
                                 @if ($user_role === 'superadmin')
-                                    <a href="/admin/intern-delete/{{ $admin->id }}"
+                                    <a href="/admin/employee-delete/{{ $admin->id }}"
                                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
                                         onclick="event.preventDefault();
                                             if(confirm('Are you sure you want to delete this intern?')) {
                                                 document.getElementById('delete-form-{{ $admin->id }}').submit();
                                             }">Delete</a>
                                     <form id="delete-form-{{ $admin->id }}"
-                                        action="/admin/intern-delete/{{ $admin->id }}" method="POST"
+                                        action="/admin/employee-delete/{{ $admin->id }}" method="POST"
                                         style="display: none;">
                                         @csrf
                                         @method('DELETE')
@@ -640,10 +640,12 @@
             </table>
         </div>
     </section>
+
     <!--SUPERADMINS SECTION (CANNOT EDIT OR DELETE OTHER SUPERADMINS. CAN ONLY EDIT SELF)-->
     @if ($user_role === 'superadmin')
-        @include('admin.superadmin-intern-list')
+        @include('admin.superadmin-employee-list')
     @endif
+    
     <script>
         //Edit Intern Modal
         $(document).on("click", ".editinternList", function() {
@@ -726,7 +728,8 @@
                     // Handle the response from the server
                     if (response.ok) {
                         // Form submission successful, show success message
-                        alert('Form submitted successfully.');
+                        // alert('Form submitted successfully!');
+                        location.reload();
                     } else {
                         // Form submission failed, handle the error (e.g., show an error message)
                         alert('Form submission failed.');

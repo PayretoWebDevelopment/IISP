@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
         $faker = Factory::create();
-        $departments = ['Technology', 'People', 'Business Development'];
+        $departments = ['Technology', 'People', 'Business Development', 'Operations'];
         User::factory()->create([
             'name' => 'Test Superadmin',
             'username' => 'testsuperadmin',

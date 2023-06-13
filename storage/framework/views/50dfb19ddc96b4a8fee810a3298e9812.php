@@ -16,7 +16,7 @@
         <form method="POST" action="/admin/approve-requests">
             <?php echo csrf_field(); ?>
             <div class="relative overflow-x-auto bg-white border border-gray-200 rounded-lg shadow p-5">
-                <table class=" table-auto divide-gray-200" id="pendingRequestList" style="width:100%">
+                <table class=" table-auto divide-gray-200" id="pendingRequestList" style="width:100%; table-layout:fixed;">
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="text-sm font-normal text-left text-gray-500">Requestor
@@ -38,17 +38,17 @@
                         <!-- Iterate over approvals and populate table rows -->
                         <?php $__currentLoopData = $approvals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $approval): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->requestor->name); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->profile->name); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->field_to_edit); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->original_value); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->modified_value); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <p class="break-words"><?php echo e($approval->reason); ?></p>
                                 </td>
                                 <td class="text-sm font-medium text-gray-700 whitespace-nowrap">

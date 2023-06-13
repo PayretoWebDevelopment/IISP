@@ -24,7 +24,7 @@ class ApprovalFactory extends Factory
             $user = User::all()->random();  //User::all()->pluck('id')->toArray();
             $user2 = ($user->isAdmin()) ? User::all()->random() : $user;  //Can be the same as user
             $roles = ['admin', 'intern'];
-            $departments = ['Technology', 'People', 'Business Development'];
+            $departments = ['Technology', 'People', 'Business Development', 'Operations'];
             //$user_columns = Schema::getColumnListing('users'); //'users' table
 
             $list_fillable_user = (new User())->getFillable();

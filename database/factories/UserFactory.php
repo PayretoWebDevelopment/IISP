@@ -19,7 +19,7 @@ class UserFactory extends Factory
     {
         $f = $this->faker;
         $roles = ['admin', 'intern']; //'superadmin' role removed from user seeder for now
-        $departments = ['Technology', 'People', 'Business Development'];
+        $departments = ['Technology', 'People', 'Business Development', 'Operations'];
         return [
             'name' => $f->name(),
             'username' => $f->lastname(),
