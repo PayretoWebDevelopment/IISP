@@ -7,6 +7,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'My Profile']); ?>
+    <title>Payreto | Admin Profile</title>
     <h1 class="font-bold text-gray-700 text-3xl">Admin Profile</h1>
     <div class="container mx-auto my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2 ">
