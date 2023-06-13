@@ -256,21 +256,42 @@
                 labels: ['Technology', 'People', 'Operations', 'BizDev'],
                 datasets: [{
                     backgroundColor: ['#36a2eb', '#ff6384', '#ff3112', '#f31234'],
-                    data: ['23', '22', '12', '34'],
+                    data: [
+                        <?php echo e($technologyCount); ?>,
+                        <?php echo e($peopleCount); ?>,
+                        <?php echo e($opsCount); ?>,
+                        <?php echo e($bizdevCount); ?>
+
+                    ]
                 }]
             },
             options: {
                 responsive: true,
-                legend: {
-                    position: 'top',
+                plugins: {
+                    legend: {
+                        display: false, // Disable the default legend
+                    },
                 },
                 title: {
                     display: true,
-                    text: 'Department Attendance'
-                }
-            }
+                    text: 'Department Attendance Tracker',
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                        },
+                    },
+                    y: {
+                        grid: {
+                            display: true,
+                        },
+                    },
+                },
+            },
         });
     </script>
+
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>

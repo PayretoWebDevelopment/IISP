@@ -131,9 +131,20 @@
                         </div>
 
                         <div class="mb-6">
-                            <label for="department" class="inline-block text-lg mb-2">Department</label>
-                            <input type="department" class="border border-gray-200 rounded p-2 w-full"
-                                name="department" value="{{ old('department') }}" />
+                            <label for="department"
+                                                            class="block text-gray-700 font-bold mb-2">Department:</label>
+                                                        <select id="department"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                            name="department" required>
+
+                                                            <?php
+                                                            $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
+                                                            ?>
+                                                            @foreach ($department_list as $department)
+                                                                <option value={{old('department')}}>
+                                                                    {{ $department }}</option>
+                                                            @endforeach
+                                                        </select>
 
                             @error('department')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

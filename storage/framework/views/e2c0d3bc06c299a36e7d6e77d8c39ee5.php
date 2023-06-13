@@ -7,13 +7,14 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes([]); ?>
+
     <head>
         <!-- Other head elements -->
         <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
         <!-- Other head elements -->
     </head>
     <title>Payreto | intern List</title>
-    <h1 class="font-bold text-gray-700">Users List</h1>
+    <h1 class="font-bold text-gray-700 text-3xl">Users List</h1>
 
 
     <!-- Add User Modal toggle -->
@@ -187,9 +188,20 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="mb-6">
-                            <label for="department" class="inline-block text-lg mb-2">Department</label>
-                            <input type="department" class="border border-gray-200 rounded p-2 w-full"
-                                name="department" value="<?php echo e(old('department')); ?>" />
+                            <label for="department"
+                                                            class="block text-gray-700 font-bold mb-2">Department:</label>
+                                                        <select id="department"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                            name="department" required>
+
+                                                            <?php
+                                                            $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
+                                                            ?>
+                                                            <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option value=<?php echo e(old('department')); ?>>
+                                                                    <?php echo e($department); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        </select>
 
                             <?php $__errorArgs = ['department'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -483,15 +495,14 @@ unset($__errorArgs, $__bag); ?>
 
                             </td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                
                                 <!-- Modal toggle -->
                                 <button data-modal-target="editinternModal" data-modal-toggle="editinternModal"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block editinternList"
                                     type="button">
-                                    Edit
+                                    <i class="fa-solid fa-edit"></i>
                                 </button>
 
-                                <a href="/admin/intern-delete/<?php echo e($intern->id); ?>"
+                                <a href="/admin/employee-delete/<?php echo e($intern->id); ?>"
                                     class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-full inline-block"
                                     onclick="event.preventDefault();
                                         if(confirm('Are you sure you want to delete this intern?')) {
@@ -499,7 +510,7 @@ unset($__errorArgs, $__bag); ?>
                                         }"><i
                                         class="fa-solid fa-trash"></i></a>
                                 <form id="delete-form-<?php echo e($intern->id); ?>"
-                                    action="/admin/intern-delete/<?php echo e($intern->id); ?>" method="POST"
+                                    action="/admin/employee-delete/<?php echo e($intern->id); ?>" method="POST"
                                     style="display: none;">
                                     <?php echo csrf_field(); ?>
                                     <?php echo method_field('DELETE'); ?>
@@ -535,9 +546,11 @@ unset($__errorArgs, $__bag); ?>
                                                 <?php echo csrf_field(); ?>
                                                 <div class="p-6 space-y-6">
                                                     <div class="mb-4" hidden>
-                                                        <label for="id" class="block text-gray-700 font-bold mb-2">ID:</label>
-                                                        <input type="text" name="name" id="edit_id" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-                                                    </div>                                                    
+                                                        <label for="id"
+                                                            class="block text-gray-700 font-bold mb-2">ID:</label>
+                                                        <input type="text" name="name" id="edit_id"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                    </div>
                                                     <div class="mb-4">
                                                         <label for="name"
                                                             class="block text-gray-700 font-bold mb-2">Full
@@ -578,7 +591,7 @@ unset($__errorArgs, $__bag); ?>
                                                             name="department" required>
 
                                                             <?php
-                                                            $department_list = ['Technology', 'People', 'Business Development'];
+                                                            $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
                                                             ?>
                                                             <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                                 <option value="<?php echo e($department); ?>"
@@ -649,7 +662,7 @@ unset($__errorArgs, $__bag); ?>
                                                         <button type="submit"
                                                             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Save
                                                             Changes</button>
-                                                            <button data-modal-hide="editinternModal" type="button"
+                                                        <button data-modal-hide="editinternModal" type="button"
                                                             class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10">Cancel</button>
                                                     </div>
                                             </form>
@@ -697,7 +710,7 @@ unset($__errorArgs, $__bag); ?>
 
     <section class="mt-10">
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
-            <h2 class="font-semibold text-center mb-5">intern List</h2>
+            <h2 class="font-semibold text-center mb-5">Admin List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
                 <thead class="bg-gray-50">
                     <tr>
@@ -718,7 +731,7 @@ unset($__errorArgs, $__bag); ?>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                    <!-- Iterate over interns and populate table rows -->
+                    <!-- Iterate over admins and populate table rows -->
                     <?php $__currentLoopData = $admins; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $admin): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <tr>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
@@ -730,19 +743,19 @@ unset($__errorArgs, $__bag); ?>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <?php echo e($admin->role); ?></td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                <a href="/admin/intern-edit/<?php echo e($admin->id); ?>"
+                                <a href="/admin/employee-edit/<?php echo e($admin->id); ?>"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i
                                         class="fa-solid fa-edit"></i></a>
 
                                 <?php if($user_role === 'superadmin'): ?>
-                                    <a href="/admin/intern-delete/<?php echo e($admin->id); ?>"
+                                    <a href="/admin/employee-delete/<?php echo e($admin->id); ?>"
                                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
                                         onclick="event.preventDefault();
                                             if(confirm('Are you sure you want to delete this intern?')) {
                                                 document.getElementById('delete-form-<?php echo e($admin->id); ?>').submit();
                                             }">Delete</a>
                                     <form id="delete-form-<?php echo e($admin->id); ?>"
-                                        action="/admin/intern-delete/<?php echo e($admin->id); ?>" method="POST"
+                                        action="/admin/employee-delete/<?php echo e($admin->id); ?>" method="POST"
                                         style="display: none;">
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
@@ -755,10 +768,12 @@ unset($__errorArgs, $__bag); ?>
             </table>
         </div>
     </section>
+
     <!--SUPERADMINS SECTION (CANNOT EDIT OR DELETE OTHER SUPERADMINS. CAN ONLY EDIT SELF)-->
     <?php if($user_role === 'superadmin'): ?>
-        <?php echo $__env->make('admin.superadmin-intern-list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        <?php echo $__env->make('admin.superadmin-employee-list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
+    
     <script>
         //Edit Intern Modal
         $(document).on("click", ".editinternList", function() {
@@ -830,28 +845,29 @@ unset($__errorArgs, $__bag); ?>
 
             // Perform an AJAX request to submit the form data
             fetch(`/admin/employee-update/${id}`, {
-                method: 'POST',
-                body: JSON.stringify(formData),
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
-                }
-            })
-            .then(response => {
-                // Handle the response from the server
-                if (response.ok) {
-                    // Form submission successful, show success message
-                    alert('Form submitted successfully.');
-                } else {
-                    // Form submission failed, handle the error (e.g., show an error message)
-                    alert('Form submission failed.');
-                }
-            })
-            .catch(error => {
-                // Handle any errors that occurred during the request
-                console.error(error);
-            });
-    });
+                    method: 'POST',
+                    body: JSON.stringify(formData),
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken // Include the CSRF token in the request headers
+                    }
+                })
+                .then(response => {
+                    // Handle the response from the server
+                    if (response.ok) {
+                        // Form submission successful, show success message
+                        // alert('Form submitted successfully!');
+                        location.reload();
+                    } else {
+                        // Form submission failed, handle the error (e.g., show an error message)
+                        alert('Form submission failed.');
+                    }
+                })
+                .catch(error => {
+                    // Handle any errors that occurred during the request
+                    console.error(error);
+                });
+        });
     </script>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

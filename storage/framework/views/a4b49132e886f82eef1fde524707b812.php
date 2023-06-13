@@ -16,7 +16,7 @@
         <form method="POST" action="/admin/approve-requests">
             <?php echo csrf_field(); ?>
             <div class="relative overflow-x-auto bg-white border border-gray-200 rounded-lg shadow p-5">
-                <table class=" table-auto divide-gray-200" id="pendingRequestList" style="width:100%">
+                <table class=" table-auto divide-gray-200" id="pendingRequestList" style="width:100%; table-layout:fixed;">
                     <thead class="bg-gray-50">
                         <tr>
                             <th class="text-sm font-normal text-left text-gray-500">Requestor
@@ -38,17 +38,17 @@
                         <!-- Iterate over approvals and populate table rows -->
                         <?php $__currentLoopData = $approvals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $approval): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                             <tr>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->requestor->name); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->profile->name); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->field_to_edit); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->original_value); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <?php echo e($approval->modified_value); ?></td>
-                                <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td class="text-sm font-medium text-gray-700 whitespace-normal">
                                     <p class="break-words"><?php echo e($approval->reason); ?></p>
                                 </td>
                                 <td class="text-sm font-medium text-gray-700 whitespace-nowrap">
@@ -60,7 +60,7 @@
                                         ];
                                     ?>
                                     <?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $value => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                        <label class="inline-flex items-center">
+                                        <label class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300">
                                             <input type="radio" class="form-radio"
                                                 name="approval[<?php echo e($approval->id); ?>]" value="<?php echo e($value); ?>"
                                                 <?php echo e($approval->approve == $value ? 'checked' : ''); ?>>
