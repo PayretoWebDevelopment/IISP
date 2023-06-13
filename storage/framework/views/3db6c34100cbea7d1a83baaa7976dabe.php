@@ -7,6 +7,7 @@
 <?php $attributes = $attributes->except(collect($constructor->getParameters())->map->getName()->all()); ?>
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'My Profile']); ?>
+    <title>Payreto | Intern Profile</title>
     <h1 class="font-bold text-gray-700 text-3xl">Intern Profile</h1>
     <div class="container mx-auto my-5 p-5">
         <div class="md:flex no-wrap md:-mx-2 ">
@@ -193,11 +194,9 @@ unset($__errorArgs, $__bag); ?>
             </div>
         </div>
     </div>
-    
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
 <?php $component = $__componentOriginal71c6471fa76ce19017edc287b6f4508c; ?>
 <?php unset($__componentOriginal71c6471fa76ce19017edc287b6f4508c); ?>
-<?php endif; ?>
-<?php /**PATH C:\Users\user\Downloads\IISP\resources\views/intern/profile.blade.php ENDPATH**/ ?>
+<?php endif; ?><?php /**PATH C:\Users\user\Downloads\IISP\resources\views/intern/profile.blade.php ENDPATH**/ ?>
