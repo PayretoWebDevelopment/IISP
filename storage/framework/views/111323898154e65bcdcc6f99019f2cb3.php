@@ -196,30 +196,15 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="mb-6">
-                            <label for="department" class="block text-gray-700 font-bold mb-2">Department:</label>
-                            <select id="department"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            <label for="department" class="inline-block text-lg mb-2">Deparment</label>
+                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="department"
                                 name="department" required>
-
-                                <?php
-                                $department_list = ['Select Department', 'Technology', 'People', 'Business Development', 'Operations'];
-                                ?>
-                                <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                                    <option value=<?php echo e(old('department')); ?>>
-                                        <?php echo e($department); ?></option>
-                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                <option value="">Select Department</option>
+                                <option value="Technology">Technology</option>
+                                <option value="People">People</option>
+                                <option value="Operations">Operations</option>
+                                <option value="Business Development">Business Development</option>
                             </select>
-
-                            <?php $__errorArgs = ['department'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <p class="text-red-500 text-xs mt-1"><?php echo e($message); ?></p>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="mb-6" id="start_date">
@@ -392,13 +377,11 @@ unset($__errorArgs, $__bag); ?>
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
             <h2 class="font-semibold text-center mb-5">Interns List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="internList" style="width:100%">
-                <thead class="bg-gray-50">
+                <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                     <tr>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        <th scope="col" class="px-6 py-3">ID
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Name
                         </th>
                         <th scope="col"
@@ -436,18 +419,14 @@ unset($__errorArgs, $__bag); ?>
                             style="display: none;">
                             Active
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Role
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Hourly Rate</th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Required Hours</th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Department</th>
                         <th scope="col"
                             class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
@@ -464,8 +443,7 @@ unset($__errorArgs, $__bag); ?>
                             style="display: none;">
                             Supervisor
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Actions</th>
                     </tr>
                 </thead>
@@ -769,21 +747,17 @@ unset($__errorArgs, $__bag); ?>
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
             <h2 class="font-semibold text-center mb-5">Admin List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
-                <thead class="bg-gray-50">
+                <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                     <tr>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        <th scope="col" class="px-6 py-3">ID
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Name
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Role
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Actions</th>
                     </tr>
                 </thead>

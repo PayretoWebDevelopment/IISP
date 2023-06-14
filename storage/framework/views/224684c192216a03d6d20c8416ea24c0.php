@@ -43,10 +43,6 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="sweetalert2.all.min.js"></script>
-    <script src="sweetalert2.min.js"></script>
 
 
     <script>
@@ -72,8 +68,9 @@
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.current,
     .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-        border: 1px solid #1A56DB;
-        background-color: #1A56DB;
+        border: 1px solid #374151;
+        background-color: #374151;
+        border-radius: 3rem;
 
     }
 
