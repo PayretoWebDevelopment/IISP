@@ -49,7 +49,7 @@ class TimesheetFactory extends Factory
             $projectTypeNames[] = $typeName;
         }
 
-        $end_time = $f->dateTime();
+        $end_time = $f->dateTimeBetween(startDate: '-3 hours', endDate: 'now');
 
         return [
             'user_id'=>$f->randomElement($users),
@@ -57,7 +57,7 @@ class TimesheetFactory extends Factory
             'task_type'=>$f->randomElement($task_list),
             'project_type'=>$f->randomElement($validProjectTypes),
             'end_time'=>$end_time,
-            'start_time'=>$f->dateTimeBetween(startDate: '-10 hours', endDate: 'now'), //max is end-time
+            'start_time'=>$f->dateTimeBetween(startDate: '-8 hours', endDate: 'now'), //max is end-time
         ];
     }
 }
