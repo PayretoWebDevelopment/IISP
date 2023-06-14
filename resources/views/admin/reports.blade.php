@@ -102,7 +102,7 @@
                     @else
                         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
                             <table class="min-w-full divide-y divide-gray-200" id="reportList" style="width:100%">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
                                             <span class="hidden"></span>

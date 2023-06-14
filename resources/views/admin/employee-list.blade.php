@@ -271,13 +271,11 @@
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
             <h2 class="font-semibold text-center mb-5">Interns List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="internList" style="width:100%">
-                <thead class="bg-gray-50">
+                <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                     <tr>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        <th scope="col" class="px-6 py-3">ID
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Name
                         </th>
                         <th scope="col"
@@ -315,18 +313,14 @@
                             style="display: none;">
                             Active
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Role
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Hourly Rate</th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Required Hours</th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Department</th>
                         <th scope="col"
                             class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
@@ -343,8 +337,7 @@
                             style="display: none;">
                             Supervisor
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Actions</th>
                     </tr>
                 </thead>
@@ -643,21 +636,17 @@
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
             <h2 class="font-semibold text-center mb-5">Admin List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
-                <thead class="bg-gray-50">
+                <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                     <tr>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        <th scope="col" class="px-6 py-3">ID
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Name
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Role
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Actions</th>
                     </tr>
                 </thead>

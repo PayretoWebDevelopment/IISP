@@ -32,6 +32,7 @@
                     <li>Contact number: <?php echo e($user->contact_number); ?></li>
                     <li>Department: <?php echo e($user->department); ?></li>
                     <li>Email address: <?php echo e($user->email); ?></li>
+                    <li>Sex: <?php echo e($user->sex); ?></li>
                     <li>Position: <?php echo e($user->position); ?></li>
                     <li>Role: <?php echo e($user->role); ?></li>
                     <?php if(!$user->isAdmin()): ?>
