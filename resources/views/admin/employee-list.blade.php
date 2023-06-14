@@ -145,7 +145,7 @@
                                 name="department" required>
 
                                 <?php
-                                $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
+                                $department_list = ['Select Department', 'Technology', 'People', 'Business Development', 'Operations'];
                                 ?>
                                 @foreach ($department_list as $department)
                                     <option value={{ old('department') }}>

@@ -202,7 +202,7 @@ unset($__errorArgs, $__bag); ?>
                                 name="department" required>
 
                                 <?php
-                                $department_list = ['Technology', 'People', 'Business Development', 'Operations'];
+                                $department_list = ['Select Department', 'Technology', 'People', 'Business Development', 'Operations'];
                                 ?>
                                 <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <option value=<?php echo e(old('department')); ?>>
@@ -353,27 +353,27 @@ unset($__errorArgs, $__bag); ?>
                             const bankInput = document.getElementById('bank');
                             const bankAccountNoInput = document.getElementById('bank_account_no');
                             const supervisorInput = document.getElementById('supervisor');
-                        
+
                             roleSelect.addEventListener('change', () => {
-                              if (roleSelect.value === 'Admin') {
-                                startDateInput.classList.add('hidden');
-                                activeInput.classList.add('hidden');
-                                hourlyRateInput.classList.add('hidden');
-                                requiredHoursInput.classList.add('hidden');
-                                bankInput.classList.add('hidden');
-                                bankAccountNoInput.classList.add('hidden');
-                                supervisorInput.classList.add('hidden');
-                              } else {
-                                startDateInput.classList.remove('hidden');
-                                activeInput.classList.remove('hidden');
-                                hourlyRateInput.classList.remove('hidden');
-                                requiredHoursInput.classList.remove('hidden');
-                                bankInput.classList.remove('hidden');
-                                bankAccountNoInput.classList.remove('hidden');
-                                supervisorInput.classList.remove('hidden');
-                              }
+                                if (roleSelect.value === 'Admin') {
+                                    startDateInput.classList.add('hidden');
+                                    activeInput.classList.add('hidden');
+                                    hourlyRateInput.classList.add('hidden');
+                                    requiredHoursInput.classList.add('hidden');
+                                    bankInput.classList.add('hidden');
+                                    bankAccountNoInput.classList.add('hidden');
+                                    supervisorInput.classList.add('hidden');
+                                } else {
+                                    startDateInput.classList.remove('hidden');
+                                    activeInput.classList.remove('hidden');
+                                    hourlyRateInput.classList.remove('hidden');
+                                    requiredHoursInput.classList.remove('hidden');
+                                    bankInput.classList.remove('hidden');
+                                    bankAccountNoInput.classList.remove('hidden');
+                                    supervisorInput.classList.remove('hidden');
+                                }
                             });
-                          </script>
+                        </script>
                     </div>
                     <!-- Modal footer -->
                     <div class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
