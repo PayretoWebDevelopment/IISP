@@ -8,6 +8,7 @@
                     <li>Contact number: {{ $user->contact_number }}</li>
                     <li>Department: {{ $user->department }}</li>
                     <li>Email address: {{ $user->email }}</li>
+                    <li>Sex: {{ $user->sex }}</li>
                     <li>Position: {{ $user->position }}</li>
                     <li>Role: {{ $user->role }}</li>
                     @if (!$user->isAdmin())

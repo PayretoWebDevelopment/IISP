@@ -16,6 +16,7 @@ return new class extends Migration
             $table->enum('role', ['admin', 'superadmin', 'intern']);
             $table->string('contact_number');
             $table->string('position');
+            $table->enum('sex', ['Male', 'Female']);
             $table->date('start_date')->nullable();
             $table->boolean('active')->nullable();
             $table->float('hourly_rate')->nullable();
