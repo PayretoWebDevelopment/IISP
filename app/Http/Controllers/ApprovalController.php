@@ -65,6 +65,7 @@ class ApprovalController extends Controller
         $formData = $request->only([
             'name',
             'email',
+            'sex',
             'contact_number',
             'position',
             'start_date',

@@ -24,6 +24,15 @@
                     value="{{ $user->email }}">
             </div>
             <div class="flex items-center">
+                <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_sex" value="1"
+                    id="edit_sex">
+                <label class="ml-2 block text-sm text-gray-900" for="edit_sex">
+                    Sex
+                </label>
+                <input type="sex" name="sex" id="sex" class="form-input ml-4 hidden"
+                    value="{{ $user->sex }}">
+            </div>
+            <div class="flex items-center">
                 <input class="form-checkbox h-5 w-5 text-indigo-600" type="checkbox" name="edit_contact_number"
                     value="1" id="edit_contact_number">
                 <label class="ml-2 block text-sm text-gray-900" for="edit_contact_number">
