@@ -50,9 +50,18 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form method="POST" action="/admin/create-new-intern/submit">
+                <form method="POST" action="/admin/create-new-employee/submit">
                     <div class="p-6 space-y-6">
                         <?php echo csrf_field(); ?>
+                        <div class="mb-6">
+                            <label for="role" class="inline-block text-lg mb-2">Role</label>
+                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="role"
+                                name="role" required>
+                                <option value="">Select Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Intern">Intern</option>
+                            </select>
+                        </div>
                         <div class="mb-6">
                             <label for="name" class="inline-block text-lg mb-2"> Full name </label>
                             <input type="text" class="border border-gray-200 rounded p-2 w-full" id="name"
@@ -87,7 +96,6 @@ endif;
 unset($__errorArgs, $__bag); ?>
                         </div>
 
-
                         <div class="mb-6">
                             <label for="email" class="inline-block text-lg mb-2">Email</label>
                             <input type="email" class="border border-gray-200 rounded p-2 w-full" id="email"
@@ -103,6 +111,16 @@ $message = $__bag->first($__errorArgs[0]); ?>
 if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="sex" class="inline-block text-lg mb-2">Sex</label>
+                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="sex"
+                                name="sex" required>
+                                <option value="">Select Sex</option>
+                                <option value="Admin">Male</option>
+                                <option value="Intern">Female</option>
+                            </select>
                         </div>
 
                         <div class="mb-6">
@@ -144,16 +162,6 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="mb-6">
-                            <label for="role" class="inline-block text-lg mb-2">Role</label>
-                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="role"
-                                name="role" required>
-                                <option value="">Select Role</option>
-                                <option value="Admin">Admin</option>
-                                <option value="Intern">Intern</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-6">
                             <label for="contact_number" class="inline-block text-lg mb-2">Contact number</label>
                             <input type="contact_number" class="border border-gray-200 rounded p-2 w-full"
                                 id="contact_number" name="contact_number" value="<?php echo e(old('contact_number')); ?>" />
@@ -188,9 +196,19 @@ unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <div class="mb-6">
-                            <label for="department" class="inline-block text-lg mb-2">Department</label>
-                            <input type="department" class="border border-gray-200 rounded p-2 w-full"
-                                name="department" value="<?php echo e(old('department')); ?>" />
+                            <label for="department" class="block text-gray-700 font-bold mb-2">Department:</label>
+                            <select id="department"
+                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                name="department" required>
+
+                                <?php
+                                $department_list = ['Select Department', 'Technology', 'People', 'Business Development', 'Operations'];
+                                ?>
+                                <?php $__currentLoopData = $department_list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value=<?php echo e(old('department')); ?>>
+                                        <?php echo e($department); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>
 
                             <?php $__errorArgs = ['department'];
 $__bag = $errors->getBag($__errorArgs[1] ?? 'default');
@@ -238,7 +256,6 @@ if (isset($__messageOriginal)) { $message = $__messageOriginal; }
 endif;
 unset($__errorArgs, $__bag); ?>
                         </div>
-
 
                         <div class="mb-6" id="hourly_rate">
                             <label for="hourly_rate" class="inline-block text-lg mb-2">Hourly rate</label>
@@ -327,6 +344,36 @@ unset($__errorArgs, $__bag); ?>
 
                         
                         <script src="<?php echo e(asset('js/scripts.js')); ?>"></script>
+                        <script>
+                            const roleSelect = document.getElementById('role');
+                            const startDateInput = document.getElementById('start_date');
+                            const activeInput = document.getElementById('active');
+                            const hourlyRateInput = document.getElementById('hourly_rate');
+                            const requiredHoursInput = document.getElementById('required_hours');
+                            const bankInput = document.getElementById('bank');
+                            const bankAccountNoInput = document.getElementById('bank_account_no');
+                            const supervisorInput = document.getElementById('supervisor');
+
+                            roleSelect.addEventListener('change', () => {
+                                if (roleSelect.value === 'Admin') {
+                                    startDateInput.classList.add('hidden');
+                                    activeInput.classList.add('hidden');
+                                    hourlyRateInput.classList.add('hidden');
+                                    requiredHoursInput.classList.add('hidden');
+                                    bankInput.classList.add('hidden');
+                                    bankAccountNoInput.classList.add('hidden');
+                                    supervisorInput.classList.add('hidden');
+                                } else {
+                                    startDateInput.classList.remove('hidden');
+                                    activeInput.classList.remove('hidden');
+                                    hourlyRateInput.classList.remove('hidden');
+                                    requiredHoursInput.classList.remove('hidden');
+                                    bankInput.classList.remove('hidden');
+                                    bankAccountNoInput.classList.remove('hidden');
+                                    supervisorInput.classList.remove('hidden');
+                                }
+                            });
+                        </script>
                     </div>
                     <!-- Modal footer -->
                     <div class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
@@ -363,6 +410,11 @@ unset($__errorArgs, $__bag); ?>
                             class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
                             style="display: none;">
                             Email
+                        </th>
+                        <th scope="col"
+                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
+                            style="display: none;">
+                            Sex
                         </th>
                         <th scope="col"
                             class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
@@ -434,6 +486,11 @@ unset($__errorArgs, $__bag); ?>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"
                                 style="display: none;">
                                 <?php echo e($intern->email); ?>
+
+                            </td>
+                            <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"
+                                style="display: none;">
+                                <?php echo e($intern->sex); ?>
 
                             </td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap"
@@ -554,10 +611,21 @@ unset($__errorArgs, $__bag); ?>
                                                             class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
                                                     </div>
                                                     <div class="mb-4">
-                                                        <label for="name"
-                                                            class="block text-gray-700 font-bold mb-2">Email:</label>
-                                                        <input type="text" name="name" id="edit_email"
-                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                                                        <label for="sex"
+                                                            class="block text-gray-700 font-bold mb-2">Sex:</label>
+                                                        <select id="edit_sex"
+                                                            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                                            name="sex" required>
+
+                                                            <?php
+                                                            $list = ['Male', 'Female'];
+                                                            ?>
+                                                            <?php $__currentLoopData = $list; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $sex): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option value="<?php echo e($sex); ?>"
+                                                                    <?php echo e($sex == $intern->sex ? 'selected' : ''); ?>>
+                                                                    <?php echo e($sex); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                        </select>
                                                     </div>
                                                     <div class="mb-4">
                                                         <label for="name"
@@ -762,7 +830,7 @@ unset($__errorArgs, $__bag); ?>
     <?php if($user_role === 'superadmin'): ?>
         <?php echo $__env->make('admin.superadmin-employee-list', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <?php endif; ?>
-    
+
     <script>
         //Edit Intern Modal
         $(document).on("click", ".editinternList", function() {
@@ -772,23 +840,24 @@ unset($__errorArgs, $__bag); ?>
                 return $(this).text();
             }).get();
 
-            // console.log(editinternData);
+            console.log(editinternData);
 
             $('#edit_id').val(editinternData[0].trim());
             $('#edit_name').val(editinternData[1].trim());
             $('#edit_username').val(editinternData[2].trim());
             $('#edit_email').val(editinternData[3].trim());
-            $('#edit_contact_number').val(editinternData[4].trim());
-            $('#edit_position').val(editinternData[5].trim());
-            $('#edit_start_date').val(editinternData[6].trim());
-            $('#edit_active').val(editinternData[7].trim());
-            // $('#edit_role').val(editinternData[8].trim());
-            $('#edit_hourly_rate').val(editinternData[9].trim());
-            $('#edit_required_hours').val(editinternData[10].trim());
-            $('#edit_department').val(editinternData[11].trim());
-            $('#edit_bank').val(editinternData[12].trim());
-            $('#edit_bank_account_no').val(editinternData[13].trim());
-            $('#edit_supervisor').val(editinternData[14].trim());
+            $('#edit_sex').val(editinternData[4].trim());
+            $('#edit_contact_number').val(editinternData[5].trim());
+            $('#edit_position').val(editinternData[6].trim());
+            $('#edit_start_date').val(editinternData[7].trim());
+            $('#edit_active').val(editinternData[8].trim());
+            // $('#edit_role').val(editinternData[9].trim());
+            $('#edit_hourly_rate').val(editinternData[10].trim());
+            $('#edit_required_hours').val(editinternData[11].trim());
+            $('#edit_department').val(editinternData[12].trim());
+            $('#edit_bank').val(editinternData[13].trim());
+            $('#edit_bank_account_no').val(editinternData[14].trim());
+            $('#edit_supervisor').val(editinternData[15].trim());
         });
 
         //Form submission modal
@@ -804,6 +873,7 @@ unset($__errorArgs, $__bag); ?>
             const name = document.getElementById('edit_name').value;
             const username = document.getElementById('edit_username').value;
             const email = document.getElementById('edit_email').value;
+            const sex = document.getElementById('edit_sex').value;
             const contact_number = document.getElementById('edit_contact_number').value;
             const position = document.getElementById('edit_position').value;
             const start_date = document.getElementById('edit_start_date').value;
@@ -820,6 +890,7 @@ unset($__errorArgs, $__bag); ?>
                 name: name,
                 username: username,
                 email: email,
+                sex: sex,
                 contact_number: contact_number,
                 position: position,
                 start_date: start_date,
