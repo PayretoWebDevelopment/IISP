@@ -42,7 +42,7 @@
                     </button>
                 </div>
                 <!-- Modal body -->
-                <form method="POST" action="/admin/create-new-intern/submit">
+                <form method="POST" action="/admin/create-new-employee/submit">
                     <div class="p-6 space-y-6">
                         @csrf
                         <div class="mb-6">
