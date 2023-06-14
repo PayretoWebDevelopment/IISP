@@ -79,6 +79,11 @@ Route::get('/admin/approvals', [ApprovalController::class, 'index']);
 Route::post('/admin/approve-requests', [ApprovalController::class, 'approve_requests']);
 #endregion
 
+#region Admin Contact User and Email-sending API
+Route::get('/admin/contact-user/{id}', [UserController::class, 'show_contact_user']);
+Route::post('/admin/contact-user/send-mail', [UserController::class, 'send_contact_email']);
+#endregion
+
 #region (Admin) Employee List
 Route::get('/admin/employee-list', [UserController::class, 'employee_list']);
 Route::get('/admin/employee-edit/{id}', [UserController::class, 'employee_edit']);

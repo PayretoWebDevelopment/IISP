@@ -1,7 +1,7 @@
 <x-layout module_name="My Profile">
-    <title>Payreto | My Profile</title>
+    <title>Payreto | Other Profile</title>
     <x-card class="p-10">
-        <x-otherprofile>
+        <x-otherprofile :user="$user">
             @auth
                 <ul class="list-none">
                     <li>Full name: {{ $user->name }}</li>

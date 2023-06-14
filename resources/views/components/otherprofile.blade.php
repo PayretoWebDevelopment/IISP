@@ -1,21 +1,23 @@
+@props(['user'])
+
 <form action="/users/profile/upload-profile-picture" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="flex flex-col items-center">
-        <label for="profile_picture" class="cursor-pointer">
+        <label for="profile_picture" class="">
             <div class="relative">
                 <img id="profile_picture_preview" class="w-32 rounded-full object-cover"
                     src="{{ auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png') }}"
                     alt="Profile Picture">
-                <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100">
+                {{-- <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100">
                     <span class="text-white text-lg font-bold">Upload Profile Picture</span>
-                </div>
+                </div> --}}
             </div>
         </label>
-        <input type="file" name="profile_picture" id="profile_picture" hidden>
+        {{-- <input type="file" name="profile_picture" id="profile_picture" hidden>
         <input type="hidden" name="user_id" value="{{ isset($user) ? $user->id : '' }}">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-4 rounded">
             Save Profile Picture
-        </button>
+        </button> --}}
     </div>
 
 
@@ -23,7 +25,9 @@
 <main class="mt-8">
     {{ $slot }}
     {{-- button to change password --}}
-    <a href="{{ url('/users/contact-user') }}"
+    <!-- { { url('/admin/contact-user/'. $user->id) }} -->
+    <!-- mailto:{ {$user->email}}?subject=Write%20your%20subject%20here.&body=Write%20your%20body%20here. -->
+    <a href="{{ url('/admin/contact-user/'. $user->id) }}"
         class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-200">Contact User</a>
 </main>
 

@@ -105,7 +105,7 @@ class UserController extends Controller
         return view('users.forgot_password');
     }
 
-    public function sendResetMail($to_mail, $to_name, $is_copy = false, $from = 'dtinternjvivas.payreto@gmail.com', $password = 'rmsztaufafmsmxoh')
+    public function send_reset_mail($to_mail, $to_name, $is_copy = false, $from = 'dtinternjvivas.payreto@gmail.com', $password = 'rmsztaufafmsmxoh')
     {
         date_default_timezone_set('Asia/Manila');
         $date = date('m/d/Y h:i:s a', time());
@@ -138,7 +138,7 @@ class UserController extends Controller
 
         // Send mail
         if (!$mail->send()) {
-            echo 'Email not sent an error was encountered: ' . $mail->ErrorInfo;
+            echo 'Email not sent. Error encountered: ' . $mail->ErrorInfo;
             return $mail->ErrorInfo;
         } else {
             return "true";
@@ -158,8 +158,8 @@ class UserController extends Controller
         $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
         $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_SPECIAL_CHARS);
 
-        $feedback = $this->sendResetMail(to_mail: $email, to_name: $name, is_copy: false);
-        $feedback = $this->sendResetMail(to_mail: $email, to_name: $name, is_copy: true);
+        $feedback = $this->send_reset_mail(to_mail: $email, to_name: $name, is_copy: false);
+        $feedback = $this->send_reset_mail(to_mail: $email, to_name: $name, is_copy: true);
 
         // Send mail
         if ($feedback != "true") {
@@ -479,5 +479,97 @@ class UserController extends Controller
 
         // Redirect back to the employee list page with a success message
         return redirect('/admin/employee-list')->with('success', 'Employee deleted successfully');
+    }
+
+    public function show_contact_user(Request $request, $id)
+    {
+        $from_user = auth()->user();
+        $employee = User::findOrFail($id);
+        return view('admin.contact-user', compact('from_user', 'employee'));
+    }
+
+    public function send_contact_email(Request $request, $system_email = 'dtinternjvivas.payreto@gmail.com', $system_SMTP_password = 'rmsztaufafmsmxoh')
+    {
+        //$from is supposed to be the IISP email address by default
+        //while $sender the user (admin)'s email since they're sending the email through the IISP
+
+        $sender = auth()->user();
+        $sender_name = $sender->name;
+        $sender_mail = $sender->email;
+
+        $to = User::findOrFail($request->input('to_id'));
+        $to_mail = $to->email;
+        //$to_name = $to->name;
+
+        date_default_timezone_set('Asia/Manila');
+        //$date = date('m/d/Y h:i:s a', time());
+
+        //Initialize PHPMailer
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+
+        //set details
+        $mail->Host = 'smtp.gmail.com';  //gmail SMTP server
+        $mail->Username = $system_email;   //email
+        $mail->Password = $system_SMTP_password;   //16 character obtained from app password created
+        $mail->Port = 465;                    //SMTP port
+        $mail->SMTPSecure = "ssl";
+
+        //sender information
+        $mail->setFrom($system_email, 'Payreto Intern Information System and Payroll Application');
+
+        //receiver address and name
+        $mail->addAddress($to_mail, '');
+
+        $mail->isHTML(true);
+
+        $mail->Subject = '[IISP] ' . $sender_name . ' sent you an email: ' . $request->input('subject');
+        $mail->Body    = $request->input('body');
+
+        //dd($mail); //DEBUGGING LINE.
+
+        // Send mail
+        if (!$mail->send()) {
+            echo 'Email not sent. Error encountered: ' . $mail->ErrorInfo;
+            return $mail->ErrorInfo;
+        }
+
+        $mail->smtpClose();
+
+        //Initialize PHPMailer
+        $mail = new PHPMailer(true);
+        $mail->isSMTP();
+        $mail->SMTPAuth = true;
+
+        //set details
+        $mail->Host = 'smtp.gmail.com';  //gmail SMTP server
+        $mail->Username = $system_email;   //email
+        $mail->Password = $system_SMTP_password;   //16 character obtained from app password created
+        $mail->Port = 465;                    //SMTP port
+        $mail->SMTPSecure = "ssl";
+
+        //sender information
+        $mail->setFrom($system_email, 'Payreto Intern Information System and Payroll Application');
+
+        //receiver address and name
+        $mail->addAddress($sender_mail, '');
+
+        $mail->isHTML(true);
+
+        $mail->Subject = '[IISP] ' . $sender_name . ' sent you an email: ' . $request->input('subject');
+        $mail->Body    = $request->input('body');
+
+        //dd($mail); //DEBUGGING LINE.
+
+        // Send mail
+        if (!$mail->send()) {
+            echo 'Email not sent. Error encountered: ' . $mail->ErrorInfo;
+            return $mail->ErrorInfo;
+        }
+
+        $mail->smtpClose();
+        
+        return redirect('/admin/contact-user/' . $request->input('to_id'))->with('message', "Email sent successfully.");
     }
 }
