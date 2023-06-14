@@ -139,23 +139,15 @@
                         </div>
 
                         <div class="mb-6">
-                            <label for="department" class="block text-gray-700 font-bold mb-2">Department:</label>
-                            <select id="department"
-                                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            <label for="department" class="inline-block text-lg mb-2">Deparment</label>
+                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="department"
                                 name="department" required>
-
-                                <?php
-                                $department_list = ['Select Department', 'Technology', 'People', 'Business Development', 'Operations'];
-                                ?>
-                                @foreach ($department_list as $department)
-                                    <option value={{ old('department') }}>
-                                        {{ $department }}</option>
-                                @endforeach
+                                <option value="">Select Department</option>
+                                <option value="Technology">Technology</option>
+                                <option value="People">People</option>
+                                <option value="Operations">Operations</option>
+                                <option value="Business Development">Business Development</option>
                             </select>
-
-                            @error('department')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
                         </div>
 
                         <div class="mb-6" id="start_date">
