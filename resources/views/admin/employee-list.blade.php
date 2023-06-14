@@ -46,6 +46,15 @@
                     <div class="p-6 space-y-6">
                         @csrf
                         <div class="mb-6">
+                            <label for="role" class="inline-block text-lg mb-2">Role</label>
+                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="role"
+                                name="role" required>
+                                <option value="">Select Role</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Intern">Intern</option>
+                            </select>
+                        </div>
+                        <div class="mb-6">
                             <label for="name" class="inline-block text-lg mb-2"> Full name </label>
                             <input type="text" class="border border-gray-200 rounded p-2 w-full" id="name"
                                 name="name" value="{{ old('name') }}" />
@@ -65,7 +74,6 @@
                             @enderror
                         </div>
 
-
                         <div class="mb-6">
                             <label for="email" class="inline-block text-lg mb-2">Email</label>
                             <input type="email" class="border border-gray-200 rounded p-2 w-full" id="email"
@@ -77,9 +85,9 @@
                         </div>
 
                         <div class="mb-6">
-                            <label for="role" class="inline-block text-lg mb-2">Sex</label>
-                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="role"
-                                name="role" required>
+                            <label for="sex" class="inline-block text-lg mb-2">Sex</label>
+                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="sex"
+                                name="sex" required>
                                 <option value="">Select Sex</option>
                                 <option value="Admin">Male</option>
                                 <option value="Intern">Female</option>
@@ -108,16 +116,6 @@
                             @error('password_confirmation')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
-                        </div>
-
-                        <div class="mb-6">
-                            <label for="role" class="inline-block text-lg mb-2">Role</label>
-                            <select class="form-select border border-gray-200 rounded p-2 w-full" id="role"
-                                name="role" required>
-                                <option value="">Select Role</option>
-                                <option value="Admin">Admin</option>
-                                <option value="Intern">Intern</option>
-                            </select>
                         </div>
 
                         <div class="mb-6">
@@ -181,7 +179,6 @@
                             @enderror
                         </div>
 
-
                         <div class="mb-6" id="hourly_rate">
                             <label for="hourly_rate" class="inline-block text-lg mb-2">Hourly rate</label>
                             <input type="hourly_rate" class="border border-gray-200 rounded p-2 w-full"
@@ -234,6 +231,36 @@
 
                         {{-- script for hiding fields when admin role is selected --}}
                         <script src="{{ asset('js/scripts.js') }}"></script>
+                        <script>
+                            const roleSelect = document.getElementById('role');
+                            const startDateInput = document.getElementById('start_date');
+                            const activeInput = document.getElementById('active');
+                            const hourlyRateInput = document.getElementById('hourly_rate');
+                            const requiredHoursInput = document.getElementById('required_hours');
+                            const bankInput = document.getElementById('bank');
+                            const bankAccountNoInput = document.getElementById('bank_account_no');
+                            const supervisorInput = document.getElementById('supervisor');
+
+                            roleSelect.addEventListener('change', () => {
+                                if (roleSelect.value === 'Admin') {
+                                    startDateInput.classList.add('hidden');
+                                    activeInput.classList.add('hidden');
+                                    hourlyRateInput.classList.add('hidden');
+                                    requiredHoursInput.classList.add('hidden');
+                                    bankInput.classList.add('hidden');
+                                    bankAccountNoInput.classList.add('hidden');
+                                    supervisorInput.classList.add('hidden');
+                                } else {
+                                    startDateInput.classList.remove('hidden');
+                                    activeInput.classList.remove('hidden');
+                                    hourlyRateInput.classList.remove('hidden');
+                                    requiredHoursInput.classList.remove('hidden');
+                                    bankInput.classList.remove('hidden');
+                                    bankAccountNoInput.classList.remove('hidden');
+                                    supervisorInput.classList.remove('hidden');
+                                }
+                            });
+                        </script>
                     </div>
                     <!-- Modal footer -->
                     <div class="flex justify-center p-6 space-x-2 border-t border-gray-200 rounded-b">
