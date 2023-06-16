@@ -20,12 +20,12 @@
                         <div class="mb-3">
                             <label for="task_name" class="block text-gray-700 font-bold mb-2">Task name</label>
                             <input name="task_name" id="task_name"
-                                class="border border-gray-400 rounded w-full py-2 px-3" />
+                                class="border border-gray-400 rounded w-full py-2 px-3 timesheetField" />
                         </div>
 
                         <div class="mb-3">
                             <label for="task_type" class="block text-gray-700 font-bold mb-2">Task Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3" id="task_type"
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="task_type"
                                 name="task_type" required>
                                 <option value="">Select Task Type</option>
                                 <option value="TASK">Task</option>
@@ -40,7 +40,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="project_type" class="block text-gray-700 font-bold mb-2">Project Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3"
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField"
                                 id="project_type" name="project_type" required>
                                 <option value="">Select Project Type</option>
                                 <optgroup label="Attendance">
@@ -199,23 +199,23 @@
             }
         }
 
-           // Restore the form fields if they were previously filled
-    function restoreFormFields() {
-        var storedTaskName = localStorage.getItem('taskName');
-        if (storedTaskName) {
-            document.getElementById('task_name').value = storedTaskName;
-        }
+            // Restore the form fields if they were previously filled
+        function restoreFormFields() {
+            var storedTaskName = localStorage.getItem('taskName');
+            if (storedTaskName) {
+                document.getElementById('task_name').value = storedTaskName;
+            }
 
-        var storedTaskType = localStorage.getItem('taskType');
-        if (storedTaskType) {
-            document.getElementById('task_type').value = storedTaskType;
-        }
+            var storedTaskType = localStorage.getItem('taskType');
+            if (storedTaskType) {
+                document.getElementById('task_type').value = storedTaskType;
+            }
 
-        var storedProjectType = localStorage.getItem('projectType');
-        if (storedProjectType) {
-            document.getElementById('project_type').value = storedProjectType;
+            var storedProjectType = localStorage.getItem('projectType');
+            if (storedProjectType) {
+                document.getElementById('project_type').value = storedProjectType;
+            }
         }
-    }
 
         // Save the form fields in local storage
         function saveFormFields() {
@@ -281,33 +281,33 @@
 
         // Initialize the timer
         function initializeTimer() {
-    var storedDuration = localStorage.getItem('duration');
-    duration = storedDuration ? parseInt(storedDuration) : 0;
-    
-    if (storedDuration) {
-        duration = parseInt(storedDuration);
-        document.getElementById('duration').value = formatDuration(duration);
-    }
-    
-    var storedStartTime = localStorage.getItem('startTime');
-    if (storedStartTime) {
-        startTime = new Date(storedStartTime);
-        var startTimeString = formatTime(startTime);
-        document.getElementById('start_time').value = startTimeString;
-    }
-    
-    var startTimerButton = document.getElementById('startTimerButton');
-    var endTimerButton = document.getElementById('endTimerButton');
-    
-    if (duration > 0) {
-        startTimerButton.style.display = 'none';
-        endTimerButton.style.display = 'block';
-    } else {
-        startTimerButton.style.display = 'block';
-        endTimerButton.style.display = 'none';
-    }
-    restoreFormFields();
-}
+            var storedDuration = localStorage.getItem('duration');
+            duration = storedDuration ? parseInt(storedDuration) : 0;
+            
+            if (storedDuration) {
+                duration = parseInt(storedDuration);
+                document.getElementById('duration').value = formatDuration(duration);
+            }
+            
+            var storedStartTime = localStorage.getItem('startTime');
+            if (storedStartTime) {
+                startTime = new Date(storedStartTime);
+                var startTimeString = formatTime(startTime);
+                document.getElementById('start_time').value = startTimeString;
+            }
+            
+            var startTimerButton = document.getElementById('startTimerButton');
+            var endTimerButton = document.getElementById('endTimerButton');
+            
+            if (duration > 0) {
+                startTimerButton.style.display = 'none';
+                endTimerButton.style.display = 'block';
+            } else {
+                startTimerButton.style.display = 'block';
+                endTimerButton.style.display = 'none';
+            }
+            restoreFormFields();
+        }
 
 
         // Handle the Start Timer button click
@@ -329,6 +329,12 @@
             restoreTimer();
             initializeTimer();
         });
+
+        var timesheetFields = document.querySelectorAll('.timesheetField');
+        timesheetFields.forEach(
+            field => {field.addEventListener('change', saveFormFields)}
+        );
+        
     </script>
 
 

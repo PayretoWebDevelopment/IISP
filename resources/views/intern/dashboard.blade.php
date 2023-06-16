@@ -2,16 +2,14 @@
 
 <x-layout module_name="Dashboard">
     <title>Payreto | User Dashboard</title>
-    @auth
-        <li>
-            <span class="font-bold uppercase">
-                Welcome, {{ auth()->user()->name }}!
-            </span>
-        </li>
-    @endauth
     <div class="container">
-        <h1>Dashboard</h1>
-        <h2>Summary of Activities for Today</h2>
+        {{-- <h1 class="text-2xl font-bold mt-6">Dashboard</h1> --}}
+        @auth
+            <h1 class="text-3xl font-bold mt-6">
+                Welcome, {{ auth()->user()->name }}!
+            </h1>
+        @endauth
+        <h2 class="text-l font-bold mt-6">Summary of Activities for Today</h2>
         @if ($timesheets->isEmpty())
             <p>No timesheets found for today.</p>
         @else
@@ -19,28 +17,27 @@
                 @foreach ($timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
         return $entry->created_at->format('Y-m-d');
     }) as $date => $entries)
-                    <thead>
+                    <thead class="bg-gray-200 text-gray-700">
                         <tr>
-                            <th>Date</th>
-                            <th>Task Name</th>
-                            <th>Project Type</th>
-                            <th>Task Type</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Duration</th>
+                            <th class="py-2 px-4 font-bold uppercase">Date</th>
+                            <th class="py-2 px-4 font-bold uppercase">Task Name</th>
+                            <th class="py-2 px-4 font-bold uppercase">Project Type</th>
+                            <th class="py-2 px-4 font-bold uppercase">Task Type</th>
+                            <th class="py-2 px-4 font-bold uppercase">Start Time</th>
+                            <th class="py-2 px-4 font-bold uppercase">End Time</th>
+                            <th class="py-2 px-4 font-bold uppercase">Duration</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-gray-600">
                         @foreach ($entries as $timesheet)
-                            <tr>
-
-                                <td>{{ $timesheet->created_at }}</td>
-                                <td>{{ $timesheet->task_name }}</td>
-                                <td>{{ $timesheet->project_type }}</td>
-                                <td>{{ $timesheet->task_type }}</td>
-                                <td>{{ $timesheet->start_time->format('h:i A') }}</td>
-                                <td>{{ $timesheet->end_time ? $timesheet->end_time->format('h:i A') : '' }}</td>
-                                <td>{{ $timesheet->getDurationAttribute() }}</td>
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-2 px-4">{{ $timesheet->created_at }}</td>
+                                <td class="py-2 px-4">{{ $timesheet->task_name }}</td>
+                                <td class="py-2 px-4">{{ $timesheet->project_type }}</td>
+                                <td class="py-2 px-4">{{ $timesheet->task_type }}</td>
+                                <td class="py-2 px-4">{{ $timesheet->start_time->format('h:i A') }}</td>
+                                <td class="py-2 px-4">{{ $timesheet->end_time ? $timesheet->end_time->format('h:i A') : '' }}</td>
+                                <td class="py-2 px-4">{{ $timesheet->getDurationAttribute() }}</td>
                             </tr>
                         @endforeach
                     </tbody>
