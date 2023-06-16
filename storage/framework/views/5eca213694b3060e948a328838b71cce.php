@@ -82,6 +82,8 @@
                                     <option value="Web Development: Deep Dive Session">Deep Dive Session</option>
                                     <option value="Web Development: Meeting">Meeting</option>
                                     <option value="Web Development: Debugging">Debugging</option>
+                                    <option value="Web Development: Programming and Development">Programming and
+                                        Development</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -103,9 +105,11 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    <button type="button"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                         id="startTimerButton">Start Timer</button>
-                    <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                    <button type="button"
+                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
                         id="endTimerButton" style="display: none;">End Timer</button>
                 </div>
             </div>
@@ -154,7 +158,6 @@
 
     
     <script>
-        // Define startTime, endTime, timer and duration outside of event listeners
         var startTime;
         var duration = 0;
         var timer;
@@ -176,15 +179,6 @@
             return num < 10 ? "0" + num : num;
         }
 
-        // get the relevant elements
-        const startTimerForm = document.getElementById('startTimerForm');
-        const startTimerButton = document.getElementById('startTimerButton');
-        const durationField = document.getElementById('duration');
-
-        // when the Start Timer button is clicked
-
-
-        // format the duration (in seconds) as HH:MM:SS
         function formatDuration(duration) {
             const hours = Math.floor(duration / 3600);
             const minutes = Math.floor(duration / 60) % 60;
@@ -192,60 +186,86 @@
             return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         }
 
-
-        // Start timer
-        document.getElementById('startTimerButton').addEventListener('click', function() {
-            // Capture the start time
-            startTime = new Date();
-            var startTimeString = formatTime(startTime);
-
-            // Update the start time field
-            document.getElementById('start_time').value = startTimeString;
-
-            // start updating the duration field every second
-            timer = setInterval(() => {
-                // calculate the duration
-                const duration = Math.floor((new Date() - startTime) / 1000);
-
-                // update the duration field
-                durationField.value = formatDuration(duration);
-            }, 1000);
-
-            // Hide the "Start Timer" button and show the "End Timer" button
+        // Update the duration field and start the timer
+        function startTimer() {
+            timer = setInterval(updateTimer, 1000);
+            // Store the start time as a string in local storage
+            localStorage.setItem('startTime', startTime.toString());
             document.getElementById('startTimerButton').style.display = 'none';
             document.getElementById('endTimerButton').style.display = 'block';
-        });
+        }
 
-        // End timer
-        document.getElementById('endTimerButton').addEventListener('click', function() {
-            // Stop the timer from updating the duration field
+        // Restore the timer if it was previously running
+        function restoreTimer() {
+            var storedStartTime = localStorage.getItem('startTime');
+            if (storedStartTime) {
+                startTime = new Date(storedStartTime); // Parse the stored start time back to a Date object
+                var currentTime = new Date();
+                duration = Math.floor((currentTime - startTime) / 1000);
+                updateTimer();
+                startTimer();
+            }
+        }
+
+           // Restore the form fields if they were previously filled
+    function restoreFormFields() {
+        var storedTaskName = localStorage.getItem('taskName');
+        if (storedTaskName) {
+            document.getElementById('task_name').value = storedTaskName;
+        }
+
+        var storedTaskType = localStorage.getItem('taskType');
+        if (storedTaskType) {
+            document.getElementById('task_type').value = storedTaskType;
+        }
+
+        var storedProjectType = localStorage.getItem('projectType');
+        if (storedProjectType) {
+            document.getElementById('project_type').value = storedProjectType;
+        }
+    }
+
+        // Save the form fields in local storage
+        function saveFormFields() {
+            var taskName = document.getElementById('task_name').value;
+            var taskType = document.getElementById('task_type').value;
+            var projectType = document.getElementById('project_type').value;
+
+            localStorage.setItem('taskName', taskName);
+            localStorage.setItem('taskType', taskType);
+            localStorage.setItem('projectType', projectType);
+        }
+
+        // Update the duration field
+        function updateTimer() {
+            duration++;
+            localStorage.setItem('startTime', startTime);
+            localStorage.setItem('duration', duration);
+            document.getElementById('duration').value = formatDuration(duration);
+        }
+
+        // Stop the timer and clear the stored data
+        function stopTimer() {
             clearInterval(timer);
-
-            // Capture the end time
+            localStorage.removeItem('startTime');
+            localStorage.removeItem('duration');
+            localStorage.removeItem('taskName');
+            localStorage.removeItem('taskType');
+            localStorage.removeItem('projectType');
             var endTime = new Date();
             var endTimeString = formatTime(endTime);
-
-            // Calculate the duration
             var duration = Math.round((endTime.getTime() - startTime.getTime()) / 1000);
-
-            // Update the end time field
             document.getElementById('end_time').value = endTimeString;
-
-            // Update the duration field
             document.getElementById('duration').value = formatDuration(duration);
-
-            // Hide the "End Timer" button and show the "Start Timer" button
             document.getElementById('endTimerButton').style.display = 'none';
             document.getElementById('startTimerButton').style.display = 'block';
+            submitFormData(duration);
+        }
 
-            // Get the form data
+        // Submit the form data
+        function submitFormData(duration) {
             var formData = new FormData(startTimerForm);
-
-            // Add the duration to the form data
             formData.append('duration', duration);
-
-            //NOT YET WORKING
-            // Send an AJAX request to submit the form data
             $.ajax({
                 url: '/intern/timesheets/stop',
                 processData: false,
@@ -262,11 +282,64 @@
                 },
                 error: function(xhr, status, error) {
                     alert('Error submitting data. Please try again.');
-                    console.log(xhr.responseText); // Log the error for debugging
+                    console.log(xhr.responseText);
                 }
             });
+        }
+
+        // Initialize the timer
+        function initializeTimer() {
+    var storedDuration = localStorage.getItem('duration');
+    duration = storedDuration ? parseInt(storedDuration) : 0;
+    
+    if (storedDuration) {
+        duration = parseInt(storedDuration);
+        document.getElementById('duration').value = formatDuration(duration);
+    }
+    
+    var storedStartTime = localStorage.getItem('startTime');
+    if (storedStartTime) {
+        startTime = new Date(storedStartTime);
+        var startTimeString = formatTime(startTime);
+        document.getElementById('start_time').value = startTimeString;
+    }
+    
+    var startTimerButton = document.getElementById('startTimerButton');
+    var endTimerButton = document.getElementById('endTimerButton');
+    
+    if (duration > 0) {
+        startTimerButton.style.display = 'none';
+        endTimerButton.style.display = 'block';
+    } else {
+        startTimerButton.style.display = 'block';
+        endTimerButton.style.display = 'none';
+    }
+    restoreFormFields();
+}
+
+
+        // Handle the Start Timer button click
+        document.getElementById('startTimerButton').addEventListener('click', function() {
+            startTime = new Date();
+            var startTimeString = formatTime(startTime);
+            document.getElementById('start_time').value = startTimeString;
+            startTimer();
+            saveFormFields();
+        });
+
+        // Handle the End Timer button click
+        document.getElementById('endTimerButton').addEventListener('click', function() {
+            stopTimer();
+        });
+
+        // Restore the timer on page load
+        window.addEventListener('load', function() {
+            restoreTimer();
+            initializeTimer();
         });
     </script>
+
+
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__componentOriginal71c6471fa76ce19017edc287b6f4508c)): ?>
