@@ -25,8 +25,8 @@
 
                         <div class="mb-3">
                             <label for="task_type" class="block text-gray-700 font-bold mb-2">Task Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="task_type"
-                                name="task_type" required>
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField"
+                                id="task_type" name="task_type" required>
                                 <option value="">Select Task Type</option>
                                 <option value="TASK">Task</option>
                                 <option value="BREAK">Break</option>
@@ -199,7 +199,7 @@
             }
         }
 
-            // Restore the form fields if they were previously filled
+        // Restore the form fields if they were previously filled
         function restoreFormFields() {
             var storedTaskName = localStorage.getItem('taskName');
             if (storedTaskName) {
@@ -234,7 +234,21 @@
             localStorage.setItem('startTime', startTime);
             localStorage.setItem('duration', duration);
             document.getElementById('duration').value = formatDuration(duration);
+
+            // Get the current time
+            var currentTime = new Date();
+            var currentDateTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), 0, 0,
+                0);
+
+            // Calculate the end time for the current day
+            var endTimeToday = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 23, 59, 59);
+
+            // If the current time exceeds the end time for the current day
+            if (currentTime > endTimeToday) {
+                stopTimer();
+            }
         }
+
 
         // Stop the timer and clear the stored data
         function stopTimer() {
@@ -283,22 +297,22 @@
         function initializeTimer() {
             var storedDuration = localStorage.getItem('duration');
             duration = storedDuration ? parseInt(storedDuration) : 0;
-            
+
             if (storedDuration) {
                 duration = parseInt(storedDuration);
                 document.getElementById('duration').value = formatDuration(duration);
             }
-            
+
             var storedStartTime = localStorage.getItem('startTime');
             if (storedStartTime) {
                 startTime = new Date(storedStartTime);
                 var startTimeString = formatTime(startTime);
                 document.getElementById('start_time').value = startTimeString;
             }
-            
+
             var startTimerButton = document.getElementById('startTimerButton');
             var endTimerButton = document.getElementById('endTimerButton');
-            
+
             if (duration > 0) {
                 startTimerButton.style.display = 'none';
                 endTimerButton.style.display = 'block';
@@ -332,10 +346,10 @@
 
         var timesheetFields = document.querySelectorAll('.timesheetField');
         timesheetFields.forEach(
-            field => {field.addEventListener('change', saveFormFields)}
+            field => {
+                field.addEventListener('change', saveFormFields)
+            }
         );
-        
     </script>
-
 
 </x-layout>

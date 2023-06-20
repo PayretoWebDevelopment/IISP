@@ -10,16 +10,14 @@
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Dashboard']); ?>
     <title>Payreto | User Dashboard</title>
-    <?php if(auth()->guard()->check()): ?>
-        <li>
-            <span class="font-bold uppercase">
-                Welcome, <?php echo e(auth()->user()->name); ?>!
-            </span>
-        </li>
-    <?php endif; ?>
     <div class="container">
-        <h1>Dashboard</h1>
-        <h2>Summary of Activities for Today</h2>
+        
+        <?php if(auth()->guard()->check()): ?>
+            <h1 class="text-3xl font-bold mt-6">
+                Welcome, <?php echo e(auth()->user()->name); ?>!
+            </h1>
+        <?php endif; ?>
+        <h2 class="text-l font-bold mt-6">Summary of Activities for Today</h2>
         <?php if($timesheets->isEmpty()): ?>
             <p>No timesheets found for today.</p>
         <?php else: ?>
@@ -27,28 +25,27 @@
                 <?php $__currentLoopData = $timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
         return $entry->created_at->format('Y-m-d');
     }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <thead>
+                    <thead class="bg-gray-200 text-gray-700">
                         <tr>
-                            <th>Date</th>
-                            <th>Task Name</th>
-                            <th>Project Type</th>
-                            <th>Task Type</th>
-                            <th>Start Time</th>
-                            <th>End Time</th>
-                            <th>Duration</th>
+                            <th class="py-2 px-4 font-bold uppercase">Date</th>
+                            <th class="py-2 px-4 font-bold uppercase">Task Name</th>
+                            <th class="py-2 px-4 font-bold uppercase">Project Type</th>
+                            <th class="py-2 px-4 font-bold uppercase">Task Type</th>
+                            <th class="py-2 px-4 font-bold uppercase">Start Time</th>
+                            <th class="py-2 px-4 font-bold uppercase">End Time</th>
+                            <th class="py-2 px-4 font-bold uppercase">Duration</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="text-gray-600">
                         <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr>
-
-                                <td><?php echo e($timesheet->created_at); ?></td>
-                                <td><?php echo e($timesheet->task_name); ?></td>
-                                <td><?php echo e($timesheet->project_type); ?></td>
-                                <td><?php echo e($timesheet->task_type); ?></td>
-                                <td><?php echo e($timesheet->start_time->format('h:i A')); ?></td>
-                                <td><?php echo e($timesheet->end_time ? $timesheet->end_time->format('h:i A') : ''); ?></td>
-                                <td><?php echo e($timesheet->getDurationAttribute()); ?></td>
+                            <tr class="border-b border-gray-200 hover:bg-gray-100">
+                                <td class="py-2 px-4"><?php echo e($timesheet->created_at); ?></td>
+                                <td class="py-2 px-4"><?php echo e($timesheet->task_name); ?></td>
+                                <td class="py-2 px-4"><?php echo e($timesheet->project_type); ?></td>
+                                <td class="py-2 px-4"><?php echo e($timesheet->task_type); ?></td>
+                                <td class="py-2 px-4"><?php echo e($timesheet->start_time->format('h:i A')); ?></td>
+                                <td class="py-2 px-4"><?php echo e($timesheet->end_time ? $timesheet->end_time->format('h:i A') : ''); ?></td>
+                                <td class="py-2 px-4"><?php echo e($timesheet->getDurationAttribute()); ?></td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>

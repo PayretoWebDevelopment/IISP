@@ -646,8 +646,10 @@
                         <th scope="col" class="px-6 py-3">
                             Role
                         </th>
+                        @if ($user_role === 'superadmin')
                         <th scope="col" class="px-6 py-3">
                             Actions</th>
+                        @endif
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -662,12 +664,11 @@
                             </td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 {{ $admin->role }}</td>
+                            @if ($user_role === 'superadmin')
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <a href="/admin/employee-edit/{{ $admin->id }}"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i
                                         class="fa-solid fa-edit"></i></a>
-
-                                @if ($user_role === 'superadmin')
                                     <a href="/admin/employee-delete/{{ $admin->id }}"
                                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
                                         onclick="event.preventDefault();
@@ -680,8 +681,8 @@
                                         @csrf
                                         @method('DELETE')
                                     </form>
-                                @endif
                             </td>
+                            @endif
                         </tr>
                     @endforeach
                 </tbody>

@@ -377,13 +377,11 @@ unset($__errorArgs, $__bag); ?>
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
             <h2 class="font-semibold text-center mb-5">Interns List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="internList" style="width:100%">
-                <thead class="bg-gray-50">
+                <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                     <tr>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        <th scope="col" class="px-6 py-3">ID
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Name
                         </th>
                         <th scope="col"
@@ -421,18 +419,14 @@ unset($__errorArgs, $__bag); ?>
                             style="display: none;">
                             Active
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Role
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Hourly Rate</th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Required Hours</th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Department</th>
                         <th scope="col"
                             class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
@@ -449,8 +443,7 @@ unset($__errorArgs, $__bag); ?>
                             style="display: none;">
                             Supervisor
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Actions</th>
                     </tr>
                 </thead>
@@ -754,22 +747,20 @@ unset($__errorArgs, $__bag); ?>
         <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
             <h2 class="font-semibold text-center mb-5">Admin List</h2>
             <table class="min-w-full divide-y divide-gray-200" id="adminList" style="width:100%">
-                <thead class="bg-gray-50">
+                <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                     <tr>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">ID
+                        <th scope="col" class="px-6 py-3">ID
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Name
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <th scope="col" class="px-6 py-3">
                             Role
                         </th>
-                        <th scope="col"
-                            class="px-12 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                        <?php if($user_role === 'superadmin'): ?>
+                        <th scope="col" class="px-6 py-3">
                             Actions</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -784,12 +775,11 @@ unset($__errorArgs, $__bag); ?>
                             </td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <?php echo e($admin->role); ?></td>
+                            <?php if($user_role === 'superadmin'): ?>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <a href="/admin/employee-edit/<?php echo e($admin->id); ?>"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i
                                         class="fa-solid fa-edit"></i></a>
-
-                                <?php if($user_role === 'superadmin'): ?>
                                     <a href="/admin/employee-delete/<?php echo e($admin->id); ?>"
                                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
                                         onclick="event.preventDefault();
@@ -802,8 +792,8 @@ unset($__errorArgs, $__bag); ?>
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
                                     </form>
-                                <?php endif; ?>
                             </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>
