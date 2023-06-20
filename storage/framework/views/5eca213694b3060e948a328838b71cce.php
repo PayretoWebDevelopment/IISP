@@ -116,45 +116,119 @@
         </div>
     </div>
 
+    <?php
+        $currentWeek = date('Y-W');
+        $weekTotal = 0; // Initialize week total
+    ?>
+
     <div class="m-10 w-10/12">
         <h1 class="text-3xl font-bold">Recorded Entries</h1>
         <?php $__currentLoopData = $timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
-        return $entry->start_time->format('Y-m-d');
+        return $entry->start_time->format('Y-W'); // Group by year and week
+    }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $week => $weekEntries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php
+                $startDate = $weekEntries
+                    ->first()
+                    ->start_time->startOfWeek()
+                    ->format('Y-m-d');
+                $endDate = $weekEntries
+                    ->last()
+                    ->start_time->endOfWeek()
+                    ->format('Y-m-d');
+                $isCurrentWeek = $week === $currentWeek;
+                $weekTotal = 0; // Reset week total for each week
+            ?>
+            <h2 class="text-2xl font-bold mt-6"><b><?php echo e($startDate); ?> to <?php echo e($endDate); ?></b></h2>
+            <?php $__currentLoopData = $weekEntries->groupBy(function ($entry) {
+        return $entry->start_time->format('Y-m-d'); // Group by year, month, and day
     }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <h2 class="text-2xl font-bold mt-6"><b><?php echo e($date); ?></b></h2>
+                <h3 class="text-xl font-bold mt-4"><b><?php echo e($date); ?></b></h3>
+                <div class="overflow-x-auto">
+                    <table class="table-auto border-collapse w-full">
+                        <thead>
+                            <tr>
+                                <th class="border px-4 py-2">Date</th>
+                                <th class="border px-4 py-2">Task Name</th>
+                                <th class="border px-4 py-2">Project Type</th>
+                                <th class="border px-4 py-2">Task Type</th>
+                                <th class="border px-4 py-2">Start Time</th>
+                                <th class="border px-4 py-2">End Time</th>
+                                <th class="border px-4 py-2">Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $dayTotal = 0; // Initialize day total
+                            ?>
+                            <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('Y-m-d')); ?></td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->task_name); ?></td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->project_type); ?></td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->task_type); ?></td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('H:i:s')); ?></td>
+                                    <td class="border px-4 py-2">
+                                        <?php echo e($timesheet->end_time ? $timesheet->end_time->format('H:i:s') : ''); ?>
+
+                                    </td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->getDurationAttribute()); ?></td>
+                                </tr>
+                                <?php
+                                    $duration = $timesheet->getDurationAttribute();
+                                    if ($duration) {
+                                        $durationParts = explode(':', $duration);
+                                        $hours = intval($durationParts[0]);
+                                        $minutes = intval($durationParts[1]);
+                                        $seconds = intval($durationParts[2]);
+                                        $durationInSeconds = $hours * 3600 + $minutes * 60 + $seconds;
+                                        $weekTotal += $durationInSeconds; // Add duration to week total in seconds
+                                        if ($isCurrentWeek && $date === \Carbon\Carbon::now()->format('Y-m-d')) {
+                                            $dayTotal += $durationInSeconds; // Add duration to day total in seconds
+                                        }
+                                    }
+                                ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php if($isCurrentWeek && count($entries) > 0): ?>
+                                <tr>
+                                    <td class="border px-4 py-2" colspan="6"><b>Day Total</b></td>
+                                    <?php
+                                        $dayTotalHours = floor($dayTotal / 3600);
+                                        $dayTotalMinutes = floor(($dayTotal % 3600) / 60);
+                                        $dayTotalSeconds = $dayTotal % 60;
+                                        $dayTotalFormatted = sprintf('%02d:%02d:%02d', $dayTotalHours, $dayTotalMinutes, $dayTotalSeconds);
+                                    ?>
+                                    <td class="border px-4 py-2"><b><?php echo e($dayTotalFormatted); ?></b></td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <h3 class="text-xl font-bold mt-4"><b>Week Total</b></h3>
             <div class="overflow-x-auto">
                 <table class="table-auto border-collapse w-full">
                     <thead>
                         <tr>
-                            <th class="border px-4 py-2">Date</th>
-                            <th class="border px-4 py-2">Task Name</th>
-                            <th class="border px-4 py-2">Project Type</th>
-                            <th class="border px-4 py-2">Task Type</th>
-                            <th class="border px-4 py-2">Start Time</th>
-                            <th class="border px-4 py-2">End Time</th>
-                            <th class="border px-4 py-2">Duration</th>
+                            <th class="border px-4 py-2">Week</th>
+                            <th class="border px-4 py-2">Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('Y-m-d')); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->task_name); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->project_type); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->task_type); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('H:i:s')); ?></td>
-                                <td class="border px-4 py-2">
-                                    <?php echo e($timesheet->end_time ? $timesheet->end_time->format('H:i:s') : ''); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->getDurationAttribute()); ?></td>
-                            </tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <tr>
+                            <td class="border px-4 py-2"><?php echo e($startDate); ?> to <?php echo e($endDate); ?></td>
+                            <?php
+                                $weekTotalHours = floor($weekTotal / 3600);
+                                $weekTotalMinutes = floor(($weekTotal % 3600) / 60);
+                                $weekTotalSeconds = $weekTotal % 60;
+                                $weekTotalFormatted = sprintf('%02d:%02d:%02d', $weekTotalHours, $weekTotalMinutes, $weekTotalSeconds);
+                            ?>
+                            <td class="border px-4 py-2"><b><?php echo e($weekTotalFormatted); ?></b></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
     </div>
-
 
     
     <script>
@@ -258,8 +332,15 @@
         }
 
 
-        // Stop the timer and clear the stored data
         function stopTimer() {
+            // Check for form error here
+            var formError = false; // Set this to true if there is a form error
+
+            if (formError) {
+                alert('Form error! Please fix the form.');
+                return; // Prevent the timer from stopping if there is a form error
+            }
+
             clearInterval(timer);
             localStorage.removeItem('startTime');
             localStorage.removeItem('duration');
@@ -276,30 +357,38 @@
             submitFormData(duration);
         }
 
-        // Submit the form data
-        function submitFormData(duration) {
-            var formData = new FormData(startTimerForm);
-            formData.append('duration', duration);
-            $.ajax({
-                url: '/intern/timesheets/stop',
-                processData: false,
-                contentType: false,
-                cache: false,
-                method: 'POST',
-                data: formData,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    alert('Data submitted successfully!');
-                    window.location.href = '/intern/timesheets/';
-                },
-                error: function(xhr, status, error) {
-                    alert('Error submitting data. Please try again.');
-                    console.log(xhr.responseText);
-                }
-            });
+function submitFormData(duration) {
+    var formData = new FormData(startTimerForm);
+    formData.append('duration', duration);
+    $.ajax({
+        url: '/intern/timesheets/stop',
+        processData: false,
+        contentType: false,
+        cache: false,
+        method: 'POST',
+        data: formData,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function(response) {
+            alert('Data submitted successfully!');
+            window.location.href = '/intern/timesheets/';
+        },
+        error: function(xhr, status, error) {
+            alert('Error submitting data. Please try again.');
+            console.log(xhr.responseText);
+
+            // Handle the form error here
+            if (xhr.status === 400) {
+                // Form error occurred
+                alert('Form error! Please fix the form.');
+                return; // Prevent the timer from stopping if there is a form error
+            }
+
+            // Handle other error cases if needed
         }
+    });
+}
 
         // Initialize the timer
         function initializeTimer() {
