@@ -147,7 +147,9 @@
                 $isCurrentWeek = $week === $currentWeek;
                 $weekTotal = 0; // Reset week total for each week
             ?>
-            <h2 class="text-2xl font-bold mt-6"><b><?php echo e($startDate); ?> to <?php echo e($endDate); ?></b></h2>
+            <h2 class="text-2xl font-bold mt-6"><b><?php echo e(date('F d, Y', strtotime($startDate))); ?> to <?php echo e(date('F d, Y', strtotime($endDate))); ?>
+
+            </b></h2>
             <?php $__currentLoopData = $weekEntries->groupBy(function ($entry) {
         return $entry->start_time->format('Y-m-d'); // Group by year, month, and day
     }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>

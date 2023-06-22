@@ -139,7 +139,8 @@
                 $isCurrentWeek = $week === $currentWeek;
                 $weekTotal = 0; // Reset week total for each week
             @endphp
-            <h2 class="text-2xl font-bold mt-6"><b>{{ $startDate }} to {{ $endDate }}</b></h2>
+            <h2 class="text-2xl font-bold mt-6"><b>{{ date('F d, Y', strtotime($startDate)) }} to {{ date('F d, Y', strtotime($endDate)) }}
+            </b></h2>
             @foreach ($weekEntries->groupBy(function ($entry) {
         return $entry->start_time->format('Y-m-d'); // Group by year, month, and day
     }) as $date => $entries)
