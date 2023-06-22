@@ -18,6 +18,7 @@ class Timesheet extends Model
         'project_type',
         'start_time',
         'end_time',
+        'billable'
     ];
 
     protected $appends = ['duration'];

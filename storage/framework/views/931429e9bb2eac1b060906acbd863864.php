@@ -62,6 +62,18 @@
 </head>
 
 <style>
+    .dataTables_wrapper .dataTables_paginate {
+        color: #F9FAFB;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+        border: 1px solid #374151;
+        background-color: #374151;
+        border-radius: 3rem;
+
+    }
+
     .dataTables_wrapper .dataTables_length select {
         border: 1px solid #aaa;
         border-radius: 5px;
@@ -75,24 +87,6 @@
         padding: 5px;
         background-color: transparent;
         margin-bottom: 2em;
-    }
-
-
-    element.style {}
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {}
-
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current,
-    .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
-        border: 1px solid rgba(0, 0, 0, 0.3);
-        background-color: rgba(230, 230, 230, 0.1);
-        background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(230, 230, 230, 0.1)), color-stop(100%, rgba(0, 0, 0, 0.1)));
-        background: -webkit-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
-        background: -moz-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
-        background: -ms-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
-        background: -o-linear-gradient(top, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
-        background: linear-gradient(to bottom, rgba(230, 230, 230, 0.1) 0%, rgba(0, 0, 0, 0.1) 100%);
     }
 
     .dataTables_wrapper .dataTables_paginate .paginate_button {

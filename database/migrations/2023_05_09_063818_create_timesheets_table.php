@@ -57,6 +57,7 @@ return new class extends Migration
             $table->dateTime('start_time');
             $table->dateTime('end_time');
             $table->timestamps();
+            $table->boolean('billable')->default(false);
         });
     }
 

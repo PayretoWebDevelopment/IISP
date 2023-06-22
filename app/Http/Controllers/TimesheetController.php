@@ -31,6 +31,7 @@ class TimesheetController extends Controller
             'project_type' => filter_input(INPUT_POST, 'project_type', FILTER_SANITIZE_SPECIAL_CHARS), //$request->input('project_type'),
             'start_time' => $start_time,
             'end_time' => $end_time,
+            'billable' => $request->input('billable')
         ];
 
         $timesheet = Timesheet::create($formFields);

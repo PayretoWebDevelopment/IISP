@@ -8,18 +8,19 @@
 <?php endif; ?>
 <?php $component->withAttributes(['module_name' => 'Reports']); ?>
     <div class="container">
+        <title>Payreto | Timesheet Reports</title>
         <h1 class="text-3xl font-bold">Timesheet Report</h1>
         <form method="get" action="/intern/reports/filter" class="mt-8">
             <div class="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
                 <div class="flex-1">
                     <label for="start_date" class="block text-gray-700 font-bold mb-2">From Date:</label>
                     <input type="date" class="form-input rounded-md shadow-sm w-full" id="start_date"
-                        name="start_date" value="<?php echo e(app('request')->input('start_date') ?? old('start_date') ?? date('Y-m-d')); ?>" required>
+                        name="start_date" value="<?php echo e(app('request')->input('start_date') ?? old('start_date')); ?>" required>
                 </div>
                 <div class="flex-1">
                     <label for="end_date" class="block text-gray-700 font-bold mb-2">To Date:</label>
                     <input type="date" class="form-input rounded-md shadow-sm w-full" id="end_date" name="end_date"
-                        value="<?php echo e(app('request')->input('end_date') ?? old('start_date') ?? date('Y-m-d')); ?>" required>
+                        value="<?php echo e(app('request')->input('end_date') ?? old('end_date')); ?>" required>
                 </div>
                 <div>
                     <button type="submit"
