@@ -102,6 +102,15 @@
                             <input type="text" class="form-control border border-gray-400 rounded w-full py-2 px-3"
                                 id="duration" name="duration" readonly required>
                         </div>
+                        <div class="mb-3">
+                            <label class="block text-gray-700 font-bold mb-2" for="billable">Billable</label>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="billable" name="billable" class="mr-2 timesheetField">
+                                <span id="billableIcon" class="ml-2 text-green-500 hidden cursor-pointer"
+                                    onclick="toggleBillable()">$</span>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -138,7 +147,9 @@
                 $isCurrentWeek = $week === $currentWeek;
                 $weekTotal = 0; // Reset week total for each week
             ?>
-            <h2 class="text-2xl font-bold mt-6"><b><?php echo e($startDate); ?> to <?php echo e($endDate); ?></b></h2>
+            <h2 class="text-2xl font-bold mt-6"><b><?php echo e(date('F d, Y', strtotime($startDate))); ?> to <?php echo e(date('F d, Y', strtotime($endDate))); ?>
+
+            </b></h2>
             <?php $__currentLoopData = $weekEntries->groupBy(function ($entry) {
         return $entry->start_time->format('Y-m-d'); // Group by year, month, and day
     }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -154,6 +165,7 @@
                                 <th class="border px-4 py-2">Start Time</th>
                                 <th class="border px-4 py-2">End Time</th>
                                 <th class="border px-4 py-2">Duration</th>
+                                <th class="border px-4 py-2">Billable</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -172,6 +184,13 @@
 
                                     </td>
                                     <td class="border px-4 py-2"><?php echo e($timesheet->getDurationAttribute()); ?></td>
+                                    <td class="border px-4 py-2">
+                                        <?php if($timesheet->billable): ?>
+                                            <span class="text-green-500 font-bold">&#36;</span>
+                                        <?php else: ?>
+                                            <span class="text-red-500 font-bold">&#10007;</span>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                                 <?php
                                     $duration = $timesheet->getDurationAttribute();
@@ -198,6 +217,7 @@
                                         $dayTotalFormatted = sprintf('%02d:%02d:%02d', $dayTotalHours, $dayTotalMinutes, $dayTotalSeconds);
                                     ?>
                                     <td class="border px-4 py-2"><b><?php echo e($dayTotalFormatted); ?></b></td>
+                                    <td class="border px-4 py-2"></td>
                                 </tr>
                             <?php endif; ?>
                         </tbody>
@@ -281,6 +301,20 @@
             }
         }
 
+        // Toggle billable state
+        function toggleBillable(value) {
+            var billableCheckbox = document.getElementById('billable');
+            var billableIcon = document.getElementById('billableIcon');
+            billableCheckbox.checked = value ? 1 : 0;
+
+            if (value) {
+                billableIcon.classList.remove('hidden');
+            } else {
+                billableIcon.classList.add('hidden');
+            }
+        }
+
+
         // Restore the form fields if they were previously filled
         function restoreFormFields() {
             var storedTaskName = localStorage.getItem('taskName');
@@ -297,6 +331,19 @@
             if (storedProjectType) {
                 document.getElementById('project_type').value = storedProjectType;
             }
+
+            var storedBillable = localStorage.getItem('billable');
+            var billableCheckbox = document.getElementById('billable');
+            var billableIcon = document.getElementById('billableIcon');
+
+            if (storedBillable === '1') {
+                billableCheckbox.checked = true;
+                billableIcon.classList.remove('hidden');
+            } else {
+                billableCheckbox.checked = false;
+                billableIcon.classList.add('hidden');
+            }
+
         }
 
         // Save the form fields in local storage
@@ -308,6 +355,18 @@
             localStorage.setItem('taskName', taskName);
             localStorage.setItem('taskType', taskType);
             localStorage.setItem('projectType', projectType);
+
+            var stopTimerButton = document.getElementById('endTimerButton');
+            if (taskName.trim() === '' || taskType.trim() === '' || projectType.trim() === '') {
+                stopTimerButton.disabled = true;
+            } else {
+                stopTimerButton.disabled = false;
+            }
+
+            var billableCheckbox = document.getElementById('billable');
+            var billable = billableCheckbox.checked ? 1 : 0;
+            localStorage.setItem('billable', billable);
+
         }
 
         // Update the duration field
@@ -331,14 +390,15 @@
             }
         }
 
-
         function stopTimer() {
-            // Check for form error here
-            var formError = false; // Set this to true if there is a form error
+            // Check if the form fields are empty
+            var taskName = document.getElementById('task_name').value;
+            var taskType = document.getElementById('task_type').value;
+            var projectType = document.getElementById('project_type').value;
 
-            if (formError) {
-                alert('Form error! Please fix the form.');
-                return; // Prevent the timer from stopping if there is a form error
+            if (taskName.trim() === '' || taskType.trim() === '' || projectType.trim() === '') {
+                alert('Please fill in all the form fields before stopping the timer.');
+                return; // Prevent the timer from stopping if form fields are empty
             }
 
             clearInterval(timer);
@@ -347,6 +407,7 @@
             localStorage.removeItem('taskName');
             localStorage.removeItem('taskType');
             localStorage.removeItem('projectType');
+            localStorage.removeItem('billable');
             var endTime = new Date();
             var endTimeString = formatTime(endTime);
             var duration = Math.round((endTime.getTime() - startTime.getTime()) / 1000);
@@ -357,38 +418,61 @@
             submitFormData(duration);
         }
 
-function submitFormData(duration) {
-    var formData = new FormData(startTimerForm);
-    formData.append('duration', duration);
-    $.ajax({
-        url: '/intern/timesheets/stop',
-        processData: false,
-        contentType: false,
-        cache: false,
-        method: 'POST',
-        data: formData,
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-            alert('Data submitted successfully!');
-            window.location.href = '/intern/timesheets/';
-        },
-        error: function(xhr, status, error) {
-            alert('Error submitting data. Please try again.');
-            console.log(xhr.responseText);
-
-            // Handle the form error here
-            if (xhr.status === 400) {
-                // Form error occurred
-                alert('Form error! Please fix the form.');
-                return; // Prevent the timer from stopping if there is a form error
+        // Toggle billable state
+        function toggleBillable() {
+            var billableCheckbox = document.getElementById('billable');
+            var billableIcon = document.getElementById('billableIcon');
+            if (billableCheckbox.checked) {
+                billableIcon.classList.remove('hidden');
+                billableIcon.textContent = '$';
+            } else {
+                billableIcon.classList.add('hidden');
+                billableIcon.textContent = '';
             }
-
-            // Handle other error cases if needed
         }
-    });
-}
+
+        // Add an event listener to the billable checkbox
+        document.getElementById('billable').addEventListener('change', toggleBillable);
+
+
+        function submitFormData(duration) {
+            var formData = new FormData(startTimerForm);
+            formData.append('duration', duration);
+            // Get the checkbox element
+            var billableCheckbox = document.getElementById('billable');
+
+            // Set the billable value based on the checkbox state
+            var billableValue = billableCheckbox.checked ? '1' : '0';
+            formData.append('billable', billableValue);
+            $.ajax({
+                url: '/intern/timesheets/stop',
+                processData: false,
+                contentType: false,
+                cache: false,
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    alert('Data submitted successfully!');
+                    window.location.href = '/intern/timesheets/';
+                },
+                error: function(xhr, status, error) {
+                    alert('Error submitting data. Please try again.');
+                    console.log(xhr.responseText);
+
+                    // Handle the form error here
+                    if (xhr.status === 400) {
+                        // Form error occurred
+                        alert('Form error! Please fix the form.');
+                        return; // Prevent the timer from stopping if there is a form error
+                    }
+
+                    // Handle other error cases if needed
+                }
+            });
+        }
 
         // Initialize the timer
         function initializeTimer() {
@@ -420,7 +504,6 @@ function submitFormData(duration) {
             restoreFormFields();
         }
 
-
         // Handle the Start Timer button click
         document.getElementById('startTimerButton').addEventListener('click', function() {
             startTime = new Date();
@@ -444,7 +527,7 @@ function submitFormData(duration) {
         var timesheetFields = document.querySelectorAll('.timesheetField');
         timesheetFields.forEach(
             field => {
-                field.addEventListener('change', saveFormFields)
+                field.addEventListener('change', saveFormFields);
             }
         );
     </script>
