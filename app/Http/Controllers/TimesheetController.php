@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use PDF;
 use App\Models\Timesheet;
 use Illuminate\Http\Request;
-use PDF;
+use App\Models\ProjectType;
+use App\Models\TaskType;
 
 class TimesheetController extends Controller
 {
@@ -39,23 +41,24 @@ class TimesheetController extends Controller
         return response()->json(['message' => 'Timesheet submitted successfully.']);
     }
 
-    public function show(Timesheet $timesheet)
+    public function projectindex()
     {
-        //to-do
+        $choices = ProjectType::all();
+        return view('intern.project-type', compact('choices'));
     }
 
-    public function create(Timesheet $timesheet)
+    public function taskindex()
     {
-        //to-do
+        $choices = TaskType::all();
+        return view('intern.task-type', compact('choices'));
     }
-
-    public function store(Request $request)
+    
+    public function taskstore(Request $request)
     {
-        //to-do
-    }
-
-    public function delete(Timesheet $timesheet)
-    {
-        //to-do
+        $choice = new TaskType();
+        $choice->name = $request->input('name');
+        $choice->save();
+        
+        return redirect('/task_types');
     }
 }

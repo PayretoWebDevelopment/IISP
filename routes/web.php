@@ -112,3 +112,13 @@ Route::get('/admin/reports/filter', [ReportController::class, 'filter']);
 Route::get('/admin/reports/inspect/{id}', [ReportController::class, 'inspect']);
 
 #endregion
+
+#region Choice
+
+Route::get('/project-types', [TimesheetController::class, 'projectindex'])->name('project.index');
+Route::post('/project-types', [TimesheetController::class, 'projectstore'])->name('project.store');
+
+Route::get('/task-types', [TimesheetController::class, 'taskindex'])->name('task.index');
+Route::post('/task-types', [TimesheetController::class, 'taskstore'])->name('task.store');
+
+#endregion
