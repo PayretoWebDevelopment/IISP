@@ -7,7 +7,7 @@
     <body>
         <h1 class="text-3xl font-bold">Project Types Input</h1>
 
-        <form method="post" action="/project_types">
+        <form method="post" action="/project-types">
             @csrf
             <div id="choices-container">
                 <div>
@@ -21,7 +21,7 @@
         <h2 class="text-3xl font-bold">Existing Project Types:</h2>
         <ul>
             @foreach ($choices as $choice)
-                <li>Department: {{ $choice->department }}, Name: {{ $choice->name }}</li>
+                <li>{{ $choice->department }}: {{ $choice->name }}</li>
             @endforeach
         </ul>
     </body>

@@ -25,59 +25,34 @@
 
                         <div class="mb-3">
                             <label for="task_type" class="block text-gray-700 font-bold mb-2">Task Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField"
-                                id="task_type" name="task_type" required>
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="task_type" name="task_type" required>
                                 <option value="">Select Task Type</option>
-                                <option value="TASK">Task</option>
-                                <option value="BREAK">Break</option>
-                                <option value="LOGIN">Login</option>
-                                <option value="LOGOUT">Logout</option>
-                                <option value="LUNCH">Lunch</option>
-                                <option value="MEETING">Meeting</option>
-                                <option value="TRAINING">Training</option>
-                                <option value="WEBINAR">Webinar</option>
-                            </select>
+                                @foreach($taskTypes as $taskType)
+                                    <option value="{{ $taskType->name }}">{{ $taskType->name }}</option>
+                                @endforeach
+                            </select>                            
                         </div>
                         <div class="mb-3">
                             <label for="project_type" class="block text-gray-700 font-bold mb-2">Project Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField"
-                                id="project_type" name="project_type" required>
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="project_type" name="project_type" required>
                                 <option value="">Select Project Type</option>
-                                <optgroup label="Attendance">
-                                    <option value="Attendance: Break">Break</option>
-                                    <option value="Attendance: Login">Login</option>
-                                    <option value="Attendance: Logout">Logout</option>
-                                </optgroup>
-                                <optgroup label="HR General">
-                                    <option value="HR General: Ad Hoc">Ad Hoc</option>
-                                    <option value="HR General: Email Correspondence">Email Correspondence</option>
-                                    <option value="HR General: Meeting">Meeting</option>
-                                    <option value="HR General: Monthly Assembly">Monthly Assembly</option>
-                                    <option value="HR General: Performance Evaluation">Performance Evaluation</option>
-                                    <option value="HR General: Team Building">Team Building</option>
-                                    <option value="HR General: Team Tailgate">Team Tailgate</option>
-                                    <option value="HR General: Touchbase">Touchbase</option>
-                                    <option value="HR General: Training or Webinar">Training or Webinar</option>
-                                    <option value="HR General: Weekly Huddle">Weekly Huddle</option>
-                                </optgroup>
-                                <optgroup label="Data Analytics">
-                                    <option value="Data Analytics: Automation">Automation</option>
-                                    <option value="Data Analytics: Data Analysis">Data Analysis</option>
-                                    <option value="Data Analytics: Data Cleansing">Data Cleansing</option>
-                                    <option value="Data Analytics: Data Consolidation">Data Consolidation</option>
-                                    <option value="Data Analytics: Meeting">Meeting</option>
-                                    <option value="Data Analytics: Networking Debugging">Networking Debugging</option>
-                                    <option value="Data Analytics: Report Generation">Report Generation</option>
-                                    <option value="Data Analytics: Workshop">Workshop</option>
-                                </optgroup>
-                                <optgroup label="Web Development">
-                                    <option value="Web Development: Deep Dive Session">Deep Dive Session</option>
-                                    <option value="Web Development: Meeting">Meeting</option>
-                                    <option value="Web Development: Debugging">Debugging</option>
-                                    <option value="Web Development: Programming and Development">Programming and
-                                        Development</option>
-                                </optgroup>
-                            </select>
+                                @foreach($projectTypes as $projectType)
+                                    @if ($loop->first || $projectType->department !== $prevDepartment)
+                                        @if (!$loop->first)
+                                            </optgroup>
+                                        @endif
+                                        <optgroup label="{{ $projectType->department }}">
+                                    @endif
+                                    <option value="{{ $projectType->department }}: {{ $projectType->name }}">{{ $projectType->name }}</option>
+                                    @php
+                                        $prevDepartment = $projectType->department;
+                                    @endphp
+                                    @if ($loop->last)
+                                        </optgroup>
+                                    @endif
+                                @endforeach
+                            </select>                            
+                            
                         </div>
                         <div class="mb-3">
                             <label for="start_time" class="block text-gray-700 font-bold mb-2">Start Time</label>

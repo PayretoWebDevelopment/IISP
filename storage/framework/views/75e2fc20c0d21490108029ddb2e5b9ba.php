@@ -193,7 +193,6 @@
                         </span>
                     </a>
                 </li>
-                <?php if(!auth()->user()->isAdmin()): ?>
                 <li><a href="/project-types"
                     class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
                             <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
@@ -208,7 +207,6 @@
                     <span class="group-hover:text-gray-700">Task Types</span>
                     </a>
                 </li>
-                <?php endif; ?>
                 <?php if(auth()->user()->isAdmin()): ?>
                     <li>
                         <a href="/admin/employee-list"

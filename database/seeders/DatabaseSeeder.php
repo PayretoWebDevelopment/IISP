@@ -5,6 +5,8 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Approval;
+use App\Models\ProjectType;
+use App\Models\TaskType;
 use Carbon\Carbon;
 use Faker\Factory;
 use App\Models\User;
@@ -83,5 +85,161 @@ class DatabaseSeeder extends Seeder
         User::factory(10)->create();
         Timesheet::factory(10)->create();
         Approval::factory(10)->create();
+        ProjectType::factory()->create([
+            'name' => 'Break',
+            'department' => 'Attendance',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Login',
+            'department' => 'Attendance',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Logout',
+            'department' => 'Attendance',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Ad Hoc',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Email Correspondence',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Meeting',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Monthly Assembly',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Performance Evaluation',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Team Building',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Team Tailgate',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Touchbase',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Training or Webinar',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Weekly Huddle',
+            'department' => 'HR General',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Automation',
+            'department' => 'Data Analytics',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Data Analysis',
+            'department' => 'Data Analytics',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Data Cleansing',
+            'department' => 'Data Analytics',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Data Consolidation',
+            'department' => 'Data Analytics',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Meeting',
+            'department' => 'Data Analytics',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Networking Debugging',
+            'department' => 'Data Analytics',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Report Generation',
+            'department' => 'Data Analytics',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Workshop',
+            'department' => 'Data Analytics',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Deep Dive Session',
+            'department' => 'Web Development',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Meeting',
+            'department' => 'Web Development',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Debugging',
+            'department' => 'Web Development',
+        ]);
+
+        ProjectType::factory()->create([
+            'name' => 'Programming and Development',
+            'department' => 'Web Development',
+        ]);
+
+        TaskType::factory()->create([
+            'name' => 'Task',
+        ]);
+
+        TaskType::factory()->create([
+            'name' => 'Break',
+        ]);
+
+        TaskType::factory()->create([
+            'name' => 'Login',
+        ]);
+
+        TaskType::factory()->create([
+            'name' => 'Logout',
+        ]);
+
+        TaskType::factory()->create([
+            'name' => 'Lunch',
+        ]);
+
+        TaskType::factory()->create([
+            'name' => 'Meeting',
+        ]);
+
+        TaskType::factory()->create([
+            'name' => 'Training',
+        ]);
+
+        TaskType::factory()->create([
+            'name' => 'Webinar',
+        ]);
     }
 }

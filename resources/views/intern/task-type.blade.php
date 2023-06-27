@@ -7,7 +7,7 @@
     <body>
         <h1 class="text-3xl font-bold">Task Types Input</h1>
 
-        <form method="post" action="/task_types">
+        <form method="post" action="/task-types">
             @csrf
             <div id="choices-container">
                 <div>

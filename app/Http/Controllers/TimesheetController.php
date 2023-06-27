@@ -12,11 +12,13 @@ class TimesheetController extends Controller
 {
     public function index(Request $request)
     {
-        if(!$request->user()->isAdmin()){
+        if (!$request->user()->isAdmin()) {
             $user_id = auth()->user()->id;
             $timesheets = Timesheet::where('user_id', $user_id)->get();
+            $projectTypes = ProjectType::all()->sortBy('department');
+            $taskTypes = TaskType::all();
 
-            return view('intern.timesheets', compact('timesheets'));
+            return view('intern.timesheets', compact('timesheets', 'taskTypes', 'projectTypes'));
         }
     }
 
@@ -47,18 +49,28 @@ class TimesheetController extends Controller
         return view('intern.project-type', compact('choices'));
     }
 
+    public function projectstore(Request $request)
+    {
+        $choice = new ProjectType();
+        $choice->name = $request->input('name');
+        $choice->department = $request->input('department');
+        $choice->save();
+
+        return redirect('/project-types');
+    }
+
     public function taskindex()
     {
         $choices = TaskType::all();
         return view('intern.task-type', compact('choices'));
     }
-    
+
     public function taskstore(Request $request)
     {
         $choice = new TaskType();
         $choice->name = $request->input('name');
         $choice->save();
-        
-        return redirect('/task_types');
+
+        return redirect('/task-types');
     }
 }
