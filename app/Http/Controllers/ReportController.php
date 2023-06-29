@@ -168,11 +168,11 @@ class ReportController extends Controller
         }
     }
 
-    public function export(Request $request, $id = null)
+    public function export(Request $request, $id = null, $store_spreadsheet = false)
     {
         $user_id = (empty($id)) ? auth()->user()->id : $id;
-        $user_name = auth()->user()->name;
-        $hourly_rate = auth()->user()->hourly_rate;
+        $user_name = User::find($user_id)->name;
+        $hourly_rate = User::find($user_id)->hourly_rate;
         $start_date = $request->input('start_date') ?? $request->route('start_date');
         $end_date = $request->input('end_date') ?? $request->route('end_date');
         
@@ -206,10 +206,18 @@ class ReportController extends Controller
         
         if ($request->has('export_csv') || $request->submit == "export_csv") {
             $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.csv";
-            return Excel::download(new TimesheetsExport($timesheets), $filename, \Maatwebsite\Excel\Excel::CSV);
+            if ($store_spreadsheet) 
+            {
+                Excel::store(new TimesheetsExport($timesheets), "/storage/spreadsheets/{$filename}");
+            }
+            return ($store_spreadsheet) ? $filename : Excel::download(new TimesheetsExport($timesheets), $filename, \Maatwebsite\Excel\Excel::CSV);
         } elseif ($request->has('export_xlsx') || $request->submit == "export_xlsx") {
             $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.xlsx";
-            return Excel::download(new TimesheetsExport($timesheets), $filename, \Maatwebsite\Excel\Excel::XLSX);
+            if ($store_spreadsheet) 
+            {
+                Excel::store(new TimesheetsExport($timesheets), "/storage/spreadsheets/{$filename}");
+            }
+            return ($store_spreadsheet) ? $filename : Excel::download(new TimesheetsExport($timesheets), $filename, \Maatwebsite\Excel\Excel::XLSX);
         } elseif ($request->has('export_pdf') || $request->submit == "export_pdf") {
             $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
             $pdf = PDF::loadView('intern.timesheets_pdf', compact('timesheets', 'totalAllowance'));
@@ -220,46 +228,93 @@ class ReportController extends Controller
 
     public function exportSelection(Request $request) //pdf's only
     {
-        try {
-            $start_date = $request->input('start_date');
-            $end_date = $request->input('end_date');
-            if(isset($request->timesheets)){
-    
-                //create zip file and add pdf's one-by-one
-                //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
-                $zip = new ZipArchive();
-                $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
+        // dd($request->input("submit"));
+        switch ($request->input("submit")) {
+            case "export_csv":
+                return $this->exportSpreadsheetSelection($request, "csv");
+                break;
+            case "export_xlsx":
+                return $this->exportSpreadsheetSelection($request, "xlsx");
+                break;
+            case "export_pdf":
+                return $this->exportPDFSelection($request);
+                break;
+            default:
+                break;
+        }
+    }
 
-                //storage_path is used because ZipArchive is not a laravel-exclusive package
-                $result_code = $zip->open(storage_path('app/storage/pdfs/' . $zip_filename), 
-                ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
+    public function exportSpreadsheetSelection($request, $type = "xlsx"){
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        if(isset($request->timesheets)){
 
-                //$this->export($request, $request->timesheets[0]);
-                foreach($request->timesheets as $key=>$user_id){
-                    $user_name = User::find($user_id)->name;
-                    $filename = "{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
-                    $content = $this->export($request, $user_id)->getOriginalContent();
-                    Storage::put('storage/pdfs/' . $filename, $content);
-                    $headers = array(
-                        'Content-Type: application/pdf',
-                    );
-                    
-                    
-                    if(storage_path('app/storage/pdfs/' . $filename)){
-                        $zip->addFile(storage_path('app/storage/pdfs/' . $filename), $filename);
-                    }else{
-                        throw new Exception("Filepath was not valid", 1);
-                    }
+            //create zip file and add pdf's one-by-one
+            //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
+            $zip = new ZipArchive();
+            $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
 
+            //storage_path is used because ZipArchive is not a laravel-exclusive package
+            $result_code = $zip->open(storage_path('app/storage/spreadsheets/' . $zip_filename), 
+            ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
+
+            //dd($request->timesheets);
+            foreach($request->timesheets as $key=>$user_id){
+                $user_name = User::find($user_id)->name;
+                $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.{$type}";
+                $this->export($request, $user_id, store_spreadsheet:true);
+
+                //dd(storage_path('app/storage/spreadsheets/' . $filename));
+                if(storage_path('app/storage/spreadsheets/' . $filename)){
+                    $zip->addFile(storage_path('app/storage/spreadsheets/' . $filename), $filename);
+                }else{
+                    throw new Exception("Filepath was not valid", 1);
+                }
+            }
+            $zip->close();
+            return Storage::download('storage/spreadsheets/' . $zip_filename, $zip_filename);
+        }else{
+            throw new Exception("No timesheets were selected", 1);
+        }
+    }
+
+    public function exportPDFSelection($request){
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        if(isset($request->timesheets)){
+
+            //create zip file and add pdf's one-by-one
+            //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
+            $zip = new ZipArchive();
+            $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
+
+            //storage_path is used because ZipArchive is not a laravel-exclusive package
+            $result_code = $zip->open(storage_path('app/storage/pdfs/' . $zip_filename), 
+            ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
+
+            //$this->export($request, $request->timesheets[0]);
+            foreach($request->timesheets as $key=>$user_id){
+                $user_name = User::find($user_id)->name;
+                $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
+                $content = $this->export($request, $user_id)->getOriginalContent();
+                Storage::put('storage/pdfs/' . $filename, $content);
+
+                // $headers = array(
+                //     'Content-Type: application/pdf',
+                // );
+                
+                
+                if(storage_path('app/storage/pdfs/' . $filename)){
+                    $zip->addFile(storage_path('app/storage/pdfs/' . $filename), $filename);
+                }else{
+                    throw new Exception("Filepath was not valid", 1);
                 }
 
-                $zip->close();
-                return Storage::download('storage/pdfs/' . $zip_filename, $zip_filename);
-            }else{
-                throw new Exception("No timesheets were selected", 1);
             }
-        } catch (Exception $e) {
-            echo $e->getMessage();
+            $zip->close();
+            return Storage::download('storage/pdfs/' . $zip_filename, $zip_filename);
+        }else{
+            throw new Exception("No timesheets were selected", 1);
         }
     }
 
@@ -267,6 +322,7 @@ class ReportController extends Controller
     {
         $fs = new Filesystem();
         $fs->cleanDirectory(storage_path('app/storage/pdfs'));
+        $fs->cleanDirectory(storage_path('app/storage/spreadsheets'));
     }
 
     public function computeRate(int $user_id, Timesheet $timesheet, int $decimal_places = 2)
