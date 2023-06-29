@@ -109,20 +109,30 @@ class ReportController extends Controller
         if ($request->user()->isAdmin()) {
             $users = User::all();
 
-            $start_date = $request->input('start_date');
+            $start_date = new Carbon($request->input('start_date'));
 
-            $end_date = $request->input('end_date');
+            $end_date = new Carbon($request->input('end_date'));
 
             // dd($request->all());
 
+            // $timesheets = Timesheet::whereHas('user', function ($query) {
+            //     $query->where('role', '=', 'intern');    
+            //     })->with('user')->when($start_date, function ($query, $start_date) {
+            //         return $query->whereDate('start_time', '>=', $start_date);
+            //     })->when($end_date, function ($query, $end_date) {
+            //             return $query->whereDate('start_time', '<=', $end_date);
+            //     })
+            //     ->orderBy('start_time', 'desc')
+            //     ->orderBy('end_time', 'desc')
+            //     ->get();
+
             $timesheets = Timesheet::whereHas('user', function ($query) {
                 $query->where('role', '=', 'intern');    
-                })->with('user')->when($start_date, function ($query, $start_date) {
-                    return $query->whereDate('start_time', '>=', $start_date);
+                })->when($start_date, function ($query, $start_date) {
+                    return $query->whereDate('start_time', '>=', $start_date->startOfDay());
                 })->when($end_date, function ($query, $end_date) {
-                        return $query->whereDate('start_time', '<=', $end_date);
-                })
-                ->orderBy('start_time', 'desc')
+                    return $query->whereDate('end_time', '<=', $end_date->endOfDay());
+                })->orderBy('start_time', 'desc')
                 ->orderBy('end_time', 'desc')
                 ->get();
 

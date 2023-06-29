@@ -33,7 +33,7 @@
             <form method="post" action="/intern/reports/export">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="start_date" value="<?php echo e(app('request')->input('start_date') ?? old('start_date') ?? date('Y-m-d')); ?>">
-                <input type="hidden" name="end_date" value="<?php echo e(app('request')->input('end_date') ?? old('start_date') ?? date('Y-m-d')); ?>">
+                <input type="hidden" name="end_date" value="<?php echo e(app('request')->input('end_date') ?? old('end_date') ?? date('Y-m-d')); ?>">
                 <input type="hidden" name="export_csv" value="true">
                 <button type="submit" class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-green-500
                 hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4">Export to CSV</button>

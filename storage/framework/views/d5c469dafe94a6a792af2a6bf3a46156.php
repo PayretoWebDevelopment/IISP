@@ -26,7 +26,7 @@
                                 </svg>
                             </div>
                             <input name="start_date" type="text" id="start_date"
-                                value="<?php echo e(app('request')->input('start_date') ?? (old('start_date') ?? date('m-d-Y'))); ?>"
+                                value="<?php echo e(app('request')->input('start_date') ?? old('start_date') ?? date('m-d-Y')); ?>"
                                 required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                 placeholder="Select date start">
@@ -42,7 +42,7 @@
                                 </svg>
                             </div>
                             <input name="end_date" id="end-date" type="text"
-                                value="<?php echo e(app('request')->input('start_date') ?? (old('start_date') ?? date('m-d-Y'))); ?>"
+                                value="<?php echo e(app('request')->input('end_date') ?? old('end_date') ?? date('m-d-Y')); ?>"
                                 required
                                 class="bg-gray-50 order border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                 placeholder="Select date end">
@@ -65,7 +65,7 @@
                     <input type="hidden" name="start_date"
                         value="<?php echo e(app('request')->input('start_date') ?? (old('start_date') ?? date('Y-m-d'))); ?>">
                     <input type="hidden" name="end_date"
-                        value="<?php echo e(app('request')->input('end_date') ?? (old('start_date') ?? date('Y-m-d'))); ?>">
+                        value="<?php echo e(app('request')->input('end_date') ?? (old('end_date') ?? date('Y-m-d'))); ?>">
                     <div>
                         <button type="submit"
                             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
