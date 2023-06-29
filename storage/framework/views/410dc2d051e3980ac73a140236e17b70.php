@@ -33,59 +33,34 @@
 
                         <div class="mb-3">
                             <label for="task_type" class="block text-gray-700 font-bold mb-2">Task Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="task_type"
-                                name="task_type" required>
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="task_type" name="task_type" required>
                                 <option value="">Select Task Type</option>
-                                <option value="TASK">Task</option>
-                                <option value="BREAK">Break</option>
-                                <option value="LOGIN">Login</option>
-                                <option value="LOGOUT">Logout</option>
-                                <option value="LUNCH">Lunch</option>
-                                <option value="MEETING">Meeting</option>
-                                <option value="TRAINING">Training</option>
-                                <option value="WEBINAR">Webinar</option>
-                            </select>
+                                <?php $__currentLoopData = $taskTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $taskType): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <option value="<?php echo e($taskType->name); ?>"><?php echo e($taskType->name); ?></option>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>                            
                         </div>
                         <div class="mb-3">
                             <label for="project_type" class="block text-gray-700 font-bold mb-2">Project Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField"
-                                id="project_type" name="project_type" required>
+                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="project_type" name="project_type" required>
                                 <option value="">Select Project Type</option>
-                                <optgroup label="Attendance">
-                                    <option value="Attendance: Break">Break</option>
-                                    <option value="Attendance: Login">Login</option>
-                                    <option value="Attendance: Logout">Logout</option>
-                                </optgroup>
-                                <optgroup label="HR General">
-                                    <option value="HR General: Ad Hoc">Ad Hoc</option>
-                                    <option value="HR General: Email Correspondence">Email Correspondence</option>
-                                    <option value="HR General: Meeting">Meeting</option>
-                                    <option value="HR General: Monthly Assembly">Monthly Assembly</option>
-                                    <option value="HR General: Performance Evaluation">Performance Evaluation</option>
-                                    <option value="HR General: Team Building">Team Building</option>
-                                    <option value="HR General: Team Tailgate">Team Tailgate</option>
-                                    <option value="HR General: Touchbase">Touchbase</option>
-                                    <option value="HR General: Training or Webinar">Training or Webinar</option>
-                                    <option value="HR General: Weekly Huddle">Weekly Huddle</option>
-                                </optgroup>
-                                <optgroup label="Data Analytics">
-                                    <option value="Data Analytics: Automation">Automation</option>
-                                    <option value="Data Analytics: Data Analysis">Data Analysis</option>
-                                    <option value="Data Analytics: Data Cleansing">Data Cleansing</option>
-                                    <option value="Data Analytics: Data Consolidation">Data Consolidation</option>
-                                    <option value="Data Analytics: Meeting">Meeting</option>
-                                    <option value="Data Analytics: Networking Debugging">Networking Debugging</option>
-                                    <option value="Data Analytics: Report Generation">Report Generation</option>
-                                    <option value="Data Analytics: Workshop">Workshop</option>
-                                </optgroup>
-                                <optgroup label="Web Development">
-                                    <option value="Web Development: Deep Dive Session">Deep Dive Session</option>
-                                    <option value="Web Development: Meeting">Meeting</option>
-                                    <option value="Web Development: Debugging">Debugging</option>
-                                    <option value="Web Development: Programming and Development">Programming and
-                                        Development</option>
-                                </optgroup>
-                            </select>
+                                <?php $__currentLoopData = $projectTypes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $projectType): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                    <?php if($loop->first || $projectType->department !== $prevDepartment): ?>
+                                        <?php if(!$loop->first): ?>
+                                            </optgroup>
+                                        <?php endif; ?>
+                                        <optgroup label="<?php echo e($projectType->department); ?>">
+                                    <?php endif; ?>
+                                    <option value="<?php echo e($projectType->department); ?>: <?php echo e($projectType->name); ?>"><?php echo e($projectType->name); ?></option>
+                                    <?php
+                                        $prevDepartment = $projectType->department;
+                                    ?>
+                                    <?php if($loop->last): ?>
+                                        </optgroup>
+                                    <?php endif; ?>
+                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            </select>                            
+                            
                         </div>
                         <div class="mb-3">
                             <label for="start_time" class="block text-gray-700 font-bold mb-2">Start Time</label>
@@ -102,6 +77,15 @@
                             <input type="text" class="form-control border border-gray-400 rounded w-full py-2 px-3"
                                 id="duration" name="duration" readonly required>
                         </div>
+                        <div class="mb-3">
+                            <label class="block text-gray-700 font-bold mb-2" for="billable">Billable</label>
+                            <div class="flex items-center">
+                                <input type="checkbox" id="billable" name="billable" class="mr-2 timesheetField">
+                                <span id="billableIcon" class="ml-2 text-green-500 hidden cursor-pointer"
+                                    onclick="toggleBillable()">$</span>
+                            </div>
+                        </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -116,45 +100,130 @@
         </div>
     </div>
 
+    <?php
+        $currentWeek = date('Y-W');
+        $weekTotal = 0; // Initialize week total
+    ?>
+
     <div class="m-10 w-10/12">
         <h1 class="text-3xl font-bold">Recorded Entries</h1>
         <?php $__currentLoopData = $timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
-        return $entry->start_time->format('Y-m-d');
+        return $entry->start_time->format('Y-W'); // Group by year and week
+    }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $week => $weekEntries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <?php
+                $startDate = $weekEntries
+                    ->first()
+                    ->start_time->startOfWeek()
+                    ->format('Y-m-d');
+                $endDate = $weekEntries
+                    ->last()
+                    ->start_time->endOfWeek()
+                    ->format('Y-m-d');
+                $isCurrentWeek = $week === $currentWeek;
+                $weekTotal = 0; // Reset week total for each week
+            ?>
+            <h2 class="text-2xl font-bold mt-6"><b><?php echo e(date('F d, Y', strtotime($startDate))); ?> to <?php echo e(date('F d, Y', strtotime($endDate))); ?>
+
+            </b></h2>
+            <?php $__currentLoopData = $weekEntries->groupBy(function ($entry) {
+        return $entry->start_time->format('Y-m-d'); // Group by year, month, and day
     }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <h2 class="text-2xl font-bold mt-6"><b><?php echo e($date); ?></b></h2>
+                <h3 class="text-xl font-bold mt-4"><b><?php echo e($date); ?></b></h3>
+                <div class="overflow-x-auto">
+                    <table class="table-auto border-collapse w-full">
+                        <thead>
+                            <tr>
+                                <th class="border px-4 py-2">Date</th>
+                                <th class="border px-4 py-2">Task Name</th>
+                                <th class="border px-4 py-2">Project Type</th>
+                                <th class="border px-4 py-2">Task Type</th>
+                                <th class="border px-4 py-2">Start Time</th>
+                                <th class="border px-4 py-2">End Time</th>
+                                <th class="border px-4 py-2">Duration</th>
+                                <th class="border px-4 py-2">Billable</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $dayTotal = 0; // Initialize day total
+                            ?>
+                            <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('Y-m-d')); ?></td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->task_name); ?></td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->project_type); ?></td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->task_type); ?></td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('H:i:s')); ?></td>
+                                    <td class="border px-4 py-2">
+                                        <?php echo e($timesheet->end_time ? $timesheet->end_time->format('H:i:s') : ''); ?>
+
+                                    </td>
+                                    <td class="border px-4 py-2"><?php echo e($timesheet->getDurationAttribute()); ?></td>
+                                    <td class="border px-4 py-2">
+                                        <?php if($timesheet->billable): ?>
+                                            <span class="text-green-500 font-bold">&#36;</span>
+                                        <?php else: ?>
+                                            <span class="text-red-500 font-bold">&#10007;</span>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                                <?php
+                                    $duration = $timesheet->getDurationAttribute();
+                                    if ($duration) {
+                                        $durationParts = explode(':', $duration);
+                                        $hours = intval($durationParts[0]);
+                                        $minutes = intval($durationParts[1]);
+                                        $seconds = intval($durationParts[2]);
+                                        $durationInSeconds = $hours * 3600 + $minutes * 60 + $seconds;
+                                        $weekTotal += $durationInSeconds; // Add duration to week total in seconds
+                                        if ($isCurrentWeek && $date === \Carbon\Carbon::now()->format('Y-m-d')) {
+                                            $dayTotal += $durationInSeconds; // Add duration to day total in seconds
+                                        }
+                                    }
+                                ?>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php if($isCurrentWeek && count($entries) > 0): ?>
+                                <tr>
+                                    <td class="border px-4 py-2" colspan="6"><b>Day Total</b></td>
+                                    <?php
+                                        $dayTotalHours = floor($dayTotal / 3600);
+                                        $dayTotalMinutes = floor(($dayTotal % 3600) / 60);
+                                        $dayTotalSeconds = $dayTotal % 60;
+                                        $dayTotalFormatted = sprintf('%02d:%02d:%02d', $dayTotalHours, $dayTotalMinutes, $dayTotalSeconds);
+                                    ?>
+                                    <td class="border px-4 py-2"><b><?php echo e($dayTotalFormatted); ?></b></td>
+                                    <td class="border px-4 py-2"></td>
+                                </tr>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            <h3 class="text-xl font-bold mt-4"><b>Week Total</b></h3>
             <div class="overflow-x-auto">
                 <table class="table-auto border-collapse w-full">
                     <thead>
                         <tr>
-                            <th class="border px-4 py-2">Date</th>
-                            <th class="border px-4 py-2">Task Name</th>
-                            <th class="border px-4 py-2">Project Type</th>
-                            <th class="border px-4 py-2">Task Type</th>
-                            <th class="border px-4 py-2">Start Time</th>
-                            <th class="border px-4 py-2">End Time</th>
-                            <th class="border px-4 py-2">Duration</th>
+                            <th class="border px-4 py-2">Week</th>
+                            <th class="border px-4 py-2">Total</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('Y-m-d')); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->task_name); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->project_type); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->task_type); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->start_time->format('H:i:s')); ?></td>
-                                <td class="border px-4 py-2">
-                                    <?php echo e($timesheet->end_time ? $timesheet->end_time->format('H:i:s') : ''); ?></td>
-                                <td class="border px-4 py-2"><?php echo e($timesheet->getDurationAttribute()); ?></td>
-                            </tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        <tr>
+                            <td class="border px-4 py-2"><?php echo e($startDate); ?> to <?php echo e($endDate); ?></td>
+                            <?php
+                                $weekTotalHours = floor($weekTotal / 3600);
+                                $weekTotalMinutes = floor(($weekTotal % 3600) / 60);
+                                $weekTotalSeconds = $weekTotal % 60;
+                                $weekTotalFormatted = sprintf('%02d:%02d:%02d', $weekTotalHours, $weekTotalMinutes, $weekTotalSeconds);
+                            ?>
+                            <td class="border px-4 py-2"><b><?php echo e($weekTotalFormatted); ?></b></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
     </div>
-
 
     
     <script>
@@ -207,7 +276,21 @@
             }
         }
 
-            // Restore the form fields if they were previously filled
+        // Toggle billable state
+        function toggleBillable(value) {
+            var billableCheckbox = document.getElementById('billable');
+            var billableIcon = document.getElementById('billableIcon');
+            billableCheckbox.checked = value ? 1 : 0;
+
+            if (value) {
+                billableIcon.classList.remove('hidden');
+            } else {
+                billableIcon.classList.add('hidden');
+            }
+        }
+
+
+        // Restore the form fields if they were previously filled
         function restoreFormFields() {
             var storedTaskName = localStorage.getItem('taskName');
             if (storedTaskName) {
@@ -223,6 +306,19 @@
             if (storedProjectType) {
                 document.getElementById('project_type').value = storedProjectType;
             }
+
+            var storedBillable = localStorage.getItem('billable');
+            var billableCheckbox = document.getElementById('billable');
+            var billableIcon = document.getElementById('billableIcon');
+
+            if (storedBillable === '1') {
+                billableCheckbox.checked = true;
+                billableIcon.classList.remove('hidden');
+            } else {
+                billableCheckbox.checked = false;
+                billableIcon.classList.add('hidden');
+            }
+
         }
 
         // Save the form fields in local storage
@@ -234,6 +330,18 @@
             localStorage.setItem('taskName', taskName);
             localStorage.setItem('taskType', taskType);
             localStorage.setItem('projectType', projectType);
+
+            var stopTimerButton = document.getElementById('endTimerButton');
+            if (taskName.trim() === '' || taskType.trim() === '' || projectType.trim() === '') {
+                stopTimerButton.disabled = true;
+            } else {
+                stopTimerButton.disabled = false;
+            }
+
+            var billableCheckbox = document.getElementById('billable');
+            var billable = billableCheckbox.checked ? 1 : 0;
+            localStorage.setItem('billable', billable);
+
         }
 
         // Update the duration field
@@ -242,16 +350,39 @@
             localStorage.setItem('startTime', startTime);
             localStorage.setItem('duration', duration);
             document.getElementById('duration').value = formatDuration(duration);
+
+            // Get the current time
+            var currentTime = new Date();
+            var currentDateTime = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate(), 0, 0,
+                0);
+
+            // Calculate the end time for the current day
+            var endTimeToday = new Date(startTime.getFullYear(), startTime.getMonth(), startTime.getDate(), 23, 59, 59);
+
+            // If the current time exceeds the end time for the current day
+            if (currentTime > endTimeToday) {
+                stopTimer();
+            }
         }
 
-        // Stop the timer and clear the stored data
         function stopTimer() {
+            // Check if the form fields are empty
+            var taskName = document.getElementById('task_name').value;
+            var taskType = document.getElementById('task_type').value;
+            var projectType = document.getElementById('project_type').value;
+
+            if (taskName.trim() === '' || taskType.trim() === '' || projectType.trim() === '') {
+                alert('Please fill in all the form fields before stopping the timer.');
+                return; // Prevent the timer from stopping if form fields are empty
+            }
+
             clearInterval(timer);
             localStorage.removeItem('startTime');
             localStorage.removeItem('duration');
             localStorage.removeItem('taskName');
             localStorage.removeItem('taskType');
             localStorage.removeItem('projectType');
+            localStorage.removeItem('billable');
             var endTime = new Date();
             var endTimeString = formatTime(endTime);
             var duration = Math.round((endTime.getTime() - startTime.getTime()) / 1000);
@@ -262,10 +393,32 @@
             submitFormData(duration);
         }
 
-        // Submit the form data
+        // Toggle billable state
+        function toggleBillable() {
+            var billableCheckbox = document.getElementById('billable');
+            var billableIcon = document.getElementById('billableIcon');
+            if (billableCheckbox.checked) {
+                billableIcon.classList.remove('hidden');
+                billableIcon.textContent = '$';
+            } else {
+                billableIcon.classList.add('hidden');
+                billableIcon.textContent = '';
+            }
+        }
+
+        // Add an event listener to the billable checkbox
+        document.getElementById('billable').addEventListener('change', toggleBillable);
+
+
         function submitFormData(duration) {
             var formData = new FormData(startTimerForm);
             formData.append('duration', duration);
+            // Get the checkbox element
+            var billableCheckbox = document.getElementById('billable');
+
+            // Set the billable value based on the checkbox state
+            var billableValue = billableCheckbox.checked ? '1' : '0';
+            formData.append('billable', billableValue);
             $.ajax({
                 url: '/intern/timesheets/stop',
                 processData: false,
@@ -283,6 +436,15 @@
                 error: function(xhr, status, error) {
                     alert('Error submitting data. Please try again.');
                     console.log(xhr.responseText);
+
+                    // Handle the form error here
+                    if (xhr.status === 400) {
+                        // Form error occurred
+                        alert('Form error! Please fix the form.');
+                        return; // Prevent the timer from stopping if there is a form error
+                    }
+
+                    // Handle other error cases if needed
                 }
             });
         }
@@ -291,22 +453,22 @@
         function initializeTimer() {
             var storedDuration = localStorage.getItem('duration');
             duration = storedDuration ? parseInt(storedDuration) : 0;
-            
+
             if (storedDuration) {
                 duration = parseInt(storedDuration);
                 document.getElementById('duration').value = formatDuration(duration);
             }
-            
+
             var storedStartTime = localStorage.getItem('startTime');
             if (storedStartTime) {
                 startTime = new Date(storedStartTime);
                 var startTimeString = formatTime(startTime);
                 document.getElementById('start_time').value = startTimeString;
             }
-            
+
             var startTimerButton = document.getElementById('startTimerButton');
             var endTimerButton = document.getElementById('endTimerButton');
-            
+
             if (duration > 0) {
                 startTimerButton.style.display = 'none';
                 endTimerButton.style.display = 'block';
@@ -316,7 +478,6 @@
             }
             restoreFormFields();
         }
-
 
         // Handle the Start Timer button click
         document.getElementById('startTimerButton').addEventListener('click', function() {
@@ -340,11 +501,11 @@
 
         var timesheetFields = document.querySelectorAll('.timesheetField');
         timesheetFields.forEach(
-            field => {field.addEventListener('change', saveFormFields)}
+            field => {
+                field.addEventListener('change', saveFormFields);
+            }
         );
-        
     </script>
-
 
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>

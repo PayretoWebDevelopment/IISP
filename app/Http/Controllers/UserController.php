@@ -13,9 +13,19 @@ use PHPMailer\PHPMailer\PHPMailer;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 
 class UserController extends Controller
 {
+
+    protected $landing_description;
+
+    public function __construct()
+    {
+        $this->landing_description = "Payreto's internal timekeeping and allowance computation tool for interns.";
+        // View::share('site_settings', $this->landing_description);
+    }
+
     // Show Create Form (admin)
     public function create()
     {
@@ -75,7 +85,8 @@ class UserController extends Controller
     //show login form
     public function login()
     {
-        return view('users.login');
+        $landing_description = $this->landing_description;
+        return view('users.login', compact('landing_description'));
     }
 
     //autheticate user
@@ -102,7 +113,8 @@ class UserController extends Controller
     //show forgot password form
     public function forgotPassword(Request $request)
     {
-        return view('users.forgot_password');
+        $landing_description = $this->landing_description;
+        return view('users.forgot_password', compact('landing_description'));
     }
 
     public function send_reset_mail($to_mail, $to_name, $is_copy = false, $from = 'dtinternjvivas.payreto@gmail.com', $password = 'rmsztaufafmsmxoh')

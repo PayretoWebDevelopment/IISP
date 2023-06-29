@@ -18,7 +18,6 @@ use Excel; //alias for maatwebsite excel package
 use PDF; //alias for dompdf (refer to config/app.php)
 
 //use Maatwebsite\Excel\Facades\Excel;
-
 class ReportController extends Controller
 {
     // Create a new function to convert the string returned by getDurationAttribute() to hours
@@ -207,10 +206,10 @@ class ReportController extends Controller
         
         if ($request->has('export_csv') || $request->submit == "export_csv") {
             $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.csv";
-            return Excel::download(new TimesheetsExport($timesheets), $filename);
+            return Excel::download(new TimesheetsExport($timesheets), $filename, \Maatwebsite\Excel\Excel::CSV);
         } elseif ($request->has('export_xlsx') || $request->submit == "export_xlsx") {
             $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.xlsx";
-            return Excel::download(new TimesheetsExport($timesheets), $filename);
+            return Excel::download(new TimesheetsExport($timesheets), $filename, \Maatwebsite\Excel\Excel::XLSX);
         } elseif ($request->has('export_pdf') || $request->submit == "export_pdf") {
             $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
             $pdf = PDF::loadView('intern.timesheets_pdf', compact('timesheets', 'totalAllowance'));

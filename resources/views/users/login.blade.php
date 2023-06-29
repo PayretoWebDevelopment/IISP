@@ -21,14 +21,15 @@
         <div class="flex justify-center h-screen">
             <div class="hidden bg-cover lg:block lg:w-2/3"
                 style="background-image: url(https://www.payreto.com/wp-content/uploads/2021/03/Homepage-1.png)">
-                <div class="flex items-center h-full px-20 bg-gray-900 bg-opacity-40">
+                <div class="flex items-center h-full px-20 bg-gray-900 bg-opacity-60">
                     <div>
                         <h2 class="text-2xl font-bold text-white sm:text-3xl">IISP</h2>
 
                         <p class="max-w-xl mt-3 text-gray-300">
-                            Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
+                            {{-- Lorem ipsum dolor sit, amet consectetur adipisicing elit. In
                             autem ipsa, nulla laboriosam dolores, repellendus perferendis libero suscipit nam temporibus
-                            molestiae
+                            molestiae --}}
+                            {{$landing_description}}
                         </p>
                     </div>
                 </div>
