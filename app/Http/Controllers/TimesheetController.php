@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use PDF;
-use App\Models\Timesheet;
-use Illuminate\Http\Request;
-use App\Models\ProjectType;
 use App\Models\TaskType;
+use App\Models\Timesheet;
+use App\Models\ProjectType;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TimesheetController extends Controller
 {
@@ -46,7 +47,8 @@ class TimesheetController extends Controller
     public function projectindex()
     {
         $choices = ProjectType::all();
-        return view('intern.project-type', compact('choices'));
+        $user = Auth::user();
+        return view('intern.project-type', compact('choices', 'user'));
     }
 
     public function projectstore(Request $request)
@@ -59,10 +61,21 @@ class TimesheetController extends Controller
         return redirect('/project-types');
     }
 
+    public function project_delete($id)
+    {
+        // Find the employee by ID and delete it
+        $project = ProjectType::findOrFail($id);
+        $project->delete();
+
+        // Redirect back to the employee list page with a success message
+        return redirect('/project-types')->with('success', 'Project Type deleted successfully');
+    }
+
     public function taskindex()
     {
         $choices = TaskType::all();
-        return view('intern.task-type', compact('choices'));
+        $user = Auth::user();
+        return view('intern.task-type', compact('choices', 'user'));
     }
 
     public function taskstore(Request $request)
@@ -72,5 +85,15 @@ class TimesheetController extends Controller
         $choice->save();
 
         return redirect('/task-types');
+    }
+
+    public function task_delete($id)
+    {
+        // Find the employee by ID and delete it
+        $task = TaskType::findOrFail($id);
+        $task->delete();
+
+        // Redirect back to the employee list page with a success message
+        return redirect('/task-types')->with('success', 'Task Type deleted successfully');
     }
 }

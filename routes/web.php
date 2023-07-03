@@ -117,8 +117,10 @@ Route::get('/admin/reports/inspect/{id}', [ReportController::class, 'inspect']);
 
 Route::get('/project-types', [TimesheetController::class, 'projectindex'])->name('project.index');
 Route::post('/project-types', [TimesheetController::class, 'projectstore'])->name('project.store');
+Route::delete('/project-delete/{id}', [TimesheetController::class, 'project_delete']);
 
 Route::get('/task-types', [TimesheetController::class, 'taskindex'])->name('task.index');
 Route::post('/task-types', [TimesheetController::class, 'taskstore'])->name('task.store');
+Route::delete('/task-delete/{id}', [TimesheetController::class, 'task_delete']);
 
 #endregion
