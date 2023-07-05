@@ -1,7 +1,7 @@
 <x-layout module_name="Task types">
 
     <head>
-        <title></title>
+        <title>Payreto | Task Type</title>
 
     </head>
 

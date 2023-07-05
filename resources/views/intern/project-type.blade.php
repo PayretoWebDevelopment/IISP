@@ -1,7 +1,7 @@
 <x-layout module_name="Project types">
 
     <head>
-        <title></title>
+        <title>Payreto | Project Type</title>
 
     </head>
 
