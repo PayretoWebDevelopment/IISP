@@ -337,7 +337,7 @@ class ReportController extends Controller
 
     public function computeRate(int $user_id, Timesheet $timesheet, int $decimal_places = 2)
     {
-        $array_time = (array) explode(":", $timesheet->getDurationAttribute());
+        $array_time = (array) explode(":", $timesheet->getBillableDurationAttribute());
         //dd($array_time);
         $hours = (int) $array_time[0];
         $minutes = (int) $array_time[1];

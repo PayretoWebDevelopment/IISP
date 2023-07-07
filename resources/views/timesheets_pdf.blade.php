@@ -21,7 +21,7 @@
         <tbody>
             @foreach($timesheets as $timesheet)
             <?php
-                $duration = $timesheet->getDurationAttribute();
+                $duration = $timesheet->getBillableDurationAttribute();
             ?>
             <tr>
                 <td>{{ $timesheet->start_time->format('Y-m-d') }}</td>

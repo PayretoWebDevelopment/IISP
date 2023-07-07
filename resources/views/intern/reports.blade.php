@@ -74,7 +74,7 @@
                                 <td>{{ $timesheet->task_type }}</td>
                                 <td>{{ $timesheet->start_time->format('h:i A') }}</td>
                                 <td>{{ $timesheet->end_time ? $timesheet->end_time->format('h:i A') : '' }}</td>
-                                <td>{{ $timesheet->getDurationAttribute() }}</td>
+                                <td>{{ $timesheet->getBillableDurationAttribute() }}</td>
                                 <td>{{ $timesheet->rate }}</td>
                             </tr>
                         @endforeach

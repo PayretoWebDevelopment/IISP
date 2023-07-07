@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use PDF;
 use App\Models\TaskType;
 use App\Models\Timesheet;
 use App\Models\ProjectType;
