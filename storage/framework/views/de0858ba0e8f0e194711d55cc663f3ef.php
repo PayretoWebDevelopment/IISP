@@ -46,7 +46,7 @@
                 <button type="submit" class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-yellow-500 
                 hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4">Export to XLSX</button>
             </form>
-            <form method="post" action="/intern/reports/export">
+        <form method="post" action="/intern/reports/export">
                 <?php echo csrf_field(); ?>
                 <input type="hidden" name="start_date" value="<?php echo e($start_date ?? date('Y-m-d')); ?>">
                 <input type="hidden" name="end_date" value="<?php echo e($end_date ?? date('Y-m-d')); ?>">
@@ -82,8 +82,8 @@
                                 <td><?php echo e($timesheet->task_type); ?></td>
                                 <td><?php echo e($timesheet->start_time->format('h:i A')); ?></td>
                                 <td><?php echo e($timesheet->end_time ? $timesheet->end_time->format('h:i A') : ''); ?></td>
-                                <td><?php echo e($timesheet->getDurationAttribute()); ?></td>
-                                <td><?php echo e($timesheet->rate); ?></td>
+                                <td><?php echo e($timesheet->billable? $timesheet->getBillableDurationAttribute() : 'Not Billable'); ?></td>
+                                <td><?php echo e($timesheet->billable? $timesheet->rate : 'Not Billable'); ?></td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </tbody>
