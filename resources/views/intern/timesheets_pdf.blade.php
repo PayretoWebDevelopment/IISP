@@ -29,7 +29,7 @@
                     <td>{{ $timesheet->task_type }}</td>
                     <td>{{ $timesheet->start_time->format('h:i:s A') }}</td>
                     <td>{{ $timesheet->end_time ? $timesheet->end_time->format('h:i:s A') : '' }}</td>
-                    <td>{{ $timesheet->getDurationAttribute() }}</td>
+                    <td>{{ $timesheet->getBillableDurationAttribute() }}</td>
                     <td>{{ $timesheet->task_name }}</td>
                     <td>{{ $timesheet->hourly_rate }}</td>
                     <td>{{ $timesheet->rate }}</td>

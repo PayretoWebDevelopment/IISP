@@ -38,7 +38,7 @@
                 <button type="submit" class="btn btn-primary px-4 py-2 text-white font-bold rounded bg-yellow-500 
                 hover:bg-yellow-600 focus:outline-none focus:shadow-outline-yellow active:bg-yellow-700 transition duration-150 ease-in-out mr-4">Export to XLSX</button>
             </form>
-            <form method="post" action="/intern/reports/export">
+        <form method="post" action="/intern/reports/export">
                 @csrf
                 <input type="hidden" name="start_date" value="{{ $start_date ?? date('Y-m-d') }}">
                 <input type="hidden" name="end_date" value="{{ $end_date ?? date('Y-m-d') }}">

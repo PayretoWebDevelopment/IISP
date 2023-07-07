@@ -29,7 +29,7 @@
                     <td><?php echo e($timesheet->task_type); ?></td>
                     <td><?php echo e($timesheet->start_time->format('h:i:s A')); ?></td>
                     <td><?php echo e($timesheet->end_time ? $timesheet->end_time->format('h:i:s A') : ''); ?></td>
-                    <td><?php echo e($timesheet->getDurationAttribute()); ?></td>
+                    <td><?php echo e($timesheet->getBillableDurationAttribute()); ?></td>
                     <td><?php echo e($timesheet->task_name); ?></td>
                     <td><?php echo e($timesheet->hourly_rate); ?></td>
                     <td><?php echo e($timesheet->rate); ?></td>

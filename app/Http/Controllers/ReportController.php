@@ -187,15 +187,17 @@ class ReportController extends Controller
         $end_date = $request->input('end_date') ?? $request->route('end_date');
         
         $timesheets = Timesheet::where('user_id', $user_id)
-            ->when($start_date, function ($query, $start_date) {
-                return $query->whereDate('start_time', '>=', $start_date);
-            })
-            ->when($end_date, function ($query, $end_date) {
-                return $query->whereDate('start_time', '<=', $end_date);
-            })
-            ->orderBy('start_time', 'desc')
-            ->orderBy('end_time', 'desc')
-            ->get();
+        ->where('billable', 1) // Add this condition to filter where billable is 1
+        ->when($start_date, function ($query, $start_date) {
+            return $query->whereDate('start_time', '>=', $start_date);
+        })
+        ->when($end_date, function ($query, $end_date) {
+            return $query->whereDate('start_time', '<=', $end_date);
+        })
+        ->orderBy('start_time', 'desc')
+        ->orderBy('end_time', 'desc')
+        ->get();
+    
 
         foreach ($timesheets as $index => $timesheet) {
             $timesheets[$index]->rate = $this->computeRate($user_id, $timesheet);
@@ -337,7 +339,7 @@ class ReportController extends Controller
 
     public function computeRate(int $user_id, Timesheet $timesheet, int $decimal_places = 2)
     {
-        $array_time = (array) explode(":", $timesheet->getBillableDurationAttribute());
+        $array_time = (array) explode(":", $timesheet->getDurationAttribute());
         //dd($array_time);
         $hours = (int) $array_time[0];
         $minutes = (int) $array_time[1];
