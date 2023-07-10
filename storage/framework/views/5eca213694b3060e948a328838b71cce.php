@@ -103,6 +103,7 @@
     <?php
         $currentWeek = date('Y-W');
         $weekTotal = 0; // Initialize week total
+        $weekBillableTotal = 0;
     ?>
 
     <div class="m-10 w-10/12">
@@ -121,6 +122,7 @@
                     ->format('Y-m-d');
                 $isCurrentWeek = $week === $currentWeek;
                 $weekTotal = 0; // Reset week total for each week
+                $weekBillableTotal = 0;
             ?>
             <h2 class="text-2xl font-bold mt-6"><b><?php echo e(date('F d, Y', strtotime($startDate))); ?> to <?php echo e(date('F d, Y', strtotime($endDate))); ?>
 
@@ -146,6 +148,7 @@
                         <tbody>
                             <?php
                                 $dayTotal = 0; // Initialize day total
+                                $billableDayTotal = 0;
                             ?>
                             <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <tr>
@@ -167,6 +170,9 @@
                                         <?php endif; ?>
                                     </td>
                                 </tr>
+
+                                <!-- Day total calculation script -->
+
                                 <?php
                                     $duration = $timesheet->getDurationAttribute();
                                     if ($duration) {
@@ -176,12 +182,16 @@
                                         $seconds = intval($durationParts[2]);
                                         $durationInSeconds = $hours * 3600 + $minutes * 60 + $seconds;
                                         $weekTotal += $durationInSeconds; // Add duration to week total in seconds
+                                        if($timesheet->billable){$weekBillableTotal += $durationInSeconds;}
                                         if ($isCurrentWeek && $date === \Carbon\Carbon::now()->format('Y-m-d')) {
                                             $dayTotal += $durationInSeconds; // Add duration to day total in seconds
+                                            if($timesheet->billable){ $billableDayTotal += $durationInSeconds; }
                                         }
                                     }
                                 ?>
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+
+                            <!-- Day total row -->
                             <?php if($isCurrentWeek && count($entries) > 0): ?>
                                 <tr>
                                     <td class="border px-4 py-2" colspan="6"><b>Day Total</b></td>
@@ -192,6 +202,17 @@
                                         $dayTotalFormatted = sprintf('%02d:%02d:%02d', $dayTotalHours, $dayTotalMinutes, $dayTotalSeconds);
                                     ?>
                                     <td class="border px-4 py-2"><b><?php echo e($dayTotalFormatted); ?></b></td>
+                                    <td class="border px-4 py-2"></td>
+                                </tr>
+                                <tr>
+                                    <td class="border px-4 py-2" colspan="6"><b>Total Billable Hours</b></td>
+                                    <?php
+                                        $billableDayTotalHours = floor($billableDayTotal / 3600);
+                                        $billableDayTotalMinutes = floor(($billableDayTotal % 3600) / 60);
+                                        $billableDayTotalSeconds = $billableDayTotal % 60;
+                                        $billableDayTotalFormatted = sprintf('%02d:%02d:%02d', $billableDayTotalHours, $billableDayTotalMinutes, $billableDayTotalSeconds);
+                                    ?>
+                                    <td class="border px-4 py-2"><b><?php echo e($billableDayTotalFormatted); ?></b></td>
                                     <td class="border px-4 py-2"></td>
                                 </tr>
                             <?php endif; ?>
@@ -206,6 +227,7 @@
                         <tr>
                             <th class="border px-4 py-2">Week</th>
                             <th class="border px-4 py-2">Total</th>
+                            <th class="border px-4 py-2">Total Billable</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -216,8 +238,15 @@
                                 $weekTotalMinutes = floor(($weekTotal % 3600) / 60);
                                 $weekTotalSeconds = $weekTotal % 60;
                                 $weekTotalFormatted = sprintf('%02d:%02d:%02d', $weekTotalHours, $weekTotalMinutes, $weekTotalSeconds);
+
+                                //Billable
+                                $weekBillableTotalHours = floor($weekBillableTotal / 3600);
+                                $weekBillableTotalMinutes = floor(($weekBillableTotal % 3600) / 60);
+                                $weekBillableTotalSeconds = $weekBillableTotal % 60;
+                                $weekBillableTotalFormatted = sprintf('%02d:%02d:%02d', $weekBillableTotalHours, $weekBillableTotalMinutes, $weekBillableTotalSeconds);
                             ?>
                             <td class="border px-4 py-2"><b><?php echo e($weekTotalFormatted); ?></b></td>
+                            <td class="border px-4 py-2"><b><?php echo e($weekBillableTotalFormatted); ?></b></td>
                         </tr>
                     </tbody>
                 </table>
