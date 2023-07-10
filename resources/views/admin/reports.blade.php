@@ -33,7 +33,7 @@
                                 </svg>
                             </div>
                             <input name="start_date" type="text" id="start_date"
-                                value="{{ app('request')->input('start_date') ?? old('start_date') ?? date('m-d-Y') }}"
+                                value="{{ app('request')->input('start_date') ?? (old('start_date') ?? date('m-d-Y')) }}"
                                 required
                                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                 placeholder="Select date start">
@@ -49,7 +49,7 @@
                                 </svg>
                             </div>
                             <input name="end_date" id="end-date" type="text"
-                                value="{{ app('request')->input('end_date') ?? old('end_date') ?? date('m-d-Y') }}"
+                                value="{{ app('request')->input('end_date') ?? (old('end_date') ?? date('m-d-Y')) }}"
                                 required
                                 class="bg-gray-50 order border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
                                 placeholder="Select date end">
@@ -96,82 +96,78 @@
         {{-- REPORT TABLE --}}
         <section>
             <div class="overflow-x-auto">
-                <div class="">
-                    @if ($timesheetsByUser->isEmpty())
-                        <p class="text-gray-700">No data found.</p>
-                    @else
-                        <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
-                            <table class="min-w-full divide-y divide-gray-200" id="reportList" style="width:100%">
-                                <thead class="text-xs text-gray-50 uppercase bg-gray-800">
-                                    <tr>
-                                        <th scope="col" class="px-6 py-3">
-                                            <span class="hidden"></span>
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Name
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Role
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Position
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Hourly Rate
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Hours Rendered
-                                        </th>
-                                        <th scope="col" class="px-6 py-3">
-                                            Actions
-                                        </th>
+                @if ($timesheetsByUser->isEmpty())
+                    <p class="text-gray-700">No data found.</p>
+                @else
+                    <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
+                        <table class="min-w-full divide-y divide-gray-200" id="reportList" style="width:100%">
+                            <thead class="text-xs text-gray-50 uppercase bg-gray-800">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3">
+                                        <span class="hidden"></span>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Name
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Role
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Position
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Hourly Rate
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Hours Rendered
+                                    </th>
+                                    <th scope="col" class="px-6 py-3">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($timesheetsByUser as $user => $timesheets)
+                                    <tr class="bg-white border-b">
+                                        <td class="px-6 py-4">
+                                            <input type="checkbox" name="timesheets[]" value={{ $user }}
+                                                form="export_form">
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            {{ $timesheetsByUser[$user]['userReference']->name }}</td>
+                                        <td class="px-6 py-4">
+                                            {{ $timesheetsByUser[$user]['userReference']->role }}</td>
+                                        <td class="px-6 py-4">
+                                            {{ $timesheetsByUser[$user]['userReference']->position }}</td>
+                                        <td class="px-6 py-4">
+                                            {{ $timesheetsByUser[$user]['userReference']->hourly_rate }}</td>
+                                        <td class="px-6 py-4">
+                                            {{ floor($timesheetsByUser[$user]['total_hours_rendered'] / 3600) .
+                                                ':' .
+                                                floor(($timesheetsByUser[$user]['total_hours_rendered'] % 3600) / 60) .
+                                                ':' .
+                                                floor($timesheetsByUser[$user]['total_hours_rendered'] % 60) }}
+                                        </td>
+                                        <td class="m-auto">
+                                            <form class="flex justify-center items-center" method="get"
+                                                action="/admin/reports/inspect/{{ $user }}" class="mt-8">
+                                                <input type="hidden" name="start_date"
+                                                    value="{{ app('request')->input('start_date') ?? (old('start_date') ?? date('Y-m-d')) }}">
+                                                <input type="hidden" name="end_date"
+                                                    value="{{ app('request')->input('end_date') ?? (old('end_date') ?? date('Y-m-d')) }}">
+                                                <div>
+                                                    <button type="submit"
+                                                        class="px-6 py-2 font-medium tracking-wide text-white transition-colors duration-300 transform bg-zinc-600 rounded-lg hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+                                                        <i class="fa-solid fa-eye"></i> View
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($timesheetsByUser as $user => $timesheets)
-                                        <tr class="bg-white border-b">
-                                            <td class="px-6 py-4">
-                                                <input type="checkbox" name="timesheets[]" value={{ $user }}
-                                                    form="export_form">
-                                            </td>
-                                            <td class="px-6 py-4">
-                                                {{ $timesheetsByUser[$user]['userReference']->name }}</td>
-                                            <td class="px-6 py-4">
-                                                {{ $timesheetsByUser[$user]['userReference']->role }}</td>
-                                            <td class="px-6 py-4">
-                                                {{ $timesheetsByUser[$user]['userReference']->position }}</td>
-                                            <td class="px-6 py-4">
-                                                {{ $timesheetsByUser[$user]['userReference']->hourly_rate }}</td>
-                                            <td class="px-6 py-4">
-                                                {{ floor($timesheetsByUser[$user]['total_hours_rendered'] / 3600) .
-                                                    ':' .
-                                                    floor(($timesheetsByUser[$user]['total_hours_rendered'] % 3600) / 60) .
-                                                    ':' .
-                                                    floor($timesheetsByUser[$user]['total_hours_rendered'] % 60) }}
-                                            </td>
-                                            <td class="m-auto">
-                                                <form class="flex justify-center items-center" method="get"
-                                                    action="/admin/reports/inspect/{{ $user }}"
-                                                    class="mt-8">
-                                                    <input type="hidden" name="start_date"
-                                                        value="{{ app('request')->input('start_date') ?? (old('start_date') ?? date('Y-m-d')) }}">
-                                                    <input type="hidden" name="end_date"
-                                                        value="{{ app('request')->input('end_date') ?? (old('end_date') ?? date('Y-m-d')) }}">
-                                                    <div>
-                                                        <button type="submit"
-                                                            class="px-6 py-2 font-medium tracking-wide text-white transition-colors duration-300 transform bg-zinc-600 rounded-lg hover:bg-zinc-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
-                                                            <i class="fa-solid fa-eye"></i> View
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-
-                        </div>
-                </div>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 @endif
             </div>
         </section>

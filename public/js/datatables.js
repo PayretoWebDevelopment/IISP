@@ -18,3 +18,11 @@ $(document).ready(function () {
 $(document).ready(function () {
     $("#inspectTable").DataTable();
 });
+// Project Type Table
+$(document).ready(function () {
+    $("#projectType").DataTable();
+});
+// Task Type Table
+$(document).ready(function () {
+    $("#taskType").DataTable();
+});
