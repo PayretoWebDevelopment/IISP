@@ -262,6 +262,7 @@
                             <span class="group-hover:text-gray-700">Approvals</span>
                         </a>
                     </li>
+                    @endif
                     <p class="text-sm text-gray-500 font-medium">Categories</p>
                     <li><a href="/project-types"
                             class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
@@ -306,7 +307,7 @@
                             <span class="group-hover:text-gray-700">Task Types</span>
                         </a>
                     </li>
-                @endif
+                
             </ul>
         </div>
 
