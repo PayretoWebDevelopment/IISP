@@ -366,7 +366,7 @@ class UserController extends Controller
 
             // Store the uploaded file
             $filename = $user->id . '_' . time() . '.' . $image->getClientOriginalExtension();
-            $image->storeAs('public/profile_pictures', $filename);
+            $image->storeAs('profile_pictures', $filename, 'public');
 
             // Update the user's profile picture
             $user->profile_picture = $filename;

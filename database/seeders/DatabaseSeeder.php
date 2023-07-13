@@ -83,7 +83,7 @@ class DatabaseSeeder extends Seeder
             'department' => $faker->randomElement($departments),
         ]);
         User::factory(10)->create();
-        Timesheet::factory(10)->create();
+        //Timesheet::factory(10)->create();
         Approval::factory(10)->create();
         ProjectType::factory()->create([
             'name' => 'Break',

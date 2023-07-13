@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Storage;
 use Excel; //alias for maatwebsite excel package
+use Illuminate\Support\Facades\Validator;
 use PDF; //alias for dompdf (refer to config/app.php)
 
 //use Maatwebsite\Excel\Facades\Excel;
@@ -257,77 +258,85 @@ class ReportController extends Controller
     }
 
     public function exportSpreadsheetSelection($request, $type = "xlsx"){
+
+        //dd($request);
+
+        $this->validate($request, [
+            'timesheets' => 'required|array|min:1'
+        ], [
+            'timesheets' => "Please select at least one record to download."
+        ]);
+
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        if(isset($request->timesheets)){
 
-            //create zip file and add pdf's one-by-one
-            //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
-            $zip = new ZipArchive();
-            $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
+        //create zip file and add pdf's one-by-one
+        //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
+        $zip = new ZipArchive();
+        $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
 
-            //storage_path is used because ZipArchive is not a laravel-exclusive package
-            $result_code = $zip->open(storage_path('app/storage/spreadsheets/' . $zip_filename), 
-            ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
+        //storage_path is used because ZipArchive is not a laravel-exclusive package
+        $result_code = $zip->open(storage_path('app/storage/spreadsheets/' . $zip_filename), 
+        ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
 
-            //dd($request->timesheets);
-            foreach($request->timesheets as $key=>$user_id){
-                $user_name = User::find($user_id)->name;
-                $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.{$type}";
-                $this->export($request, $user_id, store_spreadsheet:true);
+        //dd($request->timesheets);
+        foreach($request->timesheets as $key=>$user_id){
+            $user_name = User::find($user_id)->name;
+            $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.{$type}";
+            $this->export($request, $user_id, store_spreadsheet:true);
 
-                //dd(storage_path('app/storage/spreadsheets/' . $filename));
-                if(storage_path('app/storage/spreadsheets/' . $filename)){
-                    $zip->addFile(storage_path('app/storage/spreadsheets/' . $filename), $filename);
-                }else{
-                    throw new Exception("Filepath was not valid", 1);
-                }
+            //dd(storage_path('app/storage/spreadsheets/' . $filename));
+            if(storage_path('app/storage/spreadsheets/' . $filename)){
+                $zip->addFile(storage_path('app/storage/spreadsheets/' . $filename), $filename);
+            }else{
+                throw new Exception("Filepath was not valid", 1);
             }
-            $zip->close();
-            return Storage::download('storage/spreadsheets/' . $zip_filename, $zip_filename);
-        }else{
-            throw new Exception("No timesheets were selected", 1);
         }
+        $zip->close();
+        return Storage::download('storage/spreadsheets/' . $zip_filename, $zip_filename);
     }
 
     public function exportPDFSelection($request){
+
+        $this->validate($request, [
+            'timesheets' => 'required|array|min:1'
+        ], [
+            'timesheets' => "Please select at least one record to download."
+        ]);
+
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
-        if(isset($request->timesheets)){
 
-            //create zip file and add pdf's one-by-one
-            //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
-            $zip = new ZipArchive();
-            $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
+        //create zip file and add pdf's one-by-one
+        //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
+        $zip = new ZipArchive();
+        $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
 
-            //storage_path is used because ZipArchive is not a laravel-exclusive package
-            $result_code = $zip->open(storage_path('app/storage/pdfs/' . $zip_filename), 
-            ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
+        //storage_path is used because ZipArchive is not a laravel-exclusive package
+        $result_code = $zip->open(storage_path('app/storage/pdfs/' . $zip_filename), 
+        ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
 
-            //$this->export($request, $request->timesheets[0]);
-            foreach($request->timesheets as $key=>$user_id){
-                $user_name = User::find($user_id)->name;
-                $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
-                $content = $this->export($request, $user_id)->getOriginalContent();
-                Storage::put('storage/pdfs/' . $filename, $content);
+        //$this->export($request, $request->timesheets[0]);
+        foreach($request->timesheets as $key=>$user_id){
+            $user_name = User::find($user_id)->name;
+            $filename = "Timesheets_of_{$user_name}_from_{$start_date}_to_{$end_date}.pdf";
+            $content = $this->export($request, $user_id)->getOriginalContent();
+            Storage::put('storage/pdfs/' . $filename, $content);
 
-                // $headers = array(
-                //     'Content-Type: application/pdf',
-                // );
-                
-                
-                if(storage_path('app/storage/pdfs/' . $filename)){
-                    $zip->addFile(storage_path('app/storage/pdfs/' . $filename), $filename);
-                }else{
-                    throw new Exception("Filepath was not valid", 1);
-                }
-
+            // $headers = array(
+            //     'Content-Type: application/pdf',
+            // );
+            
+            
+            if(storage_path('app/storage/pdfs/' . $filename)){
+                $zip->addFile(storage_path('app/storage/pdfs/' . $filename), $filename);
+            }else{
+                throw new Exception("Filepath was not valid", 1);
             }
-            $zip->close();
-            return Storage::download('storage/pdfs/' . $zip_filename, $zip_filename);
-        }else{
-            throw new Exception("No timesheets were selected", 1);
+
         }
+        $zip->close();
+        return Storage::download('storage/pdfs/' . $zip_filename, $zip_filename);
     }
 
     public static function ensureExportsDeleted()

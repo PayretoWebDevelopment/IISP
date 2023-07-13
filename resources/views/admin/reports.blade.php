@@ -99,6 +99,9 @@
                 @if ($timesheetsByUser->isEmpty())
                     <p class="text-gray-700">No data found.</p>
                 @else
+                    @error('timesheets')
+                        <p class="text-red-500 text-m mt-1">{{ $message }}</p>
+                    @enderror
                     <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
                         <table class="min-w-full divide-y divide-gray-200" id="reportList" style="width:100%">
                             <thead class="text-xs text-gray-50 uppercase bg-gray-800">

@@ -4,7 +4,7 @@
         <label for="profile_picture" class="cursor-pointer">
             <div class="relative">
                 <img id="profile_picture_preview" class="w-28 rounded-full object-cover"
-                    src="{{ auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png') }}"
+                    src="{{ auth()->user()->profile_picture ? asset('profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png') }}"
                     alt="Profile Picture">
                 <div
                     class="absolute top-0 left-0 w-full h-full flex items-center justify-center opacity-0 hover:opacity-100">
