@@ -271,6 +271,9 @@ class ReportController extends Controller
         $zip = new ZipArchive();
         $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
 
+        //delete file suppressing unlink() errors
+        @unlink(storage_path('app/storage/spreadsheets/' . $zip_filename));
+
         //storage_path is used because ZipArchive is not a laravel-exclusive package
         $result_code = $zip->open(storage_path('app/storage/spreadsheets/' . $zip_filename), 
         ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE);
@@ -309,6 +312,10 @@ class ReportController extends Controller
         //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
         $zip = new ZipArchive();
         $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
+
+        //ensure the zipfile's filename is not already taken by a possibly invalid zip file
+        //suppresses unlink error
+        @unlink(storage_path('app/storage/pdfs/' . $zip_filename));
 
         //storage_path is used because ZipArchive is not a laravel-exclusive package
         $result_code = $zip->open(storage_path('app/storage/pdfs/' . $zip_filename), 
