@@ -13,10 +13,10 @@ This is the repository for the Intern Information System and Payroll Application
 
 # Things to note
 ### For future reference, how was this project developed?
-This project was started on Codeanywhere, and was pushed to Github using Codeanywhere's terminal, which has git already installed (correct me if I'm wrong).
+This project was started on Codeanywhere, and was pushed to Github using Codeanywhere's terminal, which has git already installed (correct me if I'm wrong). Development was shifted back to Visual Studio Code with occasional liveshare and Cloudflare tunnel (cloudflared) sessions as Codeanywhere's trial period expired.
 
 ### Anything important new developers should be aware of?
-If you're also using Codeanywhere, be sure to use this account's personal access token (or generate a new token) as the password when Github asks for authentication as you push on Codeanywhere's terminal.
+If you're also using Codeanywhere, be sure to use this account's personal access token (or generate a new token) as the password when Github asks for authentication as you push on Codeanywhere's terminal. This also applies for using Git in general when pushing to this repository without a preset account and email or authentication.
 
 In case you started your Git repository and project files separately on Github, be ready to fix some merge conflicts.
 
