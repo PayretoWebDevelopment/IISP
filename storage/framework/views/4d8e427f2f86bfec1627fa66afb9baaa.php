@@ -13,7 +13,7 @@
     <div class="container">
         
         <?php if(auth()->guard()->check()): ?>
-            <h1 class="text-3xl font-bold mt-6">
+            <h1 class="text-base font-semibold italic text-gray-700 mt-6">
                 Welcome, <?php echo e(auth()->user()->name); ?>!
             </h1>
         <?php endif; ?>
@@ -21,35 +21,39 @@
         <?php if($timesheets->isEmpty()): ?>
             <p>No timesheets found for today.</p>
         <?php else: ?>
-            <table>
-                <?php $__currentLoopData = $timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
+            <div
+                class="transform hover:scale-105 transition duration-300 relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left text-gray-500">
+                    <?php $__currentLoopData = $timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
         return $entry->created_at->format('Y-m-d');
     }); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $date => $entries): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <thead class="bg-gray-200 text-gray-700">
-                        <tr>
-                            <th class="py-2 px-4 font-bold uppercase">Date</th>
-                            <th class="py-2 px-4 font-bold uppercase">Task Name</th>
-                            <th class="py-2 px-4 font-bold uppercase">Project Type</th>
-                            <th class="py-2 px-4 font-bold uppercase">Task Type</th>
-                            <th class="py-2 px-4 font-bold uppercase">Start Time</th>
-                            <th class="py-2 px-4 font-bold uppercase">End Time</th>
-                            <th class="py-2 px-4 font-bold uppercase">Duration</th>
-                        </tr>
-                    </thead>
-                    <tbody class="text-gray-600">
-                        <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                            <tr class="border-b border-gray-200 hover:bg-gray-100">
-                                <td class="py-2 px-4"><?php echo e($timesheet->created_at); ?></td>
-                                <td class="py-2 px-4"><?php echo e($timesheet->task_name); ?></td>
-                                <td class="py-2 px-4"><?php echo e($timesheet->project_type); ?></td>
-                                <td class="py-2 px-4"><?php echo e($timesheet->task_type); ?></td>
-                                <td class="py-2 px-4"><?php echo e($timesheet->start_time->format('h:i A')); ?></td>
-                                <td class="py-2 px-4"><?php echo e($timesheet->end_time ? $timesheet->end_time->format('h:i A') : ''); ?></td>
-                                <td class="py-2 px-4"><?php echo e($timesheet->getDurationAttribute()); ?></td>
+                        <thead class="text-xs text-white uppercase bg-gray-700">
+                            <tr>
+                                <th scope="col" class="px-6 py-3">Date</th>
+                                <th scope="col" class="px-6 py-3">Task Name</th>
+                                <th scope="col" class="px-6 py-3">Project Type</th>
+                                <th scope="col" class="px-6 py-3">Task Type</th>
+                                <th scope="col" class="px-6 py-3">Start Time</th>
+                                <th scope="col" class="px-6 py-3">End Time</th>
+                                <th scope="col" class="px-6 py-3">Duration</th>
                             </tr>
-                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                    </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            <?php $__currentLoopData = $entries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $timesheet): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <tr class="bg-white border-b hover:bg-gray-50">
+                                    <td class="px-6 py-4"><?php echo e($timesheet->created_at); ?></td>
+                                    <td class="px-6 py-4"><?php echo e($timesheet->task_name); ?></td>
+                                    <td class="px-6 py-4"><?php echo e($timesheet->project_type); ?></td>
+                                    <td class="px-6 py-4"><?php echo e($timesheet->task_type); ?></td>
+                                    <td class="px-6 py-4"><?php echo e($timesheet->start_time->format('h:i A')); ?></td>
+                                    <td class="px-6 py-4">
+                                        <?php echo e($timesheet->end_time ? $timesheet->end_time->format('h:i A') : ''); ?></td>
+                                    <td class="px-6 py-4"><?php echo e($timesheet->getDurationAttribute()); ?></td>
+                                </tr>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                        </tbody>
+                </table>
+            </div>
         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         <?php endif; ?>
     </div>
@@ -57,15 +61,13 @@
 
     <div class="grid grid-cols-2 gap-4 mt-5">
         <div class="text-center">
-            <div
-                class="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg border p-6 bg-white">
+            <div class="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg border p-6 bg-white">
                 <h3 class="font-bold">Daily Intern Attendance Tracker</h3>
                 <canvas id="attendanceTracker"></canvas>
             </div>
         </div>
         <div class="text-center">
-            <div
-                class="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg border p-6 bg-white">
+            <div class="transform hover:scale-105 transition duration-300 shadow-xl rounded-lg border p-6 bg-white">
                 <h3 class="font-bold">Department Intern Attendance Tracker</h3>
                 <canvas id="departmentTracker"></canvas>
             </div>

@@ -5,90 +5,88 @@
 
 <x-layout module_name="Timesheets">
     <title>Payreto | Timesheets</title>
-    <!-- Modal for starting time tracking -->
-    <div class="modal fade bg-gray-200 p-5" id="startTimerModal" tabindex="-1" aria-labelledby="startTimerModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="startTimerModalLabel">Start Time Tracking</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="startTimerForm" method="POST" action="/intern/timesheets/start">
-                        @csrf
-                        <div class="mb-3">
-                            <label for="task_name" class="block text-gray-700 font-bold mb-2">Task name</label>
-                            <input name="task_name" id="task_name"
-                                class="border border-gray-400 rounded w-full py-2 px-3 timesheetField" />
-                        </div>
 
-                        <div class="mb-3">
-                            <label for="task_type" class="block text-gray-700 font-bold mb-2">Task Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="task_type" name="task_type" required>
-                                <option value="">Select Task Type</option>
-                                @foreach($taskTypes as $taskType)
-                                    <option value="{{ $taskType->name }}">{{ $taskType->name }}</option>
-                                @endforeach
-                            </select>                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="project_type" class="block text-gray-700 font-bold mb-2">Project Type</label>
-                            <select class="form-select border border-gray-400 rounded w-full py-2 px-3 timesheetField" id="project_type" name="project_type" required>
-                                <option value="">Select Project Type</option>
-                                @foreach($projectTypes as $projectType)
-                                    @if ($loop->first || $projectType->department !== $prevDepartment)
-                                        @if (!$loop->first)
-                                            </optgroup>
-                                        @endif
-                                        <optgroup label="{{ $projectType->department }}">
-                                    @endif
-                                    <option value="{{ $projectType->department }}: {{ $projectType->name }}">{{ $projectType->name }}</option>
-                                    @php
-                                        $prevDepartment = $projectType->department;
-                                    @endphp
-                                    @if ($loop->last)
-                                        </optgroup>
-                                    @endif
-                                @endforeach
-                            </select>                            
-                            
-                        </div>
-                        <div class="mb-3">
-                            <label for="start_time" class="block text-gray-700 font-bold mb-2">Start Time</label>
-                            <input type="text" class="form-control border border-gray-400 rounded w-full py-2 px-3"
-                                id="start_time" name="start_time" readonly required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="end_time" class="block text-gray-700 font-bold mb-2">End Time</label>
-                            <input type="text" class="form-control border border-gray-400 rounded w-full py-2 px-3"
-                                id="end_time" name="end_time" readonly required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="duration" class="block text-gray-700 font-bold mb-2">Duration</label>
-                            <input type="text" class="form-control border border-gray-400 rounded w-full py-2 px-3"
-                                id="duration" name="duration" readonly required>
-                        </div>
-                        <div class="mb-3">
-                            <label class="block text-gray-700 font-bold mb-2" for="billable">Billable</label>
-                            <div class="flex items-center">
-                                <input type="checkbox" id="billable" name="billable" class="mr-2 timesheetField">
-                                <span id="billableIcon" class="ml-2 text-green-500 hidden cursor-pointer"
-                                    onclick="toggleBillable()">$</span>
-                            </div>
-                        </div>
+    <h1 class="font-bold text-gray-700 text-3xl">Timesheets</h1>
+    <div class="mt-5 p-6 bg-white border border-gray-200 rounded-lg shadow">
+        <div class="modal-body">
+            <form id="startTimerForm" method="POST" action="/intern/timesheets/start">
+                @csrf
+                <div class="mb-3">
+                    <label for="task_name" class="block text-gray-700 font-bold mb-2">Task name</label>
+                    <input name="task_name" id="task_name"
+                        class="block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40" />
+                </div>
 
-                    </form>
+                <div class="mb-3">
+                    <label for="task_type" class="block text-gray-700 font-bold mb-2">Task Type</label>
+                    <select
+                        class="block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40" />
+                    id="task_type" name="task_type" required>
+                    <option value="">Select Task Type</option>
+                    @foreach ($taskTypes as $taskType)
+                        <option value="{{ $taskType->name }}">{{ $taskType->name }}</option>
+                    @endforeach
+                    </select>
                 </div>
-                <div class="modal-footer">
-                    <button type="button"
-                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        id="startTimerButton">Start Timer</button>
-                    <button type="button"
-                        class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
-                        id="endTimerButton" style="display: none;">End Timer</button>
+                <div class="mb-3">
+                    <label for="project_type" class="block text-gray-700 font-bold mb-2">Project Type</label>
+                    <select
+                        class="block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40" />
+                    id="project_type" name="project_type" required>
+                    <option value="">Select Project Type</option>
+                    @foreach ($projectTypes as $projectType)
+                        @if ($loop->first || $projectType->department !== $prevDepartment)
+                            @if (!$loop->first)
+                                </optgroup>
+                            @endif
+                            <optgroup label="{{ $projectType->department }}">
+                        @endif
+                        <option value="{{ $projectType->department }}: {{ $projectType->name }}">
+                            {{ $projectType->name }}</option>
+                        @php
+                            $prevDepartment = $projectType->department;
+                        @endphp
+                        @if ($loop->last)
+                            </optgroup>
+                        @endif
+                    @endforeach
+                    </select>
+
                 </div>
-            </div>
+                <div class="mb-3">
+                    <label for="start_time" class="block text-gray-700 font-bold mb-2">Start Time</label>
+                    <input type="text"
+                        class="block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                        id="start_time" name="start_time" readonly required>
+                </div>
+                <div class="mb-3">
+                    <label for="end_time" class="block text-gray-700 font-bold mb-2">End Time</label>
+                    <input type="text"
+                        class="block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                        id="end_time" name="end_time" readonly required>
+                </div>
+                <div class="mb-3">
+                    <label for="duration" class="block text-gray-700 font-bold mb-2">Duration</label>
+                    <input type="text"
+                        class="block  mt-2 w-full placeholder-gray-400/70 dark:placeholder-gray-500 rounded-lg border border-gray-200 bg-white px-5 py-2.5 text-gray-700 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40"
+                        id="duration" name="duration" readonly required>
+                </div>
+                <div class="mb-3">
+                    <label class="block text-gray-700 font-bold mb-2" for="billable">Billable</label>
+                    <div class="flex items-center">
+                        <input type="checkbox" id="billable" name="billable" class="mr-2 timesheetField">
+                        <span id="billableIcon" class="ml-2 text-green-500 hidden cursor-pointer"
+                            onclick="toggleBillable()">$</span>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                id="startTimerButton">Start Timer</button>
+            <button type="button" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+                id="endTimerButton" style="display: none;">End Timer</button>
         </div>
     </div>
 
@@ -98,8 +96,8 @@
         $weekBillableTotal = 0;
     @endphp
 
-    <div class="m-10 w-10/12">
-        <h1 class="text-3xl font-bold">Recorded Entries</h1>
+    <h1 class="text-lg font-bold my-5">Recorded Entries</h1>
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow">
         @foreach ($timesheets->sortByDesc('start_time')->groupBy(function ($entry) {
         return $entry->start_time->format('Y-W'); // Group by year and week
     }) as $week => $weekEntries)
@@ -116,24 +114,25 @@
                 $weekTotal = 0; // Reset week total for each week
                 $weekBillableTotal = 0;
             @endphp
-            <h2 class="text-2xl font-bold mt-6"><b>{{ date('F d, Y', strtotime($startDate)) }} to {{ date('F d, Y', strtotime($endDate)) }}
-            </b></h2>
+            <h2 class="text-sm font-bold italic text-gray-600">{{ date('F d, Y', strtotime($startDate)) }} to
+                {{ date('F d, Y', strtotime($endDate)) }}
+            </h2>
             @foreach ($weekEntries->groupBy(function ($entry) {
         return $entry->start_time->format('Y-m-d'); // Group by year, month, and day
     }) as $date => $entries)
-                <h3 class="text-xl font-bold mt-4"><b>{{ $date }}</b></h3>
+                <h3 class="text-xl font-extralight mt-4"><b>{{ $date }}</b></h3>
                 <div class="overflow-x-auto">
-                    <table class="table-auto border-collapse w-full">
-                        <thead>
+                    <table class="min-w-full divide-y divide-gray-200" style="width:100%">
+                        <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                             <tr>
-                                <th class="border px-4 py-2">Date</th>
-                                <th class="border px-4 py-2">Task Name</th>
-                                <th class="border px-4 py-2">Project Type</th>
-                                <th class="border px-4 py-2">Task Type</th>
-                                <th class="border px-4 py-2">Start Time</th>
-                                <th class="border px-4 py-2">End Time</th>
-                                <th class="border px-4 py-2">Duration</th>
-                                <th class="border px-4 py-2">Billable</th>
+                                <th scope="col" class="px-6 py-3">Date</th>
+                                <th scope="col" class="px-6 py-3">Task Name</th>
+                                <th scope="col" class="px-6 py-3">Project Type</th>
+                                <th scope="col" class="px-6 py-3">Task Type</th>
+                                <th scope="col" class="px-6 py-3">Start Time</th>
+                                <th scope="col" class="px-6 py-3">End Time</th>
+                                <th scope="col" class="px-6 py-3">Duration</th>
+                                <th scope="col" class="px-6 py-3">Billable</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -142,17 +141,17 @@
                                 $billableDayTotal = 0;
                             @endphp
                             @foreach ($entries as $timesheet)
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $timesheet->start_time->format('Y-m-d') }}</td>
-                                    <td class="border px-4 py-2">{{ $timesheet->task_name }}</td>
-                                    <td class="border px-4 py-2">{{ $timesheet->project_type }}</td>
-                                    <td class="border px-4 py-2">{{ $timesheet->task_type }}</td>
-                                    <td class="border px-4 py-2">{{ $timesheet->start_time->format('H:i:s') }}</td>
-                                    <td class="border px-4 py-2">
+                                <tr class="bg-white text-center">
+                                    <td class="px-6 py-4 border">{{ $timesheet->start_time->format('Y-m-d') }}</td>
+                                    <td class="px-6 py-4 border">{{ $timesheet->task_name }}</td>
+                                    <td class="px-6 py-4 border">{{ $timesheet->project_type }}</td>
+                                    <td class="px-6 py-4 border">{{ $timesheet->task_type }}</td>
+                                    <td class="px-6 py-4 border">{{ $timesheet->start_time->format('H:i:s') }}</td>
+                                    <td class="px-6 py-4 border">
                                         {{ $timesheet->end_time ? $timesheet->end_time->format('H:i:s') : '' }}
                                     </td>
-                                    <td class="border px-4 py-2">{{ $timesheet->getDurationAttribute() }}</td>
-                                    <td class="border px-4 py-2">
+                                    <td class="px-6 py-4 border">{{ $timesheet->getDurationAttribute() }}</td>
+                                    <td class="px-6 py-4 border">
                                         @if ($timesheet->billable)
                                             <span class="text-green-500 font-bold">&#36;</span>
                                         @else
@@ -172,10 +171,14 @@
                                         $seconds = intval($durationParts[2]);
                                         $durationInSeconds = $hours * 3600 + $minutes * 60 + $seconds;
                                         $weekTotal += $durationInSeconds; // Add duration to week total in seconds
-                                        if($timesheet->billable){$weekBillableTotal += $durationInSeconds;}
+                                        if ($timesheet->billable) {
+                                            $weekBillableTotal += $durationInSeconds;
+                                        }
                                         if ($isCurrentWeek && $date === \Carbon\Carbon::now()->format('Y-m-d')) {
                                             $dayTotal += $durationInSeconds; // Add duration to day total in seconds
-                                            if($timesheet->billable){ $billableDayTotal += $durationInSeconds; }
+                                            if ($timesheet->billable) {
+                                                $billableDayTotal += $durationInSeconds;
+                                            }
                                         }
                                     }
                                 @endphp
@@ -183,65 +186,66 @@
 
                             <!-- Day total row -->
                             @if ($isCurrentWeek && count($entries) > 0)
-                                <tr>
-                                    <td class="border px-4 py-2" colspan="6"><b>Day Total</b></td>
+                                <tr class="bg-white text-center">
+                                    <td class="px-6 py-4 border" colspan="6"><b>Day Total</b></td>
                                     @php
                                         $dayTotalHours = floor($dayTotal / 3600);
                                         $dayTotalMinutes = floor(($dayTotal % 3600) / 60);
                                         $dayTotalSeconds = $dayTotal % 60;
                                         $dayTotalFormatted = sprintf('%02d:%02d:%02d', $dayTotalHours, $dayTotalMinutes, $dayTotalSeconds);
                                     @endphp
-                                    <td class="border px-4 py-2"><b>{{ $dayTotalFormatted }}</b></td>
-                                    <td class="border px-4 py-2"></td>
+                                    <td class="px-6 py-4 border"><b>{{ $dayTotalFormatted }}</b></td>
+                                    <td class="px-6 py-4 border"></td>
                                 </tr>
-                                <tr>
-                                    <td class="border px-4 py-2" colspan="6"><b>Total Billable Hours</b></td>
+                                <tr class="bg-white text-center">
+                                    <td class="px-6 py-4 border" colspan="6"><b>Total Billable Hours</b></td>
                                     @php
                                         $billableDayTotalHours = floor($billableDayTotal / 3600);
                                         $billableDayTotalMinutes = floor(($billableDayTotal % 3600) / 60);
                                         $billableDayTotalSeconds = $billableDayTotal % 60;
                                         $billableDayTotalFormatted = sprintf('%02d:%02d:%02d', $billableDayTotalHours, $billableDayTotalMinutes, $billableDayTotalSeconds);
                                     @endphp
-                                    <td class="border px-4 py-2"><b>{{ $billableDayTotalFormatted }}</b></td>
-                                    <td class="border px-4 py-2"></td>
+                                    <td class="px-6 py-4 border"><b>{{ $billableDayTotalFormatted }}</b></td>
+                                    <td class="px-6 py-4 border"></td>
                                 </tr>
                             @endif
                         </tbody>
                     </table>
                 </div>
             @endforeach
-            <h3 class="text-xl font-bold mt-4"><b>Week Total</b></h3>
-            <div class="overflow-x-auto">
-                <table class="table-auto border-collapse w-full">
-                    <thead>
-                        <tr>
-                            <th class="border px-4 py-2">Week</th>
-                            <th class="border px-4 py-2">Total</th>
-                            <th class="border px-4 py-2">Total Billable</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="border px-4 py-2">{{ $startDate }} to {{ $endDate }}</td>
-                            @php
-                                $weekTotalHours = floor($weekTotal / 3600);
-                                $weekTotalMinutes = floor(($weekTotal % 3600) / 60);
-                                $weekTotalSeconds = $weekTotal % 60;
-                                $weekTotalFormatted = sprintf('%02d:%02d:%02d', $weekTotalHours, $weekTotalMinutes, $weekTotalSeconds);
+    </div>
+    <h1 class="text-lg font-bold my-5">Week Total</h1>
+    <div class="p-6 bg-white border border-gray-200 rounded-lg shadow">
+        <table class="min-w-full divide-y divide-gray-200" style="width:100%">
+            <thead class="text-xs text-gray-50 uppercase bg-gray-800">
+                <tr>
+                    <th scope="col" class="px-6 py-3">Week</th>
+                    <th scope="col" class="px-6 py-3">Total</th>
+                    <th scope="col" class="px-6 py-3">Total Billable</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="bg-white text-center">
+                    <td class="px-6 py-4 border">{{ $startDate }} to {{ $endDate }}</td>
+                    @php
+                        $weekTotalHours = floor($weekTotal / 3600);
+                        $weekTotalMinutes = floor(($weekTotal % 3600) / 60);
+                        $weekTotalSeconds = $weekTotal % 60;
+                        $weekTotalFormatted = sprintf('%02d:%02d:%02d', $weekTotalHours, $weekTotalMinutes, $weekTotalSeconds);
 
-                                //Billable
-                                $weekBillableTotalHours = floor($weekBillableTotal / 3600);
-                                $weekBillableTotalMinutes = floor(($weekBillableTotal % 3600) / 60);
-                                $weekBillableTotalSeconds = $weekBillableTotal % 60;
-                                $weekBillableTotalFormatted = sprintf('%02d:%02d:%02d', $weekBillableTotalHours, $weekBillableTotalMinutes, $weekBillableTotalSeconds);
-                            @endphp
-                            <td class="border px-4 py-2"><b>{{ $weekTotalFormatted }}</b></td>
-                            <td class="border px-4 py-2"><b>{{ $weekBillableTotalFormatted }}</b></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        @endforeach
+                        //Billable
+                        $weekBillableTotalHours = floor($weekBillableTotal / 3600);
+                        $weekBillableTotalMinutes = floor(($weekBillableTotal % 3600) / 60);
+                        $weekBillableTotalSeconds = $weekBillableTotal % 60;
+                        $weekBillableTotalFormatted = sprintf('%02d:%02d:%02d', $weekBillableTotalHours, $weekBillableTotalMinutes, $weekBillableTotalSeconds);
+                    @endphp
+                    <td class="px-6 py-4 border"><b>{{ $weekTotalFormatted }}</b></td>
+                    <td class="px-6 py-4 border"><b>{{ $weekBillableTotalFormatted }}</b></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    @endforeach
     </div>
 
     {{-- script for the creating tasks --}}
