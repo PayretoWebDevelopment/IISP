@@ -757,8 +757,10 @@ unset($__errorArgs, $__bag); ?>
                         <th scope="col" class="px-6 py-3">
                             Role
                         </th>
+                        <?php if($user_role === 'superadmin'): ?>
                         <th scope="col" class="px-6 py-3">
                             Actions</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
@@ -773,12 +775,11 @@ unset($__errorArgs, $__bag); ?>
                             </td>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <?php echo e($admin->role); ?></td>
+                            <?php if($user_role === 'superadmin'): ?>
                             <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                 <a href="/admin/employee-edit/<?php echo e($admin->id); ?>"
                                     class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded-full inline-block"><i
                                         class="fa-solid fa-edit"></i></a>
-
-                                <?php if($user_role === 'superadmin'): ?>
                                     <a href="/admin/employee-delete/<?php echo e($admin->id); ?>"
                                         class="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded inline-block"
                                         onclick="event.preventDefault();
@@ -791,8 +792,8 @@ unset($__errorArgs, $__bag); ?>
                                         <?php echo csrf_field(); ?>
                                         <?php echo method_field('DELETE'); ?>
                                     </form>
-                                <?php endif; ?>
                             </td>
+                            <?php endif; ?>
                         </tr>
                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </tbody>

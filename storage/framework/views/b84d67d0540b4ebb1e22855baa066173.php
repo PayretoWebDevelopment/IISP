@@ -18,7 +18,7 @@
         <label for="profile_picture" class="">
             <div class="relative">
                 <img id="profile_picture_preview" class="w-32 rounded-full object-cover"
-                    src="<?php echo e(auth()->user()->profile_picture ? asset('storage/profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png')); ?>"
+                    src="<?php echo e(auth()->user()->profile_picture ? asset('profile_pictures/' . auth()->user()->profile_picture) : asset('images/default-profile-picture.png')); ?>"
                     alt="Profile Picture">
                 
             </div>

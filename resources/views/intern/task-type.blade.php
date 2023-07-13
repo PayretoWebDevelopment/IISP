@@ -6,7 +6,7 @@
     </head>
 
     <body>
-        <h1 class="font-bold text-gray-700 text-3xl">Project Types</h1>
+        <h1 class="font-bold text-gray-700 text-3xl">Task Types</h1>
         <!-- Modal toggle -->
         <div class="flex justify-end my-5">
             <button data-modal-target="taskTypeModal" data-modal-toggle="taskTypeModal"
