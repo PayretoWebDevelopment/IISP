@@ -259,19 +259,15 @@ class ReportController extends Controller
 
     public function exportSpreadsheetSelection($request, $type = "xlsx"){
 
-        //dd($request);
-
-        $this->validate($request, [
-            'timesheets' => 'required|array|min:1'
-        ], [
-            'timesheets' => "Please select at least one record to download."
-        ]);
-
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
 
+        if (!$request->timesheets) {
+            return back()->withErrors(['timesheets' => "Please select at least one user's timesheet data to download."]);
+        }
+
         //create zip file and add pdf's one-by-one
-        //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini and create the pdf's folder
+        //NOTE: DON'T FORGET TO ENABLE extension=zip in the php.ini
         $zip = new ZipArchive();
         $zip_filename = "timesheets_{$request->input('start_date')}_{$request->input('end_date')}.zip";
 
@@ -292,17 +288,19 @@ class ReportController extends Controller
                 throw new Exception("Filepath was not valid", 1);
             }
         }
+
         $zip->close();
         return Storage::download('storage/spreadsheets/' . $zip_filename, $zip_filename);
     }
 
     public function exportPDFSelection($request){
 
-        $this->validate($request, [
-            'timesheets' => 'required|array|min:1'
-        ], [
-            'timesheets' => "Please select at least one record to download."
-        ]);
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+
+        if (!$request->timesheets) {
+            return back()->withErrors(['timesheets' => "Please select at least one user's timesheet data to download."]);
+        }
 
         $start_date = $request->input('start_date');
         $end_date = $request->input('end_date');
