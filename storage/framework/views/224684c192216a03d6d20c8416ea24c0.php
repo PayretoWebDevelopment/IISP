@@ -153,8 +153,8 @@
                 </a>
                 <p class="ms-2 font-semibold" style="font-size: 11px;">Intern Information System & Payroll</p>
             </div>
-
             <ul class="space-y-2 tracking-wide mt-8">
+                <p class="text-sm text-gray-500 font-medium">Main</p>
                 <li>
                     <a href="/" aria-label="dashboard"
                         class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
@@ -225,20 +225,6 @@
                         </span>
                     </a>
                 </li>
-                <li><a href="/project-types"
-                        class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                        <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
-                            viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"></svg>
-                        <span class="group-hover:text-gray-700">Project Types</span>
-                    </a>
-                </li>
-                <li><a href="/task-types"
-                        class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                        <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
-                            viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"></svg>
-                        <span class="group-hover:text-gray-700">Task Types</span>
-                    </a>
-                </li>
                 <?php if(auth()->user()->isAdmin()): ?>
                     <li>
                         <a href="/admin/employee-list"
@@ -286,6 +272,50 @@
                                     clip-rule="evenodd" />
                             </svg>
                             <span class="group-hover:text-gray-700">Approvals</span>
+                        </a>
+                    </li>
+                    <p class="text-sm text-gray-500 font-medium">Categories</p>
+                    <li><a href="/project-types"
+                            class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+                            <svg fill="#000000" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
+                                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <g>
+                                        <path
+                                            d="M2,9H9V2H2ZM4,4H7V7H4Zm7-2V9h7V2Zm5,5H13V4h3ZM2,18H9V11H2Zm2-5H7v3H4Zm7,5h7V11H11Zm2-5h3v3H13Z">
+                                        </path>
+                                    </g>
+                                </g>
+                            </svg>
+                            <span class="group-hover:text-gray-700">Project Types</span>
+                        </a>
+                    </li>
+                    <li><a href="/task-types"
+                            class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+                            <svg fill="#000000" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
+                                viewBox="0 0 36 36" version="1.1" preserveAspectRatio="xMidYMid meet"
+                                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                <g id="SVGRepo_iconCarrier">
+                                    <title>tasks-line</title>
+                                    <path class="clr-i-outline clr-i-outline-path-1"
+                                        d="M29.29,34H6.71A1.7,1.7,0,0,1,5,32.31V6.69A1.75,1.75,0,0,1,7,5H9V7H7V32H29V7H27V5h2.25A1.7,1.7,0,0,1,31,6.69V32.31A1.7,1.7,0,0,1,29.29,34Z">
+                                    </path>
+                                    <path class="clr-i-outline clr-i-outline-path-2"
+                                        d="M16.66,25.76,11.3,20.4A1,1,0,0,1,12.72,19l3.94,3.94,8.64-8.64a1,1,0,0,1,1.41,1.41Z">
+                                    </path>
+                                    <path class="clr-i-outline clr-i-outline-path-3"
+                                        d="M26,11H10V7.33A2.34,2.34,0,0,1,12.33,5h1.79a4,4,0,0,1,7.75,0h1.79A2.34,2.34,0,0,1,26,7.33ZM12,9H24V7.33A.33.33,0,0,0,23.67,7H20V6a2,2,0,0,0-4,0V7H12.33a.33.33,0,0,0-.33.33Z">
+                                    </path>
+                                    <rect x="0" y="0" width="36" height="36"
+                                        fill-opacity="0">
+                                    </rect>
+                                </g>
+                            </svg>
+                            <span class="group-hover:text-gray-700">Task Types</span>
                         </a>
                     </li>
                 <?php endif; ?>
