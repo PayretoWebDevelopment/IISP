@@ -80,15 +80,17 @@
         <div class="overflow-x-auto">
             <div class="bg-white border border-gray-200 rounded-lg shadow p-5">
                 <table class="min-w-full divide-y divide-gray-200" id="reportList" style="width:100%">
-                    @if ($user->isAdmin())
+                   
                         <thead class="text-xs text-gray-50 uppercase bg-gray-800">
                             <tr>
                                 <th scope="col" class="px-6 py-3">Department</th>
                                 <th scope="col" class="px-6 py-3">Project Name</th>
+                                @if ($user->isAdmin())
                                 <th scope="col" class="px-6 py-3">Actions</th>
+                                @endif
                             </tr>
                         </thead>
-                    @endif
+                    
                     <tbody>
                         @foreach ($choices as $choice)
                             <tr class="bg-white border-b">

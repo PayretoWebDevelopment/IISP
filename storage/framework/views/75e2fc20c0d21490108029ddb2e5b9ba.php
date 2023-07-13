@@ -62,9 +62,40 @@
 </head>
 
 <style>
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        box-sizing: border-box;
+        display: inline-block;
+        color: black !important;
+        min-width: 1.5em;
+        padding: 0.5em 1em;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        background: transparent;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        box-sizing: border-box;
+        display: inline-block;
+        color: #374151 !important;
+        min-width: 1.5em;
+        padding: 0.5em 1em;
+        margin-left: 2px;
+        text-align: center;
+        text-decoration: none !important;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 2px;
+        background: transparent;
+    }
+
     .dataTables_wrapper .dataTables_paginate {
         color: #F9FAFB;
     }
+
 
     .dataTables_wrapper .dataTables_paginate .paginate_button.current,
     .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
@@ -101,6 +132,7 @@
         border: 1px solid transparent;
         border-radius: 2px;
         background: transparent;
+    }
 </style>
 
 <body>
@@ -194,17 +226,17 @@
                     </a>
                 </li>
                 <li><a href="/project-types"
-                    class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                            <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
-                                viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"></svg>
-                    <span class="group-hover:text-gray-700">Project Types</span>
+                        class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+                        <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
+                            viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"></svg>
+                        <span class="group-hover:text-gray-700">Project Types</span>
                     </a>
                 </li>
                 <li><a href="/task-types"
-                    class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
-                            <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
-                                viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"></svg>
-                    <span class="group-hover:text-gray-700">Task Types</span>
+                        class="px-4 py-3 flex items-center space-x-4 rounded-md text-gray-600 group">
+                        <svg fill="#919191" class="h-5 w-5 fill-current text-gray-600 group-hover:text-cyan-600"
+                            viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg"></svg>
+                        <span class="group-hover:text-gray-700">Task Types</span>
                     </a>
                 </li>
                 <?php if(auth()->user()->isAdmin()): ?>
