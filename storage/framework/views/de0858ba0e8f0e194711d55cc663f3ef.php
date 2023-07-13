@@ -82,7 +82,7 @@
                                 <td><?php echo e($timesheet->task_type); ?></td>
                                 <td><?php echo e($timesheet->start_time->format('h:i A')); ?></td>
                                 <td><?php echo e($timesheet->end_time ? $timesheet->end_time->format('h:i A') : ''); ?></td>
-                                <td><?php echo e($timesheet->billable? $timesheet->getBillableDurationAttribute() : 'Not Billable'); ?></td>
+                                <td><?php echo e($timesheet->billable? $timesheet->getBillableDurationAttribute() : $timesheet->getDurationAttribute()); ?></td>
                                 <td><?php echo e($timesheet->billable? $timesheet->rate : 'Not Billable'); ?></td>
                             </tr>
                         <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
